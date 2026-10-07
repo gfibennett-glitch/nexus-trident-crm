@@ -182,10 +182,23 @@ function render(){
     d.append(top,tgs,ta,acts);L.appendChild(d);
   });
 }
-function upd(id,patch){
-  const l=leads.find(x=>x.id===id);if(!l)return;
+async function upd(id,patch){
+  const l=leads.find(x=>x.id===id);
+  if(!l)return;
+
   const {id:_,...body}=l;
-  sb.from("leads").update({...body,...patch}).eq("id",id).then(({error})=>{if(error)fail(error)});
+  const updated={...body,...patch};
+
+  const {error}=await sb.from("leads").update(updated).eq("id",id);
+
+  if(error){
+    fail(error);
+    return;
+  }
+
+  leads=leads.map(x=>x.id===id?{...x,...patch}:x);
+  render();
+  note("Updated ✓");
 }
 function mkLead(first,last,email,phone,owner,created,platform){
   const name=(first+" "+last).trim();
