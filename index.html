@@ -4,141 +4,508 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nexus Trident Agency</title>
+
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--tx:#14181f;--mute:#6b7280;--bd:#e3e6ec;--ac:#2563eb;--acx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1218;--card:#1a1f29;--tx:#eef0f4;--mute:#9aa3b2;--bd:#2a3140;--ac:#5b8def;--acx:#0b0f17}}
-:root[data-theme="dark"]{--bg:#0f1218;--card:#1a1f29;--tx:#eef0f4;--mute:#9aa3b2;--bd:#2a3140;--ac:#5b8def;--acx:#0b0f17}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{
+  --bg:#f6f7f9;
+  --card:#fff;
+  --tx:#14181f;
+  --mute:#6b7280;
+  --bd:#e3e6ec;
+  --ac:#2563eb;
+  --acx:#fff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px)
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1218;
+    --card:#1a1f29;
+    --tx:#eef0f4;
+    --mute:#9aa3b2;
+    --bd:#2a3140;
+    --ac:#5b8def;
+    --acx:#0b0f17
+  }
+}
+
+:root[data-theme="dark"]{
+  --bg:#0f1218;
+  --card:#1a1f29;
+  --tx:#eef0f4;
+  --mute:#9aa3b2;
+  --bd:#2a3140;
+  --ac:#5b8def;
+  --acx:#0b0f17
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:4px 0 12px}
-.tabs{display:flex;gap:8px;margin-bottom:12px}
-.tab{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
-.tab.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
-.tab small{opacity:.8;font-weight:400}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-input,select,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px;min-width:0}
-.add{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
-.add input{flex:1 1 130px}
-button.p{background:var(--ac);color:var(--acx);border:0;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer}
-.filters{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
-.chip{white-space:nowrap;padding:5px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);cursor:pointer;font-size:13px}
-.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
-.lead{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:8px}
-.top{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.nm{font-weight:600;font-size:16px}
-.ct{color:var(--mute);font-size:13px;word-break:break-all}
-.lead textarea{width:100%;margin-top:8px;min-height:40px;resize:vertical}
-.acts{display:flex;gap:10px;margin-top:6px;font-size:12px;color:var(--mute)}
-.acts button{background:none;border:0;color:var(--mute);cursor:pointer;padding:2px 0;text-decoration:underline;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.stat{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px;text-align:center}
-.stat b{display:block;font-size:18px}
-.stat span{font-size:11px;color:var(--mute)}
-.tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tg{padding:4px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);font-size:12px;cursor:pointer}
-.tg.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
-.tg.bad.on{background:#dc2626;border-color:#dc2626;color:#fff}
-@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
-.drop{border:2px dashed var(--bd);border-radius:10px;padding:14px;text-align:center;color:var(--mute);margin-top:10px;cursor:pointer;font-size:13px}
-.drop.over{border-color:var(--ac);color:var(--ac)}
-.board{border-radius:16px;padding:14px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,#1e3a8a,#7c3aed 60%,#db2777);box-shadow:0 6px 20px rgba(76,29,149,.25)}
-.board h2{font-size:12px;margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.9;text-align:center}
-.br{position:relative;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:12px;background:rgba(255,255,255,.12);margin-bottom:8px}
-.br.lead1{background:linear-gradient(135deg,rgba(253,224,71,.38),rgba(251,191,36,.22));box-shadow:0 0 0 2px rgba(253,224,71,.85),0 0 18px rgba(253,224,71,.35)}
-.rk{font-size:26px;text-align:center;line-height:1}
-.bn{font-weight:700;font-size:17px}
-.bn small{display:block;font-weight:500;font-size:12px;opacity:.85;margin-top:1px}
-.bar{height:7px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:6px;overflow:hidden}
-.bar i{display:block;height:100%;border-radius:99px;background:#fde047;transition:width .6s ease}
-.bv{font-size:34px;font-weight:800;line-height:1;text-align:right}
-.bv small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;opacity:.8;text-transform:uppercase;margin-top:2px}
-.tie{text-align:center;font-size:13px;font-weight:700;margin-top:2px}
-.empty,.msg{text-align:center;color:var(--mute);padding:28px 8px}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--tx);
+  font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif
+}
+
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:16px
+}
+
+h1{
+  font-size:20px;
+  margin:4px 0 12px
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px
+}
+
+.tab{
+  flex:1;
+  padding:10px;
+  border:1px solid var(--bd);
+  background:var(--card);
+  color:var(--tx);
+  border-radius:10px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer
+}
+
+.tab.on{
+  background:var(--ac);
+  color:var(--acx);
+  border-color:var(--ac)
+}
+
+.tab small{
+  opacity:.8;
+  font-weight:400
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+input,select,textarea{
+  font:inherit;
+  color:var(--tx);
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:8px;
+  padding:9px;
+  min-width:0
+}
+
+.add{
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:12px
+}
+
+.add input{
+  flex:1 1 130px
+}
+
+button.p{
+  background:var(--ac);
+  color:var(--acx);
+  border:0;
+  border-radius:8px;
+  padding:9px 14px;
+  font-weight:600;
+  cursor:pointer
+}
+
+.filters{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  margin-bottom:10px;
+  padding-bottom:2px
+}
+
+.chip{
+  white-space:nowrap;
+  padding:5px 10px;
+  border:1px solid var(--bd);
+  border-radius:999px;
+  background:var(--card);
+  color:var(--mute);
+  cursor:pointer;
+  font-size:13px
+}
+
+.chip.on{
+  background:var(--tx);
+  color:var(--bg);
+  border-color:var(--tx)
+}
+
+.lead{
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:8px
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center
+}
+
+.nm{
+  font-weight:600;
+  font-size:16px
+}
+
+.ct{
+  color:var(--mute);
+  font-size:13px;
+  word-break:break-all
+}
+
+.lead textarea{
+  width:100%;
+  margin-top:8px;
+  min-height:40px;
+  resize:vertical
+}
+
+.acts{
+  display:flex;
+  gap:10px;
+  margin-top:6px;
+  font-size:12px;
+  color:var(--mute);
+  flex-wrap:wrap
+}
+
+.acts button{
+  background:none;
+  border:0;
+  color:var(--mute);
+  cursor:pointer;
+  padding:2px 0;
+  text-decoration:underline;
+  font-size:12px
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:12px
+}
+
+.stat{
+  background:var(--card);
+  border:1px solid var(--bd);
+  border-radius:10px;
+  padding:8px;
+  text-align:center
+}
+
+.stat b{
+  display:block;
+  font-size:18px
+}
+
+.stat span{
+  font-size:11px;
+  color:var(--mute)
+}
+
+.tgs{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:8px
+}
+
+.tg{
+  padding:4px 10px;
+  border:1px solid var(--bd);
+  border-radius:999px;
+  background:var(--card);
+  color:var(--mute);
+  font-size:12px;
+  cursor:pointer
+}
+
+.tg.on{
+  background:var(--ac);
+  color:var(--acx);
+  border-color:var(--ac)
+}
+
+.tg.bad.on{
+  background:#dc2626;
+  border-color:#dc2626;
+  color:#fff
+}
+
+@media(max-width:480px){
+  .stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+}
+
+.drop{
+  border:2px dashed var(--bd);
+  border-radius:10px;
+  padding:14px;
+  text-align:center;
+  color:var(--mute);
+  margin-top:10px;
+  cursor:pointer;
+  font-size:13px
+}
+
+.drop.over{
+  border-color:var(--ac);
+  color:var(--ac)
+}
+
+.board{
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+  color:#fff;
+  background:linear-gradient(135deg,#1e3a8a,#7c3aed 60%,#db2777);
+  box-shadow:0 6px 20px rgba(76,29,149,.25)
+}
+
+.board h2{
+  font-size:12px;
+  margin:0 0 10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  opacity:.9;
+  text-align:center
+}
+
+.br{
+  position:relative;
+  display:grid;
+  grid-template-columns:34px 1fr auto;
+  gap:10px;
+  align-items:center;
+  padding:10px;
+  border-radius:12px;
+  background:rgba(255,255,255,.12);
+  margin-bottom:8px
+}
+
+.br.lead1{
+  background:linear-gradient(135deg,rgba(253,224,71,.38),rgba(251,191,36,.22));
+  box-shadow:0 0 0 2px rgba(253,224,71,.85),0 0 18px rgba(253,224,71,.35)
+}
+
+.rk{
+  font-size:26px;
+  text-align:center;
+  line-height:1
+}
+
+.bn{
+  font-weight:700;
+  font-size:17px
+}
+
+.bn small{
+  display:block;
+  font-weight:500;
+  font-size:12px;
+  opacity:.85;
+  margin-top:1px
+}
+
+.bar{
+  height:7px;
+  border-radius:99px;
+  background:rgba(255,255,255,.2);
+  margin-top:6px;
+  overflow:hidden
+}
+
+.bar i{
+  display:block;
+  height:100%;
+  border-radius:99px;
+  background:#fde047;
+  transition:width .6s ease
+}
+
+.bv{
+  font-size:34px;
+  font-weight:800;
+  line-height:1;
+  text-align:right
+}
+
+.bv small{
+  display:block;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.08em;
+  opacity:.8;
+  text-transform:uppercase;
+  margin-top:2px
+}
+
+.tie{
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  margin-top:2px
+}
+
+.empty,.msg{
+  text-align:center;
+  color:var(--mute);
+  padding:28px 8px
+}
 </style>
 </head>
 
 <body>
+
 <div class="wrap">
-  <h1>Nexus Trident Agency</h1>
 
-  <div class="board">
-    <h2>🏆 New BP Leaderboard</h2>
-    <div id="board"></div>
+<h1>Nexus Trident Agency</h1>
+
+<div class="board">
+  <h2>🏆 New BP Leaderboard</h2>
+  <div id="board"></div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="add">
+  <div class="row">
+
+    <input id="fn" placeholder="First name">
+    <input id="ln" placeholder="Last name">
+    <input id="em" type="email" placeholder="Email">
+    <input id="ph" type="tel" placeholder="Phone">
+
+    <select id="pf">
+      <option value="">Platform…</option>
+      <option>LinkedIn</option>
+      <option>ZipRecruiter</option>
+      <option>Indeed</option>
+      <option>Other</option>
+    </select>
+
+    <button class="p" id="addb">Add lead</button>
+
+  </div>
+</div>
+
+<div class="add" id="poolbox" style="display:none">
+
+  <div style="font-weight:600;margin-bottom:6px">
+    Drop leads in the pool
   </div>
 
-  <div class="tabs" id="tabs"></div>
+  <textarea
+    id="bulk"
+    rows="4"
+    style="width:100%"
+    placeholder="Paste one lead per line: First Last, email, phone">
+  </textarea>
 
-  <div class="add">
-    <div class="row">
-      <input id="fn" placeholder="First name">
-      <input id="ln" placeholder="Last name">
-      <input id="em" type="email" placeholder="Email">
-      <input id="ph" type="tel" placeholder="Phone">
+  <div class="drop" id="drop">
 
-      <select id="pf">
-        <option value="">Platform…</option>
-        <option>LinkedIn</option>
-        <option>ZipRecruiter</option>
-        <option>Indeed</option>
-        <option>Other</option>
-      </select>
+    Or drop an applicant CSV here (Indeed, ZipRecruiter, LinkedIn)
+    or tap to choose a file.
 
-      <button class="p" id="addb">Add lead</button>
-    </div>
+    <input type="file" id="file" accept=".csv,text/csv" hidden>
+
   </div>
 
-  <div class="add" id="poolbox" style="display:none">
-    <div style="font-weight:600;margin-bottom:6px">Drop leads in the pool</div>
+  <div class="row" style="margin-top:8px;align-items:center">
 
-    <textarea id="bulk" rows="4" style="width:100%" placeholder="Paste one lead per line: First Last, email, phone"></textarea>
+    <select id="bpf">
+      <option value="">Platform for all…</option>
+      <option>LinkedIn</option>
+      <option>ZipRecruiter</option>
+      <option>Indeed</option>
+      <option>Other</option>
+    </select>
 
-    <div class="drop" id="drop">
-      Or drop an applicant CSV here (Indeed, ZipRecruiter, LinkedIn) or tap to choose a file.
-      Uses the "Platform for all" pick below.
-      <input type="file" id="file" accept=".csv,text/csv" hidden>
-    </div>
+    <button class="p" id="bulkb">
+      Add to pool
+    </button>
 
-    <div class="row" style="margin-top:8px;align-items:center">
-      <select id="bpf">
-        <option value="">Platform for all…</option>
-        <option>LinkedIn</option>
-        <option>ZipRecruiter</option>
-        <option>Indeed</option>
-        <option>Other</option>
-      </select>
+    <button class="p" id="splitb">
+      Split evenly: Logan / Leo
+    </button>
 
-      <button class="p" id="bulkb">Add to pool</button>
-      <button class="p" id="splitb">Split evenly: Logan / Leo</button>
-      <span class="ct" id="splitmsg"></span>
-    </div>
+    <span class="ct" id="splitmsg"></span>
+
   </div>
+</div>
 
-  <div id="note" class="ct" style="min-height:18px;margin:-4px 0 8px"></div>
+<div id="note"
+     class="ct"
+     style="min-height:18px;margin:-4px 0 8px">
+</div>
 
-  <div class="stats" id="stats"></div>
+<div class="stats" id="stats"></div>
 
-  <div class="filters" id="filters"></div>
+<div class="filters" id="filters"></div>
 
-  <div id="list">
-    <div class="msg">Loading…</div>
-  </div>
+<div id="list">
+  <div class="msg">Loading…</div>
+</div>
 
-  <div style="text-align:center;margin:18px 0">
-    <button class="chip" id="expb">Export all leads (CSV for Google Sheets)</button>
-  </div>
+<div style="text-align:center;margin:18px 0">
+  <button class="chip" id="expb">
+    Export all leads (CSV for Google Sheets)
+  </button>
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://dnrtxgghajgaitoacdya.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_3dm11FqJHrw7qBrglXlOcw_QyBX737O";
+
+const SUPABASE_URL =
+"https://dnrtxgghajgaitoacdya.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_3dm11FqJHrw7qBrglXlOcw_QyBX737O";
 
 const TABS=["Logan","Pool","Leo"];
+
 const OWNERS=["Logan","Leo"];
-const STATUSES=["New","Contacted","Interview","Offer","Hired","Passed"];
+
+const STATUSES=[
+  "New",
+  "Contacted",
+  "Interview",
+  "Offer",
+  "Hired",
+  "Passed"
+];
 
 let tab="Pool";
 let filter="All";
@@ -149,191 +516,353 @@ let sb=null;
 const $=id=>document.getElementById(id);
 
 function note(m,bad){
+
   const n=$("note");
+
   n.textContent=m;
-  n.style.color=bad?"#dc2626":"var(--mute)";
+
+  n.style.color=
+    bad
+      ?"#dc2626"
+      :"var(--mute)";
+
   clearTimeout(note.t);
-  if(!bad)note.t=setTimeout(()=>{n.textContent=""},3000);
+
+  if(!bad){
+
+    note.t=setTimeout(()=>{
+      n.textContent="";
+    },3000);
+
+  }
 }
 
 const fail=e=>{
+
   console.error(e);
+
   note(
-    "Couldn't save"+(e&&(e.code||e.message)?": "+(e.code||e.message):"")+
-    ". Make sure your Supabase settings are configured correctly.",
+    "Couldn't save"+
+    (
+      e&&(e.code||e.message)
+        ?": "+(e.code||e.message)
+        :""
+    ),
     true
   );
 };
 
 try{
+
   tab=localStorage.getItem("tab")||tab;
+
 }catch(e){}
 
-/* A Hired lead counts as a New BP on the leaderboard. */
+
+/* ==========================================
+   BP LOGIC
+
+   IMPORTANT:
+   There is NO bp column required.
+
+   A lead is a BP when:
+   1. Status = Hired
+   OR
+   2. The New BP button has been clicked and
+      we use status = Hired.
+
+   This prevents the PGRST204 error.
+========================================== */
+
 function isBP(l){
-  return !!l.bp || l.status==="Hired";
+
+  return l.status==="Hired";
 }
+
+
+/* ==========================================
+   RENDER
+========================================== */
 
 function render(){
 
-  /* =========================
-     LEADERBOARD
-     ========================= */
+  /* LEADERBOARD */
 
-  const rows=OWNERS.map(o=>({
-    o,
-    bp:leads.filter(l=>l.owner===o&&isBP(l)).length
-  })).sort((a,b)=>b.bp-a.bp);
+  const rows=OWNERS
+    .map(o=>({
+      o,
+      bp:leads.filter(
+        l=>l.owner===o&&isBP(l)
+      ).length
+    }))
+    .sort((a,b)=>b.bp-a.bp);
 
   const top=rows[0]?.bp||0;
-  const tied=rows.length>1&&rows[0].bp===rows[1].bp;
+
+  const tied=
+    rows.length>1 &&
+    rows[0].bp===rows[1].bp;
+
   const B=$("board");
 
   B.innerHTML="";
 
-  rows.forEach((x,i)=>{
-    const isLead=top>0&&x.bp===top;
+  rows.forEach(x=>{
 
-    const d=document.createElement("div");
-    d.className="br"+(isLead?" lead1":"");
+    const isLead=
+      top>0&&x.bp===top;
 
-    const rk=document.createElement("div");
+    const d=
+      document.createElement("div");
+
+    d.className=
+      "br"+(isLead?" lead1":"");
+
+    const rk=
+      document.createElement("div");
+
     rk.className="rk";
 
     if(top===0){
+
       rk.textContent="🎯";
+
     }else if(isLead){
-      rk.textContent=tied?"🥇":"👑";
+
+      rk.textContent=
+        tied?"🥇":"👑";
+
     }else{
+
       rk.textContent="🥈";
     }
 
-    const mid=document.createElement("div");
+    const mid=
+      document.createElement("div");
+
     mid.className="bn";
+
     mid.textContent=x.o;
 
-    const sm=document.createElement("small");
+    const sm=
+      document.createElement("small");
 
     if(top===0){
-      sm.textContent="Waiting for the first BP";
+
+      sm.textContent=
+        "Waiting for the first BP";
+
     }else if(isLead){
-      sm.textContent=tied
-        ?"Tied for the lead"
-        :"In the lead by "+(x.bp-(rows[1]?.bp||0));
+
+      sm.textContent=
+        tied
+          ?"Tied for the lead"
+          :"In the lead by "+
+           (x.bp-(rows[1]?.bp||0));
+
     }else{
-      sm.textContent=(top-x.bp)+" to catch up";
+
+      sm.textContent=
+        (top-x.bp)+" to catch up";
     }
 
     mid.appendChild(sm);
 
-    const bar=document.createElement("div");
+    const bar=
+      document.createElement("div");
+
     bar.className="bar";
 
-    const f=document.createElement("i");
-    f.style.width=(top?Math.round(100*x.bp/top):0)+"%";
+    const f=
+      document.createElement("i");
+
+    f.style.width=
+      (top
+        ?Math.round(100*x.bp/top)
+        :0)+"%";
 
     bar.appendChild(f);
+
     mid.appendChild(bar);
 
-    const bv=document.createElement("div");
+    const bv=
+      document.createElement("div");
+
     bv.className="bv";
+
     bv.textContent=x.bp;
 
-    const u=document.createElement("small");
+    const u=
+      document.createElement("small");
+
     u.textContent="New BP";
 
     bv.appendChild(u);
 
-    d.append(rk,mid,bv);
+    d.append(
+      rk,
+      mid,
+      bv
+    );
+
     B.appendChild(d);
+
   });
 
   if(top>0&&tied){
-    const t=document.createElement("div");
+
+    const t=
+      document.createElement("div");
+
     t.className="tie";
-    t.textContent="🔥 It's a tie!";
+
+    t.textContent=
+      "🔥 It's a tie!";
+
     B.appendChild(t);
   }
 
-  /* =========================
-     TABS
-     ========================= */
+
+  /* TABS */
 
   $("tabs").innerHTML="";
 
   TABS.forEach(o=>{
-    const b=document.createElement("button");
 
-    b.className="tab"+(o===tab?" on":"");
+    const b=
+      document.createElement("button");
 
-    const k=leads.filter(l=>l.owner===o).length;
+    b.className=
+      "tab"+(o===tab?" on":"");
+
+    const k=
+      leads.filter(
+        l=>l.owner===o
+      ).length;
 
     b.textContent=o+" ";
 
-    const s=document.createElement("small");
+    const s=
+      document.createElement("small");
+
     s.textContent="("+k+")";
 
     b.appendChild(s);
 
     b.onclick=()=>{
+
       tab=o;
 
       try{
         localStorage.setItem("tab",o);
       }catch(e){}
 
+      filter="All";
+
       render();
+
     };
 
     $("tabs").appendChild(b);
+
   });
 
-  /* =========================
-     STATS
-     ========================= */
 
-  const mine=leads.filter(l=>l.owner===tab);
+  /* STATS */
 
-  {
-    const set=tab==="Pool"?leads:mine;
-    const n=set.length;
+  const mine=
+    leads.filter(
+      l=>l.owner===tab
+    );
 
-    const c=k=>set.filter(l=>l[k]).length;
-    const bpCount=set.filter(isBP).length;
+  const set=
+    tab==="Pool"
+      ?leads
+      :mine;
 
-    const pc=(a,b)=>b?Math.round(100*a/b)+"%":"–";
+  const n=set.length;
 
-    const items=[
-      [n,(tab==="Pool"?"Total leads (team)":"Leads")],
-      [c("contacted")+" · "+pc(c("contacted"),n),"Contacted"],
-      [c("second")+" · "+pc(c("second"),n),"Second interview"],
-      [bpCount+" · "+pc(bpCount,n),"New BPs"]
-    ];
+  const c=k=>
+    set.filter(
+      l=>l[k]
+    ).length;
 
-    $("stats").innerHTML="";
+  const bpCount=
+    set.filter(isBP).length;
 
-    items.forEach(([v,t])=>{
-      const d=document.createElement("div");
-      d.className="stat";
+  const pc=(a,b)=>
+    b
+      ?Math.round(100*a/b)+"%"
+      :"–";
 
-      const b=document.createElement("b");
-      b.textContent=v;
+  const items=[
 
-      const sp=document.createElement("span");
-      sp.textContent=t;
+    [
+      n,
+      tab==="Pool"
+        ?"Total leads (team)"
+        :"Leads"
+    ],
 
-      d.append(b,sp);
-      $("stats").appendChild(d);
-    });
+    [
+      c("contacted")+
+      " · "+
+      pc(c("contacted"),n),
+      "Contacted"
+    ],
 
-    $("stats").title="% = share of all leads. Hired leads count as New BPs.";
-  }
+    [
+      c("second")+
+      " · "+
+      pc(c("second"),n),
+      "Second interview"
+    ],
 
-  $("poolbox").style.display=tab==="Pool"?"block":"none";
+    [
+      bpCount+
+      " · "+
+      pc(bpCount,n),
+      "New BPs"
+    ]
 
-  /* =========================
-     FILTERS
-     ========================= */
+  ];
+
+  $("stats").innerHTML="";
+
+  items.forEach(([v,t])=>{
+
+    const d=
+      document.createElement("div");
+
+    d.className="stat";
+
+    const b=
+      document.createElement("b");
+
+    b.textContent=v;
+
+    const sp=
+      document.createElement("span");
+
+    sp.textContent=t;
+
+    d.append(b,sp);
+
+    $("stats")
+      .appendChild(d);
+
+  });
+
+
+  /* POOL */
+
+  $("poolbox").style.display=
+    tab==="Pool"
+      ?"block"
+      :"none";
+
+
+  /* FILTERS */
 
   $("filters").innerHTML="";
 
@@ -344,366 +873,686 @@ function render(){
     ["New BP","bp"]
   ].forEach(([t,k])=>{
 
-    const c=document.createElement("button");
+    const c=
+      document.createElement("button");
 
     let n;
 
     if(k==="All"){
+
       n=mine.length;
+
     }else if(k==="bp"){
+
       n=mine.filter(isBP).length;
+
     }else{
-      n=mine.filter(l=>l[k]).length;
+
+      n=mine.filter(
+        l=>l[k]
+      ).length;
+
     }
 
-    c.className="chip"+(k===filter?" on":"");
-    c.textContent=t+" "+n;
+    c.className=
+      "chip"+(k===filter?" on":"");
+
+    c.textContent=
+      t+" "+n;
 
     c.onclick=()=>{
+
       filter=k;
+
       render();
+
     };
 
-    $("filters").appendChild(c);
+    $("filters")
+      .appendChild(c);
+
   });
 
-  /* =========================
-     LEAD LIST
-     ========================= */
+
+  /* LEAD LIST */
 
   const L=$("list");
+
   L.innerHTML="";
 
   if(!db){
-    L.innerHTML='<div class="msg">Connect the shared database to load and save leads.</div>';
+
+    L.innerHTML=
+      '<div class="msg">'+
+      'Connect the shared database to load and save leads.'+
+      '</div>';
+
     return;
   }
 
   let shown;
 
   if(filter==="bp"){
-    shown=mine.filter(isBP);
+
+    shown=
+      mine.filter(isBP);
+
   }else{
-    shown=mine.filter(l=>filter==="All"||l[filter]);
+
+    shown=
+      mine.filter(
+        l=>
+          filter==="All"||
+          l[filter]
+      );
   }
 
-  shown.sort((a,b)=>(b.created||0)-(a.created||0));
+  shown.sort(
+    (a,b)=>
+      (b.created||0)-
+      (a.created||0)
+  );
 
   if(!shown.length){
-    L.innerHTML='<div class="empty">No leads here yet.</div>';
+
+    L.innerHTML=
+      '<div class="empty">No leads here yet.</div>';
+
     return;
   }
 
+
   shown.forEach(l=>{
 
-    const d=document.createElement("div");
+    const d=
+      document.createElement("div");
+
     d.className="lead";
 
-    const top=document.createElement("div");
+
+    /* TOP */
+
+    const top=
+      document.createElement("div");
+
     top.className="top";
 
-    const left=document.createElement("div");
 
-    const nm=document.createElement("div");
+    const left=
+      document.createElement("div");
+
+
+    const nm=
+      document.createElement("div");
+
     nm.className="nm";
-    nm.textContent=l.name;
 
-    const ct=document.createElement("div");
+    nm.textContent=
+      l.name;
+
+
+    const ct=
+      document.createElement("div");
+
     ct.className="ct";
-    ct.textContent=l.contact||"";
 
-    left.append(nm,ct);
+    ct.textContent=
+      l.contact||"";
 
-    /* =========================
-       STATUS
-       ========================= */
 
-    const sel=document.createElement("select");
+    left.append(
+      nm,
+      ct
+    );
+
+
+    /* STATUS */
+
+    const sel=
+      document.createElement("select");
 
     STATUSES.forEach(s=>{
-      const o=document.createElement("option");
+
+      const o=
+        document.createElement("option");
+
       o.value=s;
+
       o.textContent=s;
 
       if(s===l.status){
+
         o.selected=true;
+
       }
 
       sel.appendChild(o);
+
     });
+
 
     sel.onchange=()=>{
-      const newStatus=sel.value;
 
-      /* Hired automatically becomes a BP */
-      const patch={
-        status:newStatus
-      };
+      const newStatus=
+        sel.value;
 
-      if(newStatus==="Hired"){
-        patch.bp=true;
-      }
+      upd(
+        l.id,
+        {
+          status:newStatus
+        }
+      );
 
-      upd(l.id,patch);
     };
 
-    top.append(left,sel);
 
-    /* =========================
-       NOTES
-       ========================= */
+    top.append(
+      left,
+      sel
+    );
 
-    const ta=document.createElement("textarea");
+
+    /* NOTES */
+
+    const ta=
+      document.createElement("textarea");
+
     ta.placeholder="Notes…";
-    ta.value=l.notes||"";
+
+    ta.value=
+      l.notes||"";
 
     ta.onchange=()=>{
-      upd(l.id,{notes:ta.value});
+
+      upd(
+        l.id,
+        {
+          notes:ta.value
+        }
+      );
+
     };
 
-    /* =========================
-       LEAD BUTTONS
-       ========================= */
 
-    const tgs=document.createElement("div");
+    /* BUTTONS */
+
+    const tgs=
+      document.createElement("div");
+
     tgs.className="tgs";
 
+
+    /* CONTACTED */
+
+    const contacted=
+      document.createElement("button");
+
+    contacted.className=
+      "tg"+(l.contacted?" on":"");
+
+    contacted.textContent=
+      "Contacted";
+
+    contacted.onclick=()=>{
+
+      upd(
+        l.id,
+        {
+          contacted:!l.contacted
+        }
+      );
+
+    };
+
+    tgs.appendChild(contacted);
+
+
+    /* SECOND INTERVIEW */
+
+    const second=
+      document.createElement("button");
+
+    second.className=
+      "tg"+(l.second?" on":"");
+
+    second.textContent=
+      "2nd interview";
+
+    second.onclick=()=>{
+
+      upd(
+        l.id,
+        {
+          second:!l.second
+        }
+      );
+
+    };
+
+    tgs.appendChild(second);
+
+
+    /* NO SHOW */
+
+    const noshow=
+      document.createElement("button");
+
+    noshow.className=
+      "tg bad"+(l.noshow?" on":"");
+
+    noshow.textContent=
+      "No show";
+
+    noshow.onclick=()=>{
+
+      upd(
+        l.id,
+        {
+          noshow:!l.noshow
+        }
+      );
+
+    };
+
+    tgs.appendChild(noshow);
+
+
+    /* NEW BP */
+
+    const bp=
+      document.createElement("button");
+
+    bp.className=
+      "tg"+(isBP(l)?" on":"");
+
+    bp.textContent=
+      "New BP";
+
+    bp.onclick=()=>{
+
+      if(isBP(l)){
+
+        /* Remove BP status */
+
+        upd(
+          l.id,
+          {
+            status:"New"
+          }
+        );
+
+      }else{
+
+        /* Make Hired = BP */
+
+        upd(
+          l.id,
+          {
+            status:"Hired"
+          }
+        );
+
+      }
+
+    };
+
+    tgs.appendChild(bp);
+
+
+    /* PLATFORM */
+
+    const ps=
+      document.createElement("select");
+
+    ps.style.cssText=
+      "padding:3px 6px;font-size:12px;border-radius:999px";
+
     [
-      ["contacted","Contacted",""],
-      ["second","2nd interview",""],
-      ["noshow","No show"," bad"],
-      ["bp","New BP",""]
-    ].forEach(([k,t,x])=>{
+      "",
+      "LinkedIn",
+      "ZipRecruiter",
+      "Indeed",
+      "Other"
+    ].forEach(x=>{
 
-      const b=document.createElement("button");
-
-      b.className="tg"+x+(isBP(l)&&k==="bp"?" on":(!isBP(l)&&l[k]?" on":""));
-
-      b.textContent=t;
-
-      b.onclick=()=>{
-        upd(l.id,{[k]:!l[k]});
-      };
-
-      tgs.appendChild(b);
-    });
-
-    /* =========================
-       PLATFORM
-       ========================= */
-
-    const ps=document.createElement("select");
-
-    ps.style.cssText="padding:3px 6px;font-size:12px;border-radius:999px";
-
-    ["","LinkedIn","ZipRecruiter","Indeed","Other"].forEach(x=>{
-
-      const o=document.createElement("option");
+      const o=
+        document.createElement("option");
 
       o.value=x;
-      o.textContent=x||"Platform…";
 
-      if(x===(l.platform||"")){
+      o.textContent=
+        x||"Platform…";
+
+      if(
+        x===(l.platform||"")
+      ){
+
         o.selected=true;
+
       }
 
       ps.appendChild(o);
+
     });
 
+
     ps.onchange=()=>{
-      upd(l.id,{platform:ps.value});
+
+      upd(
+        l.id,
+        {
+          platform:ps.value
+        }
+      );
+
     };
+
 
     tgs.appendChild(ps);
 
-    /* =========================
-       ACTIONS
-       ========================= */
 
-    const acts=document.createElement("div");
+    /* ACTIONS */
+
+    const acts=
+      document.createElement("div");
+
     acts.className="acts";
 
+
     const mk=(t,o)=>{
-      const b=document.createElement("button");
+
+      const b=
+        document.createElement("button");
 
       b.textContent=t;
 
       b.onclick=()=>{
-        upd(l.id,{owner:o});
+
+        upd(
+          l.id,
+          {
+            owner:o
+          }
+        );
+
       };
 
       return b;
     };
 
-    const otherOwner=OWNERS.find(o=>o!==l.owner);
 
-    const btns=l.owner==="Pool"
-      ?[
-          mk("Give to Logan","Logan"),
-          mk("Give to Leo","Leo")
+    const otherOwner=
+      OWNERS.find(
+        o=>o!==l.owner
+      );
+
+
+    const btns=
+      l.owner==="Pool"
+
+        ?[
+          mk(
+            "Give to Logan",
+            "Logan"
+          ),
+
+          mk(
+            "Give to Leo",
+            "Leo"
+          )
         ]
-      :[
-          mk("Move to "+otherOwner,otherOwner),
-          mk("Back to pool","Pool")
+
+        :[
+          mk(
+            "Move to "+otherOwner,
+            otherOwner
+          ),
+
+          mk(
+            "Back to pool",
+            "Pool"
+          )
         ];
 
-    /* =========================
-       DELETE
-       ========================= */
 
-    const del=document.createElement("button");
-    del.textContent="Delete";
+    /* DELETE */
+
+    const del=
+      document.createElement("button");
+
+    del.textContent=
+      "Delete";
+
 
     del.onclick=async()=>{
 
       if(!del.dataset.arm){
 
         del.dataset.arm="1";
-        del.textContent="Tap again to delete";
-        del.style.color="#dc2626";
+
+        del.textContent=
+          "Tap again to delete";
+
+        del.style.color=
+          "#dc2626";
 
         setTimeout(()=>{
+
           del.dataset.arm="";
-          del.textContent="Delete";
+
+          del.textContent=
+            "Delete";
+
           del.style.color="";
+
         },4000);
 
         return;
       }
 
+
       try{
 
-        const {error}=await sb
-          .from("leads")
-          .delete()
-          .eq("id",l.id);
+        const {error}=
+          await sb
+            .from("leads")
+            .delete()
+            .eq("id",l.id);
 
         if(error){
+
           fail(error);
+
           return;
         }
 
-        leads=leads.filter(x=>x.id!==l.id);
+
+        leads=
+          leads.filter(
+            x=>x.id!==l.id
+          );
 
         render();
 
-        note("Deleted "+l.name);
+        note(
+          "Deleted "+l.name
+        );
 
       }catch(e){
+
         fail(e);
+
       }
+
     };
 
-    acts.append(...btns,del);
 
-    d.append(top,tgs,ta,acts);
+    acts.append(
+      ...btns,
+      del
+    );
+
+
+    d.append(
+      top,
+      tgs,
+      ta,
+      acts
+    );
 
     L.appendChild(d);
+
   });
+
 }
 
-/* =========================
-   UPDATE LEAD
-   ========================= */
+
+/* ==========================================
+   UPDATE
+========================================== */
 
 async function upd(id,patch){
 
-  const l=leads.find(x=>x.id===id);
-
-  if(!l)return;
-
-  const {error}=await sb
-    .from("leads")
-    .update(patch)
-    .eq("id",id);
+  const {error}=
+    await sb
+      .from("leads")
+      .update(patch)
+      .eq("id",id);
 
   if(error){
+
     fail(error);
+
     return;
   }
 
-  /* Update screen immediately */
-  leads=leads.map(x=>
-    x.id===id
-      ?{...x,...patch}
-      :x
-  );
+
+  leads=
+    leads.map(x=>
+      x.id===id
+        ?{...x,...patch}
+        :x
+    );
+
 
   render();
 
   note("Updated ✓");
 }
 
-/* =========================
+
+/* ==========================================
    CREATE LEAD
-   ========================= */
+========================================== */
 
-function mkLead(first,last,email,phone,owner,created,platform){
+function mkLead(
+  first,
+  last,
+  email,
+  phone,
+  owner,
+  created,
+  platform
+){
 
-  const name=(first+" "+last).trim();
+  const name=
+    (first+" "+last).trim();
 
-  return {
+  return{
+
     name,
     first,
     last,
     email,
     phone,
-    platform:platform||"",
-    contact:[email,phone].filter(Boolean).join(" · "),
+
+    platform:
+      platform||"",
+
+    contact:
+      [email,phone]
+        .filter(Boolean)
+        .join(" · "),
+
     notes:"",
     status:"New",
     owner,
     created
+
   };
 }
 
+
 $("addb").onclick=async()=>{
 
-  const f=$("fn").value.trim();
-  const l=$("ln").value.trim();
+  const f=
+    $("fn").value.trim();
+
+  const l=
+    $("ln").value.trim();
 
   if(!(f||l)){
-    note("Enter a first or last name first.",true);
+
+    note(
+      "Enter a first or last name first.",
+      true
+    );
+
     return;
   }
 
   if(!db){
-    note("Database is not connected. Add your Supabase settings first.",true);
+
+    note(
+      "Database is not connected.",
+      true
+    );
+
     return;
   }
 
   note("Saving…");
 
+
   try{
 
-    const lead=mkLead(
-      f,
-      l,
-      $("em").value.trim(),
-      $("ph").value.trim(),
-      tab,
-      Date.now(),
-      $("pf").value
-    );
+    const lead=
+      mkLead(
+        f,
+        l,
+        $("em").value.trim(),
+        $("ph").value.trim(),
+        tab,
+        Date.now(),
+        $("pf").value
+      );
 
-    const {data,error}=await sb
-      .from("leads")
-      .insert(lead)
-      .select()
-      .single();
+
+    const {
+      data,
+      error
+    }=
+      await sb
+        .from("leads")
+        .insert(lead)
+        .select()
+        .single();
+
 
     if(error)throw error;
 
-    /* Immediately add it to the screen */
-    if(data){
-      leads=[...leads,data];
-    }else{
-      leads=[...leads,lead];
-    }
 
-    ["fn","ln","em","ph"].forEach(i=>{
-      $(i).value="";
-    });
+    leads=[
+      ...leads,
+      data||lead
+    ];
+
+
+    ["fn","ln","em","ph"]
+      .forEach(i=>{
+        $(i).value="";
+      });
+
 
     $("pf").value="";
 
@@ -711,18 +1560,25 @@ $("addb").onclick=async()=>{
 
     render();
 
-    note("Saved ✓ added to "+tab);
+    note(
+      "Saved ✓ added to "+tab
+    );
 
     $("fn").focus();
 
+
   }catch(e){
+
     fail(e);
+
   }
+
 };
 
-/* =========================
-   CSV PARSER
-   ========================= */
+
+/* ==========================================
+   CSV
+========================================== */
 
 function parseCSV(t){
 
@@ -731,23 +1587,35 @@ function parseCSV(t){
   let f="";
   let q=false;
 
-  for(let i=0;i<t.length;i++){
+
+  for(
+    let i=0;
+    i<t.length;
+    i++
+  ){
 
     const ch=t[i];
+
 
     if(q){
 
       if(ch==='"'){
 
         if(t[i+1]==='"'){
+
           f+='"';
           i++;
+
         }else{
+
           q=false;
+
         }
 
       }else{
+
         f+=ch;
+
       }
 
     }else if(ch==='"'){
@@ -759,15 +1627,27 @@ function parseCSV(t){
       row.push(f);
       f="";
 
-    }else if(ch==="\n"||ch==="\r"){
+    }else if(
+      ch==="\n"||
+      ch==="\r"
+    ){
 
-      if(ch==="\r"&&t[i+1]==="\n")i++;
+      if(
+        ch==="\r"&&
+        t[i+1]==="\n"
+      )i++;
 
       row.push(f);
       f="";
 
-      if(row.some(x=>x.trim())){
+      if(
+        row.some(
+          x=>x.trim()
+        )
+      ){
+
         rows.push(row);
+
       }
 
       row=[];
@@ -775,50 +1655,82 @@ function parseCSV(t){
     }else{
 
       f+=ch;
+
     }
+
   }
+
 
   row.push(f);
 
-  if(row.some(x=>x.trim())){
+  if(
+    row.some(
+      x=>x.trim()
+    )
+  ){
+
     rows.push(row);
+
   }
 
   return rows;
 }
 
-/* =========================
-   CSV IMPORT
-   ========================= */
 
 function importCSV(file){
 
   if(!db||!file)return;
 
-  const rd=new FileReader();
+  const rd=
+    new FileReader();
+
 
   rd.onload=()=>{
 
-    const rows=parseCSV(
-      String(rd.result).replace(/^\uFEFF/,"")
-    );
+    const rows=
+      parseCSV(
+        String(rd.result)
+          .replace(/^\uFEFF/,"")
+      );
+
 
     if(rows.length<2){
-      $("splitmsg").textContent="No rows found in that file";
+
+      $("splitmsg").textContent=
+        "No rows found in that file";
+
       return;
     }
 
-    const h=rows[0].map(x=>x.toLowerCase().trim());
 
-    const find=re=>h.findIndex(x=>re.test(x));
+    const h=
+      rows[0]
+        .map(
+          x=>x.toLowerCase().trim()
+        );
+
+
+    const find=re=>
+      h.findIndex(
+        x=>re.test(x)
+      );
+
 
     const iF=find(/first/);
     const iL=find(/last|surname/);
-    const iN=find(/^(full )?(candidate )?name$|^name|candidate/);
+    const iN=find(
+      /^(full )?(candidate )?name$|^name|candidate/
+    );
     const iE=find(/e-?mail/);
     const iP=find(/phone|mobile|cell/);
 
-    if(iF<0&&iL<0&&iN<0&&iE<0){
+
+    if(
+      iF<0&&
+      iL<0&&
+      iN<0&&
+      iE<0
+    ){
 
       $("splitmsg").textContent=
         "Couldn't find name or email columns";
@@ -826,55 +1738,97 @@ function importCSV(file){
       return;
     }
 
-    const have=new Set(
-      leads
-        .map(l=>(l.email||"").toLowerCase())
-        .filter(Boolean)
-    );
+
+    const have=
+      new Set(
+        leads
+          .map(
+            l=>
+              (l.email||"")
+                .toLowerCase()
+          )
+          .filter(Boolean)
+      );
+
 
     const out=[];
 
-    rows.slice(1).forEach((r,i)=>{
 
-      const g=k=>
-        k>=0?(r[k]||"").trim():"";
+    rows
+      .slice(1)
+      .forEach((r,i)=>{
 
-      let first=g(iF);
-      let last=g(iL);
+        const g=k=>
+          k>=0
+            ?(r[k]||"").trim()
+            :"";
 
-      if(!first&&!last&&iN>=0){
 
-        const sp=g(iN).split(/\s+/);
+        let first=g(iF);
+        let last=g(iL);
 
-        first=sp.shift()||"";
-        last=sp.join(" ");
-      }
 
-      const email=g(iE);
-      const phone=g(iP);
+        if(
+          !first&&
+          !last&&
+          iN>=0
+        ){
 
-      if(!first&&!last&&!email)return;
+          const sp=
+            g(iN)
+              .split(/\s+/);
 
-      if(email&&have.has(email.toLowerCase())){
-        return;
-      }
+          first=
+            sp.shift()||"";
 
-      if(email){
-        have.add(email.toLowerCase());
-      }
+          last=
+            sp.join(" ");
 
-      out.push(
-        mkLead(
-          first,
-          last,
-          email,
-          phone,
-          "Pool",
-          Date.now()+i,
-          $("bpf").value
-        )
-      );
-    });
+        }
+
+
+        const email=g(iE);
+        const phone=g(iP);
+
+
+        if(
+          !first&&
+          !last&&
+          !email
+        )return;
+
+
+        if(
+          email&&
+          have.has(
+            email.toLowerCase()
+          )
+        )return;
+
+
+        if(email){
+
+          have.add(
+            email.toLowerCase()
+          );
+
+        }
+
+
+        out.push(
+          mkLead(
+            first,
+            last,
+            email,
+            phone,
+            "Pool",
+            Date.now()+i,
+            $("bpf").value
+          )
+        );
+
+      });
+
 
     if(!out.length){
 
@@ -884,73 +1838,110 @@ function importCSV(file){
       return;
     }
 
+
     const nt=$("note");
 
-    nt.style.color="var(--tx)";
+    nt.style.color=
+      "var(--tx)";
 
     nt.textContent=
       "Add "+out.length+
-      " new leads to the pool"+
-      ($("bpf").value?" as "+$("bpf").value:"")+"? ";
+      " new leads to the pool? ";
 
-    const cb=document.createElement("button");
+
+    const cb=
+      document.createElement("button");
 
     cb.className="p";
-    cb.textContent="Yes, import";
+
+    cb.textContent=
+      "Yes, import";
+
 
     cb.onclick=async()=>{
 
       try{
 
-        const {data,error}=await sb
-          .from("leads")
-          .insert(out)
-          .select();
+        const {
+          data,
+          error
+        }=
+          await sb
+            .from("leads")
+            .insert(out)
+            .select();
+
 
         if(error)throw error;
 
-        if(data){
-          leads=[...leads,...data];
-        }else{
-          leads=[...leads,...out];
-        }
+
+        leads=[
+          ...leads,
+          ...(data||out)
+        ];
+
 
         render();
 
-        note("Imported "+out.length+" leads ✓");
+        note(
+          "Imported "+
+          out.length+
+          " leads ✓"
+        );
+
 
       }catch(e){
+
         fail(e);
+
       }
+
     };
 
+
     nt.appendChild(cb);
+
   };
+
 
   rd.readAsText(file);
 }
 
-/* =========================
-   FILE DROP
-   ========================= */
+
+/* FILE DROP */
 
 const dz=$("drop");
 
-dz.onclick=()=>$("file").click();
+dz.onclick=()=>
+  $("file").click();
+
 
 $("file").onchange=e=>{
-  importCSV(e.target.files[0]);
+
+  importCSV(
+    e.target.files[0]
+  );
+
   e.target.value="";
+
 };
+
 
 dz.ondragover=e=>{
+
   e.preventDefault();
+
   dz.classList.add("over");
+
 };
 
+
 dz.ondragleave=()=>{
+
   dz.classList.remove("over");
+
 };
+
 
 dz.ondrop=e=>{
 
@@ -958,27 +1949,41 @@ dz.ondrop=e=>{
 
   dz.classList.remove("over");
 
-  importCSV(e.dataTransfer.files[0]);
+  importCSV(
+    e.dataTransfer.files[0]
+  );
+
 };
 
-/* =========================
-   EXPORT
-   ========================= */
+
+/* EXPORT */
 
 $("expb").onclick=async()=>{
 
   const q=v=>
-    '"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+    '"'+
+    String(
+      v==null?"":v
+    ).replace(
+      /"/g,
+      '""'
+    )+
+    '"';
 
-  const y=v=>v?"Yes":"";
+
+  const y=v=>
+    v?"Yes":"";
+
 
   const rows=[
+
     [
       "First name",
       "Last name",
       "Email",
       "Phone",
       "Platform",
+      "Status",
       "Contacted",
       "2nd interview",
       "No show",
@@ -986,53 +1991,88 @@ $("expb").onclick=async()=>{
       "Notes",
       "Owner"
     ]
+
   ];
+
 
   leads
     .slice()
-    .sort((a,b)=>(a.created||0)-(b.created||0))
+    .sort(
+      (a,b)=>
+        (a.created||0)-
+        (b.created||0)
+    )
     .forEach(l=>{
 
       let f=l.first;
       let la=l.last;
 
-      if(f==null&&la==null){
 
-        const sp=(l.name||"").split(/\s+/);
+      if(
+        f==null&&
+        la==null
+      ){
+
+        const sp=
+          (l.name||"")
+            .split(/\s+/);
 
         f=sp.shift();
         la=sp.join(" ");
+
       }
 
+
       rows.push([
+
         f,
         la,
         l.email,
         l.phone,
         l.platform,
+        l.status,
         y(l.contacted),
         y(l.second),
         y(l.noshow),
         y(isBP(l)),
         l.notes,
         l.owner
+
       ]);
+
     });
+
 
   try{
 
     const data=
-      rows.map(r=>r.map(q).join(",")).join("\n");
+      rows
+        .map(
+          r=>r.map(q).join(",")
+        )
+        .join("\n");
 
-    const blob=new Blob(
-      [data],
-      {type:"text/csv;charset=utf-8"}
-    );
 
-    const a=document.createElement("a");
+    const blob=
+      new Blob(
+        [data],
+        {
+          type:
+            "text/csv;charset=utf-8"
+        }
+      );
 
-    a.href=URL.createObjectURL(blob);
-    a.download="nexus-trident-leads.csv";
+
+    const a=
+      document.createElement("a");
+
+
+    a.href=
+      URL.createObjectURL(blob);
+
+    a.download=
+      "nexus-trident-leads.csv";
+
 
     document.body.appendChild(a);
 
@@ -1040,65 +2080,97 @@ $("expb").onclick=async()=>{
 
     a.remove();
 
-    setTimeout(()=>{
-      URL.revokeObjectURL(a.href);
-    },1000);
 
     note(
-      "Exported "+(rows.length-1)+" leads ✓"
+      "Exported "+
+      (rows.length-1)+
+      " leads ✓"
     );
+
 
   }catch(e){
 
-    note("Export failed",true);
+    note(
+      "Export failed",
+      true
+    );
+
   }
+
 };
 
-/* =========================
-   BULK TEXT IMPORT
-   ========================= */
+
+/* BULK ADD */
 
 $("bulkb").onclick=async()=>{
 
   if(!db)return;
 
-  const lines=$("bulk")
-    .value
-    .split("\n")
-    .map(x=>x.trim())
-    .filter(Boolean);
+
+  const lines=
+    $("bulk")
+      .value
+      .split("\n")
+      .map(
+        x=>x.trim()
+      )
+      .filter(Boolean);
+
 
   const out=[];
 
+
   lines.forEach((ln,i)=>{
 
-    const t=ln
-      .split(/[,\t]/)
-      .map(x=>x.trim())
-      .filter(Boolean);
+    const t=
+      ln
+        .split(/[,\t]/)
+        .map(
+          x=>x.trim()
+        )
+        .filter(Boolean);
+
 
     const email=
-      (t.find(x=>x.includes("@"))||"");
+      t.find(
+        x=>x.includes("@")
+      )||"";
+
 
     const phone=
-      (
-        t.find(
+      t.find(
+        x=>
+          !x.includes("@")&&
+          (x.match(/\d/g)||[])
+            .length>=7
+      )||"";
+
+
+    const nm=
+      t
+        .filter(
           x=>
-            !x.includes("@")&&
-            (x.match(/\d/g)||[]).length>=7
-        )||""
-      );
+            x!==email&&
+            x!==phone
+        )
+        .join(" ")
+        .trim();
 
-    const nm=t
-      .filter(x=>x!==email&&x!==phone)
-      .join(" ")
-      .trim();
 
-    if(!nm&&!email&&!phone)return;
+    if(
+      !nm&&
+      !email&&
+      !phone
+    )return;
 
-    const sp=nm.split(/\s+/);
 
-    const first=sp.shift()||"";
+    const sp=
+      nm.split(/\s+/);
+
+
+    const first=
+      sp.shift()||"";
+
 
     out.push(
       mkLead(
@@ -1111,107 +2183,169 @@ $("bulkb").onclick=async()=>{
         $("bpf").value
       )
     );
+
   });
+
 
   if(!out.length)return;
 
+
   try{
 
-    const {data,error}=await sb
-      .from("leads")
-      .insert(out)
-      .select();
+    const {
+      data,
+      error
+    }=
+      await sb
+        .from("leads")
+        .insert(out)
+        .select();
+
 
     if(error)throw error;
 
-    if(data){
-      leads=[...leads,...data];
-    }else{
-      leads=[...leads,...out];
-    }
+
+    leads=[
+      ...leads,
+      ...(data||out)
+    ];
+
 
     $("bulk").value="";
 
     render();
 
-    note("Added "+out.length+" leads ✓");
+    note(
+      "Added "+
+      out.length+
+      " leads ✓"
+    );
+
 
   }catch(e){
+
     fail(e);
+
   }
+
 };
 
-/* =========================
-   SPLIT POOL
-   ========================= */
+
+/* SPLIT */
 
 $("splitb").onclick=async()=>{
 
   if(!db)return;
 
-  const pool=leads
-    .filter(l=>l.owner==="Pool")
-    .sort((a,b)=>(a.created||0)-(b.created||0));
+
+  const pool=
+    leads
+      .filter(
+        l=>l.owner==="Pool"
+      )
+      .sort(
+        (a,b)=>
+          (a.created||0)-
+          (b.created||0)
+      );
+
 
   if(!pool.length){
 
-    $("splitmsg").textContent="Pool is empty";
+    $("splitmsg").textContent=
+      "Pool is empty";
 
     return;
   }
 
+
   const c={
-    Logan:leads.filter(l=>l.owner==="Logan").length,
-    Leo:leads.filter(l=>l.owner==="Leo").length
+
+    Logan:
+      leads.filter(
+        l=>l.owner==="Logan"
+      ).length,
+
+    Leo:
+      leads.filter(
+        l=>l.owner==="Leo"
+      ).length
+
   };
+
 
   let g={
     Logan:0,
     Leo:0
   };
 
-  for(const l of pool){
+
+  for(
+    const l of pool
+  ){
 
     const o=
       c.Logan<=c.Leo
         ?"Logan"
         :"Leo";
 
+
     c[o]++;
     g[o]++;
 
-    await upd(l.id,{owner:o});
+
+    await upd(
+      l.id,
+      {
+        owner:o
+      }
+    );
+
   }
 
+
   $("splitmsg").textContent=
-    "Logan +"+g.Logan+
-    ", Leo +"+g.Leo;
+    "Logan +"+
+    g.Logan+
+    ", Leo +"+
+    g.Leo;
+
 };
 
-/* =========================
-   ENTER KEY
-   ========================= */
 
-["fn","ln","em","ph"].forEach(i=>{
+/* ENTER */
 
-  $(i).addEventListener("keydown",e=>{
+[
+  "fn",
+  "ln",
+  "em",
+  "ph"
+].forEach(i=>{
 
-    if(e.key==="Enter"){
-      $("addb").click();
+  $(i).addEventListener(
+    "keydown",
+    e=>{
+
+      if(e.key==="Enter"){
+
+        $("addb").click();
+
+      }
+
     }
+  );
 
-  });
 });
 
-/* =========================
-   INITIAL RENDER
-   ========================= */
+
+/* INITIAL */
 
 render();
 
-/* =========================
-   SUPABASE CONNECTION
-   ========================= */
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 (async()=>{
 
@@ -1225,27 +2359,32 @@ render();
       render();
 
       note(
-        "Add your Supabase URL and publishable key to index.html.",
+        "Add your Supabase URL and publishable key.",
         true
       );
 
       return;
     }
 
-    sb=supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-      {
-        auth:{
-          persistSession:true,
-          autoRefreshToken:true
+
+    sb=
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+          auth:{
+            persistSession:true,
+            autoRefreshToken:true
+          }
         }
-      }
-    );
+      );
+
 
     let {
       data:{session}
-    }=await sb.auth.getSession();
+    }=
+      await sb.auth.getSession();
+
 
     if(!session){
 
@@ -1253,29 +2392,41 @@ render();
         await sb.auth.signInAnonymously();
 
       if(r.error)throw r.error;
+
     }
 
+
     db=true;
+
 
     const load=async()=>{
 
       const {
         data,
         error
-      }=await sb
-        .from("leads")
-        .select("*");
+      }=
+        await sb
+          .from("leads")
+          .select("*");
+
 
       if(error)throw error;
 
-      leads=data||[];
+
+      leads=
+        data||[];
+
 
       render();
+
     };
+
 
     await load();
 
-    /* Live updates between Logan and Leo */
+
+    /* REAL-TIME SYNC */
+
     sb
       .channel("leads-live")
       .on(
@@ -1289,6 +2440,7 @@ render();
       )
       .subscribe();
 
+
   }catch(e){
 
     console.error(e);
@@ -1298,9 +2450,12 @@ render();
     render();
 
     fail(e);
+
   }
 
 })();
+
 </script>
+
 </body>
 </html>
