@@ -3,857 +3,4690 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Nexus Trident Agency</title>
+
+<title>Nexus Trident CRM</title>
+
 <style>
+
+/* =========================================================
+   DESIGN SYSTEM
+========================================================= */
+
 :root{
-  --bg:#f6f7f9;--card:#fff;--tx:#14181f;--mute:#6b7280;
-  --bd:#e3e6ec;--ac:#2563eb;--acx:#fff;
-}
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1218;--card:#1a1f29;--tx:#eef0f4;--mute:#9aa3b2;
-    --bd:#2a3140;--ac:#5b8def;--acx:#0b0f17;
-  }
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-h1{font-size:20px;margin:4px 0 12px}
-.tabs{display:flex;gap:8px;margin-bottom:12px}
-.tab{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
-.tab.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
-.tab small{opacity:.8;font-weight:400}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-input,select,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px;min-width:0}
-.add{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
-.add input{flex:1 1 130px}
-button.p{background:var(--ac);color:var(--acx);border:0;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer}
-button:disabled{opacity:.55;cursor:not-allowed}
-.filters{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
-.chip{white-space:nowrap;padding:5px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);cursor:pointer;font-size:13px}
-.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
-.lead{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:8px}
-.top{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.nm{font-weight:600;font-size:16px}
-.ct{color:var(--mute);font-size:13px;word-break:break-all}
-.lead textarea{width:100%;margin-top:8px;min-height:40px;resize:vertical}
-.acts{display:flex;gap:10px;margin-top:6px;font-size:12px;color:var(--mute);flex-wrap:wrap}
-.acts button{background:none;border:0;color:var(--mute);cursor:pointer;padding:2px 0;text-decoration:underline;font-size:12px}
-.goalcard{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:0 0 12px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
-.goalhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.goaltitle{font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--mute)}
-.goalnumber{font-size:20px;font-weight:800;margin-top:2px}
-.goalbadge{font-size:10px;font-weight:800;letter-spacing:.08em;border:1px solid var(--bd);border-radius:999px;padding:6px 9px}
-.goaltrack{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:11px}
-.goaltrack i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777);transition:width .7s cubic-bezier(.2,.8,.2,1)}
-.goalbottom{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--mute)}
-.bpflash{position:fixed;inset:0;pointer-events:none;z-index:9999;background:radial-gradient(circle at center,rgba(250,204,21,.22),transparent 45%);animation:flash .7s ease-out forwards}
-@keyframes flash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.stat{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px;text-align:center}
-.stat b{display:block;font-size:18px}.stat span{font-size:11px;color:var(--mute)}
-.tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tg{padding:4px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);font-size:12px;cursor:pointer}
-.tg.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
-.tg.bad.on{background:#dc2626;border-color:#dc2626;color:#fff}
-@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
-.drop{border:2px dashed var(--bd);border-radius:10px;padding:14px;text-align:center;color:var(--mute);margin-top:10px;cursor:pointer;font-size:13px}
-.drop.over{border-color:var(--ac);color:var(--ac)}
-.board{border-radius:16px;padding:14px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,#1e3a8a,#7c3aed 60%,#db2777);box-shadow:0 6px 20px rgba(76,29,149,.25)}
-.board h2{font-size:12px;margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.9;text-align:center}
-.br{position:relative;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:12px;background:rgba(255,255,255,.12);margin-bottom:8px}
-.br.lead1{background:linear-gradient(135deg,rgba(253,224,71,.38),rgba(251,191,36,.22));box-shadow:0 0 0 2px rgba(253,224,71,.85),0 0 18px rgba(253,224,71,.35)}
-.rk{font-size:26px;text-align:center;line-height:1}.bn{font-weight:700;font-size:17px}.bn small{display:block;font-weight:500;font-size:12px;opacity:.85;margin-top:1px}
-.bar{height:7px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:6px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:#fde047;transition:width .6s ease}
-.bv{font-size:34px;font-weight:800;line-height:1;text-align:right}.bv small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;opacity:.8;text-transform:uppercase;margin-top:2px}
-.tie{text-align:center;font-size:13px;font-weight:700;margin-top:2px}
-.empty,.msg{text-align:center;color:var(--mute);padding:28px 8px}
-</style>
-</head>
-<body>
-<div class="wrap">
-<h1>Nexus Trident Agency</h1>
-
-<div class="board">
-<h2>🏆 New BP Leaderboard</h2>
-<div id="board"></div>
-<div id="momentum" style="text-align:center;font-size:11px;font-weight:700;opacity:.85;margin-top:7px"></div>
-</div>
-
-<div class="goalcard" id="goalcard">
-  <div class="goalhead">
-    <div>
-      <div class="goaltitle">TEAM BP GOAL</div>
-      <div class="goalnumber"><span id="goalcount">0</span> / 10 New BPs</div>
-    </div>
-    <div class="goalbadge" id="goalbadge">LET'S GO</div>
-  </div>
-  <div class="goaltrack"><i id="goalfill"></i></div>
-  <div class="goalbottom"><span id="goaltext">0% complete</span><span id="goalremaining">10 to goal</span></div>
-</div>
-
-<div class="tabs" id="tabs"></div>
-
-<div class="add">
-<div class="row">
-<input id="fn" placeholder="First name">
-<input id="ln" placeholder="Last name">
-<input id="em" type="email" placeholder="Email">
-<input id="ph" type="tel" placeholder="Phone">
-<select id="pf">
-<option value="">Platform…</option>
-<option>LinkedIn</option><option>ZipRecruiter</option><option>Indeed</option><option>Other</option>
-</select>
-<button class="p" id="addb">Add lead</button>
-</div>
-</div>
-
-<div class="add" id="poolbox" style="display:none">
-<div style="font-weight:600;margin-bottom:6px">Drop leads in the pool</div>
-<textarea id="bulk" rows="4" style="width:100%" placeholder="Paste one lead per line: First Last, email, phone"></textarea>
-<div class="drop" id="drop">
-Or drop an applicant CSV here (Indeed, ZipRecruiter, LinkedIn) or tap to choose a file.
-<input type="file" id="file" accept=".csv,text/csv" hidden>
-</div>
-<div class="row" style="margin-top:8px;align-items:center">
-<select id="bpf">
-<option value="">Platform for all…</option>
-<option>LinkedIn</option><option>ZipRecruiter</option><option>Indeed</option><option>Other</option>
-</select>
-<button class="p" id="bulkb">Add to pool</button>
-<button class="p" id="splitb">Split evenly: Logan / Leo</button>
-<span class="ct" id="splitmsg"></span>
-</div>
-</div>
-
-<div id="note" class="ct" style="min-height:18px;margin:-4px 0 8px"></div>
-<div class="stats" id="stats"></div>
-<div class="filters" id="filters"></div>
-<div id="list"><div class="msg">Loading…</div></div>
-
-<div style="text-align:center;margin:18px 0">
-<button class="chip" id="expb">Export all leads (CSV for Google Sheets)</button>
-</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL="https://dnrtxgghajgaitoacdya.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_3dm11FqJHrw7qBrglXlOcw_QyBX737O";
-
-const TABS=["Logan","Pool","Leo"];
-const OWNERS=["Logan","Leo"];
-
-/* These are stored ONLY in the existing Supabase status column. */
-const STATUSES=["New","Contacted","Interview","Offer","Hired","Passed","No Show"];
-
-let tab="Pool";
-let filter="All";
-let leads=[];
-let db=false;
-let sb=null;
-let loading=false;
-
-const $=id=>document.getElementById(id);
-
-try{tab=localStorage.getItem("tab")||tab}catch(e){}
-
-function note(message,bad=false){
-  const n=$("note");
-  n.textContent=message;
-  n.style.color=bad?"#dc2626":"var(--mute)";
-  clearTimeout(note.t);
-  if(!bad) note.t=setTimeout(()=>n.textContent="",3500);
+  --bg:#eef2f7;
+  --card:#ffffff;
+  --card2:#f8fafc;
+  --tx:#0f172a;
+  --mute:#64748b;
+  --bd:#dbe3ee;
+  --ac:#2563eb;
+  --ac-dark:#1d4ed8;
+  --acx:#ffffff;
+  --navy:#0f172a;
+  --green:#16a34a;
+  --red:#dc2626;
 }
 
-function fail(e){
-  console.error("Supabase error:",e);
-  const code=e?.code||"";
-  const msg=e?.message||"";
-  note("Couldn't save"+(code||msg?": "+(code||msg):""),true);
+*{
+  box-sizing:border-box;
 }
 
-/* A New BP is simply a lead whose status is Hired. */
-function isBP(l){return l.status==="Hired"}
-
-function ownerLeads(owner){
-  return owner==="Pool" ? leads : leads.filter(l=>l.owner===owner);
+html{
+  scroll-behavior:smooth;
 }
 
-function renderGoal(){
-  const total=leads.filter(isBP).length;
-  const goal=10;
-  const pct=Math.min(100,Math.round(total/goal*100));
-  $("goalcount").textContent=total;
-  $("goalfill").style.width=pct+"%";
-  $("goaltext").textContent=pct+"% complete";
-  $("goalremaining").textContent=total>=goal?"GOAL REACHED":" "+Math.max(0,goal-total)+" to goal";
-  $("goalbadge").textContent=total>=goal?"GOAL REACHED":total===0?"LET'S GO":total>=7?"ON FIRE":"IN PROGRESS";
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--tx);
+  font:15px/1.4 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(37,99,235,.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 90% 8%,
+      rgba(124,58,237,.10),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #eef2f7 0%,
+      #f8fafc 45%,
+      #eef2f7 100%
+    );
 }
 
-function render(){
-  renderGoal();
-  renderBoard();
-  renderTabs();
-  renderStats();
-  renderFilters();
-  renderLeads();
+button,
+input,
+select,
+textarea{
+  font:inherit;
 }
 
-function renderBoard(){
-  const rows=OWNERS.map(o=>({
-    o,
-    bp:leads.filter(l=>l.owner===o && isBP(l)).length
-  }));
-
-  const top=Math.max(...rows.map(x=>x.bp),0);
-  const tied=rows.length>1 && rows[0].bp===rows[1].bp;
-
-  const B=$("board");
-  B.innerHTML="";
-
-  const momentum=$("momentum");
-  const totalBP=rows.reduce((sum,x)=>sum+x.bp,0);
-  if(totalBP===0) momentum.textContent="Your first New BP starts the race.";
-  else if(totalBP<5) momentum.textContent="Good start. Keep the pipeline moving.";
-  else if(totalBP<10) momentum.textContent="🔥 Momentum is building.";
-  else momentum.textContent="🏆 Team goal crushed. Keep going.";
-
-  rows.forEach((x,i)=>{
-    const leader=top>0 && x.bp===top;
-    const d=document.createElement("div");
-    d.className="br"+(leader?" lead1":"");
-
-    const rk=document.createElement("div");
-    rk.className="rk";
-    rk.textContent=top===0?"🎯":leader?(tied?"🥇":"👑"):"🥈";
-
-    const mid=document.createElement("div");
-    mid.className="bn";
-    mid.textContent=x.o;
-
-    const sm=document.createElement("small");
-    if(top===0) sm.textContent="Waiting for the first BP";
-    else if(leader) sm.textContent=tied?"Tied for the lead":"In the lead by "+(x.bp-(rows.find(r=>r.o!==x.o)?.bp||0));
-    else sm.textContent=(top-x.bp)+" to catch up";
-
-    mid.appendChild(sm);
-
-    const bar=document.createElement("div");
-    bar.className="bar";
-    const fill=document.createElement("i");
-    fill.style.width=(top?Math.round(100*x.bp/top):0)+"%";
-    bar.appendChild(fill);
-    mid.appendChild(bar);
-
-    const bv=document.createElement("div");
-    bv.className="bv";
-    bv.textContent=x.bp;
-    const small=document.createElement("small");
-    small.textContent="New BP";
-    bv.appendChild(small);
-
-    d.append(rk,mid,bv);
-    B.appendChild(d);
-  });
-
-  if(top>0&&tied){
-    const t=document.createElement("div");
-    t.className="tie";
-    t.textContent="🔥 It's a tie!";
-    B.appendChild(t);
-  }
+button{
+  -webkit-tap-highlight-color:transparent;
 }
 
-function renderTabs(){
-  $("tabs").innerHTML="";
-  TABS.forEach(o=>{
-    const b=document.createElement("button");
-    b.className="tab"+(o===tab?" on":"");
-    const count=ownerLeads(o).length;
-    b.textContent=o+" ";
-    const s=document.createElement("small");
-    s.textContent="("+count+")";
-    b.appendChild(s);
-
-    b.onclick=()=>{
-      tab=o;
-      filter="All";
-      try{localStorage.setItem("tab",o)}catch(e){}
-      render();
-    };
-    $("tabs").appendChild(b);
-  });
+.wrap{
+  max-width:900px;
+  margin:0 auto;
+  padding:28px 18px 50px;
 }
 
-function renderStats(){
-  const set=ownerLeads(tab);
-  const n=set.length;
-  const countStatus=s=>set.filter(l=>l.status===s).length;
-  const pct=(a,b)=>b?Math.round(100*a/b)+"%":"–";
 
-  const items=[
-    [n,tab==="Pool"?"Total leads (team)":"Leads"],
-    [countStatus("Contacted")+" · "+pct(countStatus("Contacted"),n),"Contacted"],
-    [countStatus("Interview")+" · "+pct(countStatus("Interview"),n),"Second interview"],
-    [countStatus("Hired")+" · "+pct(countStatus("Hired"),n),"New BPs"]
-  ];
+/* =========================================================
+   HEADER
+========================================================= */
 
-  $("stats").innerHTML="";
-  items.forEach(([v,t])=>{
-    const d=document.createElement("div");
-    d.className="stat";
-    const b=document.createElement("b");
-    b.textContent=v;
-    const s=document.createElement("span");
-    s.textContent=t;
-    d.append(b,s);
-    $("stats").appendChild(d);
-  });
+.topbar{
+  background:#0f172a;
+  color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 5px 22px rgba(15,23,42,.18);
 }
 
-function renderFilters(){
-  const set=ownerLeads(tab);
-  const filters=[
-    ["All","All",set.length],
-    ["Contacted","Contacted",set.filter(l=>l.status==="Contacted").length],
-    ["2nd interview","Interview",set.filter(l=>l.status==="Interview").length],
-    ["No show","No Show",set.filter(l=>l.status==="No Show").length],
-    ["New BP","Hired",set.filter(isBP).length]
-  ];
-
-  $("filters").innerHTML="";
-  filters.forEach(([label,key,count])=>{
-    const b=document.createElement("button");
-    b.className="chip"+(key===filter?" on":"");
-    b.textContent=label+" "+count;
-    b.onclick=()=>{filter=key;render()};
-    $("filters").appendChild(b);
-  });
+.topbar-inner{
+  max-width:900px;
+  margin:auto;
+  padding:16px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
 }
 
-function renderLeads(){
-  $("poolbox").style.display=tab==="Pool"?"block":"none";
-
-  const L=$("list");
-  L.innerHTML="";
-
-  if(!db){
-    L.innerHTML='<div class="msg">Connect the shared database to load and save leads.</div>';
-    return;
-  }
-
-  let shown=ownerLeads(tab);
-
-  if(filter!=="All"){
-    shown=shown.filter(l=>l.status===filter);
-  }
-
-  shown=shown.slice().sort((a,b)=>(b.created||0)-(a.created||0));
-
-  if(!shown.length){
-    L.innerHTML='<div class="empty">No leads here yet.</div>';
-    return;
-  }
-
-  shown.forEach(l=>renderLead(l,L));
+.brand-small{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.18em;
+  color:#94a3b8;
+  margin-bottom:2px;
 }
 
-function renderLead(l,L){
-  const d=document.createElement("div");
-  d.className="lead";
-
-  const top=document.createElement("div");
-  top.className="top";
-
-  const left=document.createElement("div");
-  const nm=document.createElement("div");
-  nm.className="nm";
-  nm.textContent=l.name||[l.first,l.last].filter(Boolean).join(" ")||"Unnamed";
-
-  const ct=document.createElement("div");
-  ct.className="ct";
-  ct.textContent=l.contact||[l.email,l.phone].filter(Boolean).join(" · ");
-
-  left.append(nm,ct);
-
-  const sel=document.createElement("select");
-  STATUSES.forEach(s=>{
-    const o=document.createElement("option");
-    o.value=s;o.textContent=s;
-    if(s===l.status)o.selected=true;
-    sel.appendChild(o);
-  });
-  sel.onchange=()=>upd(l.id,{status:sel.value});
-
-  top.append(left,sel);
-
-  const tgs=document.createElement("div");
-  tgs.className="tgs";
-
-  addQuickButton(tgs,"Contacted",l.status==="Contacted",()=>upd(l.id,{status:"Contacted"}));
-  addQuickButton(tgs,"2nd interview",l.status==="Interview",()=>upd(l.id,{status:"Interview"}));
-  addQuickButton(tgs,"No show",l.status==="No Show",()=>upd(l.id,{status:"No Show"}),true);
-  addQuickButton(tgs,"New BP",isBP(l),()=>upd(l.id,{status:isBP(l)?"New":"Hired"}));
-
-  const ps=document.createElement("select");
-  ps.style.cssText="padding:3px 6px;font-size:12px;border-radius:999px";
-  ["","LinkedIn","ZipRecruiter","Indeed","Other"].forEach(x=>{
-    const o=document.createElement("option");
-    o.value=x;o.textContent=x||"Platform…";
-    if(x===(l.platform||""))o.selected=true;
-    ps.appendChild(o);
-  });
-  ps.onchange=()=>upd(l.id,{platform:ps.value});
-  tgs.appendChild(ps);
-
-  const ta=document.createElement("textarea");
-  ta.placeholder="Notes…";
-  ta.value=l.notes||"";
-  ta.onchange=()=>upd(l.id,{notes:ta.value});
-
-  const acts=document.createElement("div");
-  acts.className="acts";
-
-  function ownerButton(label,owner){
-    const b=document.createElement("button");
-    b.textContent=label;
-    b.onclick=()=>upd(l.id,{owner});
-    return b;
-  }
-
-  if(l.owner==="Pool"){
-    acts.append(ownerButton("Give to Logan","Logan"),ownerButton("Give to Leo","Leo"));
-  }else{
-    const other=l.owner==="Logan"?"Leo":"Logan";
-    acts.append(ownerButton("Move to "+other,other),ownerButton("Back to pool","Pool"));
-  }
-
-  const del=document.createElement("button");
-  del.textContent="Delete";
-  del.onclick=async()=>{
-    if(!del.dataset.arm){
-      del.dataset.arm="1";
-      del.textContent="Tap again to delete";
-      del.style.color="#dc2626";
-      setTimeout(()=>{
-        del.dataset.arm="";
-        del.textContent="Delete";
-        del.style.color="";
-      },4000);
-      return;
-    }
-
-    try{
-      const {error}=await sb.from("leads").delete().eq("id",l.id);
-      if(error)throw error;
-      await load();
-      note("Deleted "+(l.name||"lead"));
-    }catch(e){fail(e)}
-  };
-
-  acts.appendChild(del);
-  d.append(top,tgs,ta,acts);
-  L.appendChild(d);
+.brand{
+  font-size:21px;
+  font-weight:850;
+  letter-spacing:-.03em;
 }
 
-function addQuickButton(parent,label,on,action,bad=false){
-  const b=document.createElement("button");
-  b.className="tg"+(bad?" bad":"")+(on?" on":"");
-  b.textContent=label;
-  b.onclick=action;
-  parent.appendChild(b);
+.header-badge{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.1em;
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:999px;
+  color:#cbd5e1;
+  white-space:nowrap;
 }
 
-/* IMPORTANT:
-   Updates send ONLY the one real Supabase column being changed.
-   No bp/contacted/second/noshow fake columns are ever sent.
-*/
-function celebrateBP(){
-  const flash=document.createElement("div");
-  flash.className="bpflash";
-  document.body.appendChild(flash);
-  setTimeout(()=>flash.remove(),750);
 
-  const badge=document.createElement("div");
-  badge.textContent="🎉 NEW BP!";
-  badge.style.cssText="position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(.7);z-index:10000;font-size:42px;font-weight:900;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.35);opacity:0;transition:all .35s ease;pointer-events:none";
-  document.body.appendChild(badge);
-  requestAnimationFrame(()=>{
-    badge.style.transform="translate(-50%,-50%) scale(1)";
-    badge.style.opacity="1";
-  });
-  setTimeout(()=>{
-    badge.style.transform="translate(-50%,-50%) scale(1.15)";
-    badge.style.opacity="0";
-  },600);
-  setTimeout(()=>badge.remove(),1000);
+/* =========================================================
+   PAGE TITLE
+========================================================= */
+
+.page-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  margin:2px 0 18px;
 }
 
-async function upd(id,patch){
-  if(!sb)return;
-
-  try{
-    const oldLead=leads.find(x=>String(x.id)===String(id));
-    const becomingBP=patch.status==="Hired" && !isBP(oldLead||{});
-
-    const {error}=await sb.from("leads").update(patch).eq("id",id);
-    if(error)throw error;
-
-    await load();
-
-    if(becomingBP){
-      celebrateBP();
-      note("NEW BP! Leaderboard updated ✓");
-    }else{
-      note("Updated ✓");
-    }
-  }catch(e){
-    fail(e);
-  }
+h1{
+  font-size:28px;
+  margin:0;
+  font-weight:850;
+  letter-spacing:-.04em;
+  color:#111827;
 }
 
-function mkLead(first,last,email,phone,owner,created,platform){
-  const name=(first+" "+last).trim();
-  return {
-    name,
-    first,
-    last,
-    email,
-    phone,
-    platform:platform||"",
-    contact:[email,phone].filter(Boolean).join(" · "),
-    notes:"",
-    status:"New",
-    owner,
-    created
-  };
+.subtitle{
+  color:var(--mute);
+  font-size:13px;
+  margin-top:3px;
 }
 
-$("addb").onclick=async()=>{
-  const first=$("fn").value.trim();
-  const last=$("ln").value.trim();
 
-  if(!(first||last)){
-    note("Enter a first or last name first.",true);
-    return;
-  }
-  if(!db){
-    note("Database is not connected.",true);
-    return;
-  }
+/* =========================================================
+   LEADERBOARD
+========================================================= */
 
-  try{
-    note("Saving…");
-    const lead=mkLead(
-      first,last,
-      $("em").value.trim(),
-      $("ph").value.trim(),
-      tab,
-      Date.now(),
-      $("pf").value
+.board{
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:15px;
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(255,255,255,.16),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #0f2f72 0%,
+      #4338ca 58%,
+      #7c3aed 100%
     );
 
-    const {error}=await sb.from("leads").insert(lead);
-    if(error)throw error;
-
-    ["fn","ln","em","ph"].forEach(id=>$(id).value="");
-    $("pf").value="";
-    filter="All";
-
-    await load();
-    note("Saved ✓ added to "+tab);
-    $("fn").focus();
-  }catch(e){fail(e)}
-};
-
-/* CSV */
-function parseCSV(text){
-  const rows=[];let row=[];let field="";let quoted=false;
-
-  for(let i=0;i<text.length;i++){
-    const ch=text[i];
-
-    if(quoted){
-      if(ch==='"'){
-        if(text[i+1]==='"'){field+='"';i++}
-        else quoted=false;
-      }else field+=ch;
-    }else if(ch==='"')quoted=true;
-    else if(ch===","){row.push(field);field=""}
-    else if(ch==="\n"||ch==="\r"){
-      if(ch==="\r"&&text[i+1]==="\n")i++;
-      row.push(field);field="";
-      if(row.some(x=>x.trim()))rows.push(row);
-      row=[];
-    }else field+=ch;
-  }
-
-  row.push(field);
-  if(row.some(x=>x.trim()))rows.push(row);
-  return rows;
+  box-shadow:
+    0 12px 35px rgba(30,41,59,.20);
 }
 
-function importCSV(file){
-  if(!db||!file)return;
+.board-title-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
 
-  const rd=new FileReader();
-  rd.onload=async()=>{
-    try{
-      const rows=parseCSV(String(rd.result).replace(/^\uFEFF/,""));
-      if(rows.length<2){note("No rows found in that file",true);return}
+.board h2{
+  font-size:11px;
+  margin:0;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  opacity:.92;
+}
 
-      const headers=rows[0].map(x=>x.toLowerCase().trim());
-      const find=re=>headers.findIndex(x=>re.test(x));
-      const iF=find(/first/),iL=find(/last|surname/);
-      const iN=find(/^(full )?(candidate )?name$|^name|candidate/);
-      const iE=find(/e-?mail/),iP=find(/phone|mobile|cell/);
+.board-live{
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.15);
+}
 
-      if(iF<0&&iL<0&&iN<0&&iE<0){
-        note("Couldn't find name or email columns",true);return;
-      }
+.br{
+  position:relative;
+  display:grid;
+  grid-template-columns:36px 1fr auto;
+  gap:11px;
+  align-items:center;
+  padding:11px;
+  border-radius:13px;
+  background:rgba(255,255,255,.10);
+  margin-bottom:8px;
+}
 
-      const existing=new Set(
-        leads.map(l=>(l.email||"").toLowerCase()).filter(Boolean)
+.br.lead1{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(253,224,71,.38),
+      rgba(251,191,36,.18)
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(253,224,71,.75),
+    0 0 20px rgba(253,224,71,.20);
+}
+
+.rk{
+  font-size:25px;
+  text-align:center;
+  line-height:1;
+}
+
+.bn{
+  font-weight:750;
+  font-size:16px;
+}
+
+.bn small{
+  display:block;
+  font-weight:500;
+  font-size:11px;
+  opacity:.82;
+  margin-top:2px;
+}
+
+.bar{
+  height:6px;
+  border-radius:99px;
+  background:rgba(255,255,255,.17);
+  margin-top:7px;
+  overflow:hidden;
+}
+
+.bar i{
+  display:block;
+  height:100%;
+  border-radius:99px;
+  background:#fde047;
+  transition:width .6s ease;
+}
+
+.bv{
+  font-size:32px;
+  font-weight:850;
+  line-height:1;
+  text-align:right;
+}
+
+.bv small{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.08em;
+  opacity:.72;
+  text-transform:uppercase;
+  margin-top:3px;
+}
+
+.tie{
+  text-align:center;
+  font-size:12px;
+  font-weight:750;
+  margin-top:5px;
+}
+
+#momentum{
+  text-align:center;
+  font-size:11px;
+  font-weight:700;
+  opacity:.82;
+  margin-top:8px;
+}
+
+
+/* =========================================================
+   GOAL CARD
+========================================================= */
+
+.goalcard{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.98),
+      rgba(248,250,252,.96)
+    );
+
+  border:1px solid #dbe3ee;
+  border-radius:17px;
+  padding:18px;
+  margin:0 0 15px;
+
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.06);
+}
+
+.goalhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.goaltitle{
+  font-size:10px;
+  font-weight:850;
+  letter-spacing:.15em;
+  color:#64748b;
+}
+
+.goalnumber{
+  font-size:22px;
+  font-weight:850;
+  margin-top:2px;
+  letter-spacing:-.02em;
+}
+
+.goalbadge{
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.08em;
+  border:1px solid #dbe3ee;
+  background:#fff;
+  border-radius:999px;
+  padding:7px 10px;
+}
+
+.goaltrack{
+  height:10px;
+  background:#e8edf4;
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.goaltrack i{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #4f46e5,
+      #7c3aed
+    );
+
+  transition:
+    width .7s cubic-bezier(.2,.8,.2,1);
+}
+
+.goalbottom{
+  display:flex;
+  justify-content:space-between;
+  margin-top:7px;
+  font-size:11px;
+  color:#64748b;
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
+}
+
+.tab{
+  flex:1;
+  padding:11px 10px;
+  border:1px solid #dbe3ee;
+  background:rgba(255,255,255,.88);
+  color:#334155;
+  border-radius:11px;
+  font-size:14px;
+  font-weight:750;
+  cursor:pointer;
+
+  box-shadow:
+    0 2px 5px rgba(15,23,42,.03);
+
+  transition:.15s ease;
+}
+
+.tab:hover{
+  transform:translateY(-1px);
+}
+
+.tab.on{
+  background:#2563eb;
+  color:#fff;
+  border-color:#2563eb;
+
+  box-shadow:
+    0 5px 14px rgba(37,99,235,.22);
+}
+
+.tab small{
+  opacity:.75;
+  font-weight:500;
+}
+
+
+/* =========================================================
+   CARDS / INPUTS
+========================================================= */
+
+.add{
+  background:rgba(255,255,255,.96);
+  border:1px solid #e2e8f0;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+
+  box-shadow:
+    0 8px 25px rgba(15,23,42,.05);
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+input,
+select,
+textarea{
+  color:#0f172a;
+  background:#fff;
+  border:1px solid #dbe3ee;
+  border-radius:9px;
+  padding:9px;
+  min-width:0;
+  outline:none;
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#60a5fa;
+
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,.10);
+}
+
+.add input{
+  flex:1 1 130px;
+}
+
+button.p{
+  background:#2563eb;
+  color:#fff;
+  border:0;
+  border-radius:9px;
+  padding:9px 15px;
+  font-weight:750;
+  cursor:pointer;
+
+  box-shadow:
+    0 4px 10px rgba(37,99,235,.16);
+
+  transition:.15s ease;
+}
+
+button.p:hover{
+  background:#1d4ed8;
+  transform:translateY(-1px);
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+
+/* =========================================================
+   POOL IMPORT
+========================================================= */
+
+.drop{
+  border:2px dashed #cbd5e1;
+  border-radius:11px;
+  padding:15px;
+  text-align:center;
+  color:#64748b;
+  margin-top:10px;
+  cursor:pointer;
+  font-size:13px;
+  background:#f8fafc;
+  transition:.15s ease;
+}
+
+.drop:hover,
+.drop.over{
+  border-color:#2563eb;
+  color:#2563eb;
+  background:#eff6ff;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+  margin-bottom:12px;
+}
+
+.stat{
+  background:rgba(255,255,255,.94);
+  border:1px solid #dbe3ee;
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
+
+  box-shadow:
+    0 4px 12px rgba(15,23,42,.035);
+}
+
+.stat b{
+  display:block;
+  font-size:18px;
+  font-weight:800;
+}
+
+.stat span{
+  font-size:10px;
+  color:#64748b;
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  margin-bottom:11px;
+  padding-bottom:2px;
+}
+
+.chip{
+  white-space:nowrap;
+  padding:6px 10px;
+  border:1px solid #dbe3ee;
+  border-radius:999px;
+  background:#fff;
+  color:#64748b;
+  cursor:pointer;
+  font-size:12px;
+  transition:.15s ease;
+}
+
+.chip:hover{
+  border-color:#94a3b8;
+}
+
+.chip.on{
+  background:#0f172a;
+  color:#fff;
+  border-color:#0f172a;
+}
+
+
+/* =========================================================
+   LEAD CARDS
+========================================================= */
+
+.lead{
+  background:rgba(255,255,255,.96);
+  border:1px solid #e2e8f0;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:10px;
+
+  box-shadow:
+    0 2px 5px rgba(15,23,42,.04),
+    0 8px 24px rgba(15,23,42,.05);
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+}
+
+.lead:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 4px 8px rgba(15,23,42,.06),
+    0 12px 28px rgba(15,23,42,.08);
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+}
+
+.nm{
+  font-weight:750;
+  font-size:16px;
+  color:#0f172a;
+}
+
+.ct{
+  color:#64748b;
+  font-size:12px;
+  word-break:break-all;
+  margin-top:2px;
+}
+
+.lead textarea{
+  width:100%;
+  margin-top:8px;
+  min-height:42px;
+  resize:vertical;
+}
+
+.acts{
+  display:flex;
+  gap:10px;
+  margin-top:7px;
+  font-size:12px;
+  color:#64748b;
+  flex-wrap:wrap;
+}
+
+.acts button{
+  background:none;
+  border:0;
+  color:#64748b;
+  cursor:pointer;
+  padding:2px 0;
+  text-decoration:underline;
+  font-size:12px;
+}
+
+.acts button:hover{
+  color:#2563eb;
+}
+
+.tgs{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin-top:9px;
+}
+
+.tg{
+  padding:5px 10px;
+  border:1px solid #dbe3ee;
+  border-radius:999px;
+  background:#fff;
+  color:#64748b;
+  font-size:11px;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.tg:hover{
+  border-color:#94a3b8;
+}
+
+.tg.on{
+  background:#2563eb;
+  color:#fff;
+  border-color:#2563eb;
+}
+
+.tg.bad.on{
+  background:#dc2626;
+  border-color:#dc2626;
+  color:#fff;
+}
+
+
+/* =========================================================
+   STATUS SELECT
+========================================================= */
+
+.status-select{
+  font-size:12px;
+  font-weight:650;
+  padding:6px 8px;
+  border-radius:8px;
+  max-width:130px;
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.empty,
+.msg{
+  text-align:center;
+  color:#64748b;
+  padding:32px 8px;
+}
+
+#note{
+  min-height:18px;
+  margin:-4px 0 8px;
+  font-size:12px;
+}
+
+
+/* =========================================================
+   MOVE MESSAGE
+========================================================= */
+
+.moveflash{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+
+  transform:
+    translateX(-50%)
+    translateY(20px);
+
+  background:#111827;
+  color:#fff;
+
+  padding:11px 18px;
+
+  border-radius:999px;
+
+  font-size:13px;
+  font-weight:750;
+
+  z-index:10001;
+
+  opacity:0;
+
+  transition:.25s ease;
+
+  pointer-events:none;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.2);
+}
+
+.moveflash.show{
+  opacity:1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+/* =========================================================
+   BP CELEBRATION
+========================================================= */
+
+.bpflash{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:9999;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(250,204,21,.25),
+      transparent 45%
+    );
+
+  animation:
+    flash .7s ease-out forwards;
+}
+
+@keyframes flash{
+
+  0%{
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:650px){
+
+  .wrap{
+    padding:
+      20px 12px 40px;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  .header-badge{
+    display:none;
+  }
+
+  .stats{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .top{
+    align-items:flex-start;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .topbar-inner{
+    padding:
+      14px 13px;
+  }
+
+  .brand{
+    font-size:18px;
+  }
+
+  .board{
+    border-radius:16px;
+  }
+
+  .goalnumber{
+    font-size:19px;
+  }
+
+  .tab{
+    font-size:13px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     PROFESSIONAL HEADER
+======================================================= -->
+
+<div class="topbar">
+
+  <div class="topbar-inner">
+
+    <div>
+
+      <div class="brand-small">
+        ATLAS AGENCY
+      </div>
+
+      <div class="brand">
+        Nexus Trident CRM
+      </div>
+
+    </div>
+
+    <div class="header-badge">
+      TEAM DASHBOARD
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="wrap">
+
+
+<!-- =======================================================
+     PAGE TITLE
+======================================================= -->
+
+<div class="page-title">
+
+  <div>
+
+    <h1>
+      Recruiting Dashboard
+    </h1>
+
+    <div class="subtitle">
+      Manage leads, track recruiting activity, and build the team.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     LEADERBOARD
+======================================================= -->
+
+<div class="board">
+
+  <div class="board-title-row">
+
+    <h2>
+      New BP Leaderboard
+    </h2>
+
+    <div class="board-live">
+      LIVE
+    </div>
+
+  </div>
+
+  <div id="board"></div>
+
+  <div id="momentum"></div>
+
+</div>
+
+
+<!-- =======================================================
+     TEAM GOAL
+======================================================= -->
+
+<div class="goalcard">
+
+  <div class="goalhead">
+
+    <div>
+
+      <div class="goaltitle">
+        TEAM BP GOAL
+      </div>
+
+      <div class="goalnumber">
+        <span id="goalcount">0</span>
+        / 20 New BPs
+      </div>
+
+    </div>
+
+    <div
+      class="goalbadge"
+      id="goalbadge"
+    >
+      LET'S GO
+    </div>
+
+  </div>
+
+
+  <div class="goaltrack">
+
+    <i id="goalfill"></i>
+
+  </div>
+
+
+  <div class="goalbottom">
+
+    <span id="goaltext">
+      0% complete
+    </span>
+
+    <span id="goalremaining">
+      20 to goal
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     OWNER TABS
+======================================================= -->
+
+<div
+  class="tabs"
+  id="tabs"
+></div>
+
+
+<!-- =======================================================
+     ADD LEAD
+======================================================= -->
+
+<div class="add">
+
+  <div class="row">
+
+    <input
+      id="fn"
+      placeholder="First name"
+    >
+
+    <input
+      id="ln"
+      placeholder="Last name"
+    >
+
+    <input
+      id="em"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="ph"
+      type="tel"
+      placeholder="Phone"
+    >
+
+    <select id="pf">
+
+      <option value="">
+        Platform…
+      </option>
+
+      <option>
+        LinkedIn
+      </option>
+
+      <option>
+        ZipRecruiter
+      </option>
+
+      <option>
+        Indeed
+      </option>
+
+      <option>
+        Other
+      </option>
+
+    </select>
+
+    <button
+      class="p"
+      id="addb"
+    >
+      Add lead
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     POOL MANAGEMENT
+======================================================= -->
+
+<div
+  class="add"
+  id="poolbox"
+  style="display:none"
+>
+
+  <div
+    style="
+      font-weight:750;
+      margin-bottom:6px;
+    "
+  >
+    Pool Management
+  </div>
+
+  <div
+    class="ct"
+    style="margin-bottom:8px"
+  >
+    Add applicants to the shared pool, then assign them to Logan or Leo.
+  </div>
+
+
+  <textarea
+    id="bulk"
+    rows="4"
+    style="width:100%"
+    placeholder="Paste one lead per line: First Last, email, phone"
+  ></textarea>
+
+
+  <div
+    class="drop"
+    id="drop"
+  >
+
+    Drop an applicant CSV here
+    or click to choose a file.
+
+    <input
+      type="file"
+      id="file"
+      accept=".csv,text/csv"
+      hidden
+    >
+
+  </div>
+
+
+  <div
+    class="row"
+    style="
+      margin-top:8px;
+      align-items:center;
+    "
+  >
+
+    <select id="bpf">
+
+      <option value="">
+        Platform for all…
+      </option>
+
+      <option>
+        LinkedIn
+      </option>
+
+      <option>
+        ZipRecruiter
+      </option>
+
+      <option>
+        Indeed
+      </option>
+
+      <option>
+        Other
+      </option>
+
+    </select>
+
+
+    <button
+      class="p"
+      id="bulkb"
+    >
+      Add to pool
+    </button>
+
+
+    <button
+      class="p"
+      id="splitb"
+    >
+      Split evenly: Logan / Leo
+    </button>
+
+
+    <span
+      class="ct"
+      id="splitmsg"
+    ></span>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     MESSAGE
+======================================================= -->
+
+<div id="note"></div>
+
+
+<!-- =======================================================
+     STATS
+======================================================= -->
+
+<div
+  class="stats"
+  id="stats"
+></div>
+
+
+<!-- =======================================================
+     FILTERS
+======================================================= -->
+
+<div
+  class="filters"
+  id="filters"
+></div>
+
+
+<!-- =======================================================
+     LEADS
+======================================================= -->
+
+<div id="list">
+
+  <div class="msg">
+    Loading…
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     EXPORT
+======================================================= -->
+
+<div
+  style="
+    text-align:center;
+    margin:22px 0;
+  "
+>
+
+  <button
+    class="chip"
+    id="expb"
+  >
+    Export all leads (CSV for Google Sheets)
+  </button>
+
+</div>
+
+
+</div>
+
+
+<div
+  id="moveflash"
+  class="moveflash"
+></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =========================================================
+   SUPABASE SETTINGS
+========================================================= */
+
+const SUPABASE_URL =
+"https://dnrtxgghajgaitoacdya.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_3dm11FqJHrw7qBrglXlOcw_QyBX737O";
+
+
+/* =========================================================
+   CRM SETTINGS
+========================================================= */
+
+const TABS = [
+  "Logan",
+  "Pool",
+  "Leo"
+];
+
+const OWNERS = [
+  "Logan",
+  "Leo"
+];
+
+const STATUSES = [
+  "New",
+  "Contacted",
+  "Interview",
+  "Offer",
+  "Hired",
+  "Passed",
+  "No Show"
+];
+
+
+let tab = "Pool";
+
+let filter = "All";
+
+let leads = [];
+
+let db = false;
+
+let sb = null;
+
+let loading = false;
+
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+try{
+
+  tab =
+    localStorage.getItem("tab")
+    || "Pool";
+
+}catch(e){}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function note(
+  message,
+  bad=false
+){
+
+  const n =
+    $("note");
+
+  n.textContent =
+    message;
+
+  n.style.color =
+    bad
+      ? "#dc2626"
+      : "#64748b";
+
+  clearTimeout(
+    note.t
+  );
+
+  if(!bad){
+
+    note.t =
+      setTimeout(
+        ()=>{
+          n.textContent="";
+        },
+        3500
       );
 
-      const out=[];
+  }
 
-      rows.slice(1).forEach((r,i)=>{
-        const get=k=>k>=0?(r[k]||"").trim():"";
-        let first=get(iF),last=get(iL);
+}
 
-        if(!first&&!last&&iN>=0){
-          const parts=get(iN).split(/\s+/);
-          first=parts.shift()||"";
-          last=parts.join(" ");
+
+function showMove(
+  message
+){
+
+  const box =
+    $("moveflash");
+
+  box.textContent =
+    message;
+
+  box.classList.add("show");
+
+  clearTimeout(
+    showMove.t
+  );
+
+  showMove.t =
+    setTimeout(
+      ()=>{
+        box.classList.remove("show");
+      },
+      1800
+    );
+
+}
+
+
+function fail(e){
+
+  console.error(
+    "Supabase error:",
+    e
+  );
+
+  const code =
+    e?.code || "";
+
+  const msg =
+    e?.message || "";
+
+  note(
+    "Couldn't save" +
+    (
+      code || msg
+        ? ": " +
+          (code || msg)
+        : ""
+    ),
+    true
+  );
+
+}
+
+
+/* =========================================================
+   NEW BP
+========================================================= */
+
+function isBP(
+  lead
+){
+
+  return (
+    lead?.status === "Hired"
+  );
+
+}
+
+
+/* =========================================================
+   OWNER FILTER
+========================================================= */
+
+function ownerLeads(
+  owner
+){
+
+  if(owner === "Pool"){
+
+    return leads.filter(
+      l =>
+        l.owner === "Pool"
+    );
+
+  }
+
+  return leads.filter(
+    l =>
+      l.owner === owner
+  );
+
+}
+
+
+/* =========================================================
+   GOAL
+========================================================= */
+
+function renderGoal(){
+
+  const total =
+    leads.filter(
+      isBP
+    ).length;
+
+  const goal =
+    20;
+
+  const pct =
+    Math.min(
+      100,
+      Math.round(
+        total / goal * 100
+      )
+    );
+
+
+  $("goalcount").textContent =
+    total;
+
+
+  $("goalfill").style.width =
+    pct + "%";
+
+
+  $("goaltext").textContent =
+    pct + "% complete";
+
+
+  $("goalremaining").textContent =
+    total >= goal
+      ? "GOAL REACHED"
+      : Math.max(
+          0,
+          goal-total
+        ) +
+        " to goal";
+
+
+  $("goalbadge").textContent =
+
+    total >= goal
+      ? "GOAL REACHED"
+
+      : total === 0
+        ? "LET'S GO"
+
+        : total >= 15
+          ? "ON FIRE"
+
+          : total >= 10
+            ? "MOMENTUM"
+
+            : "IN PROGRESS";
+
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+========================================================= */
+
+function render(){
+
+  renderGoal();
+
+  renderBoard();
+
+  renderTabs();
+
+  renderStats();
+
+  renderFilters();
+
+  renderLeads();
+
+}
+
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+function renderBoard(){
+
+  const rows =
+    OWNERS.map(
+      owner => ({
+
+        owner,
+
+        bp:
+          leads.filter(
+            l =>
+              l.owner === owner &&
+              isBP(l)
+          ).length
+
+      })
+    );
+
+
+  const top =
+    Math.max(
+      ...rows.map(
+        x => x.bp
+      ),
+      0
+    );
+
+
+  const tied =
+    rows.length > 1 &&
+    rows[0].bp ===
+    rows[1].bp;
+
+
+  const board =
+    $("board");
+
+  board.innerHTML = "";
+
+
+  const totalBP =
+    rows.reduce(
+      (sum,x)=>
+        sum+x.bp,
+      0
+    );
+
+
+  const momentum =
+    $("momentum");
+
+
+  if(totalBP === 0){
+
+    momentum.textContent =
+      "Your first New BP starts the race.";
+
+  }else if(totalBP < 5){
+
+    momentum.textContent =
+      "Good start. Keep the pipeline moving.";
+
+  }else if(totalBP < 10){
+
+    momentum.textContent =
+      "🔥 Momentum is building.";
+
+  }else if(totalBP < 20){
+
+    momentum.textContent =
+      "🔥 Team momentum is strong.";
+
+  }else{
+
+    momentum.textContent =
+      "🏆 20 BP team goal reached.";
+
+  }
+
+
+  rows.forEach(
+    x => {
+
+      const leader =
+        top > 0 &&
+        x.bp === top;
+
+
+      const d =
+        document.createElement(
+          "div"
+        );
+
+
+      d.className =
+        "br" +
+        (
+          leader
+            ? " lead1"
+            : ""
+        );
+
+
+      const rk =
+        document.createElement(
+          "div"
+        );
+
+      rk.className =
+        "rk";
+
+
+      if(top === 0){
+
+        rk.textContent =
+          "🎯";
+
+      }else if(leader){
+
+        rk.textContent =
+          tied
+            ? "🥇"
+            : "👑";
+
+      }else{
+
+        rk.textContent =
+          "🥈";
+
+      }
+
+
+      const mid =
+        document.createElement(
+          "div"
+        );
+
+      mid.className =
+        "bn";
+
+      mid.textContent =
+        x.owner;
+
+
+      const sm =
+        document.createElement(
+          "small"
+        );
+
+
+      if(top === 0){
+
+        sm.textContent =
+          "Waiting for the first BP";
+
+      }else if(leader){
+
+        if(tied){
+
+          sm.textContent =
+            "Tied for the lead";
+
+        }else{
+
+          const other =
+            rows.find(
+              r =>
+                r.owner !== x.owner
+            );
+
+
+          sm.textContent =
+            "In the lead by " +
+            (
+              x.bp -
+              (
+                other?.bp || 0
+              )
+            );
+
         }
 
-        const email=get(iE),phone=get(iP);
-        if(!first&&!last&&!email)return;
-        if(email&&existing.has(email.toLowerCase()))return;
-        if(email)existing.add(email.toLowerCase());
+      }else{
 
-        out.push(mkLead(first,last,email,phone,"Pool",Date.now()+i,$("bpf").value));
-      });
+        sm.textContent =
+          (
+            top-x.bp
+          ) +
+          " to catch up";
 
-      if(!out.length){
-        note("Nothing new to add (all duplicates?)");
-        return;
       }
 
-      note("Importing "+out.length+" leads…");
 
-      const {error}=await sb.from("leads").insert(out);
-      if(error)throw error;
+      mid.appendChild(
+        sm
+      );
 
-      await load();
-      note("Imported "+out.length+" leads ✓");
-    }catch(e){fail(e)}
-  };
-  rd.readAsText(file);
+
+      const bar =
+        document.createElement(
+          "div"
+        );
+
+      bar.className =
+        "bar";
+
+
+      const fill =
+        document.createElement(
+          "i"
+        );
+
+
+      fill.style.width =
+        top
+          ? Math.round(
+              100*x.bp/top
+            ) +
+            "%"
+          : "0%";
+
+
+      bar.appendChild(
+        fill
+      );
+
+
+      mid.appendChild(
+        bar
+      );
+
+
+      const bv =
+        document.createElement(
+          "div"
+        );
+
+      bv.className =
+        "bv";
+
+      bv.textContent =
+        x.bp;
+
+
+      const small =
+        document.createElement(
+          "small"
+        );
+
+      small.textContent =
+        "New BP";
+
+
+      bv.appendChild(
+        small
+      );
+
+
+      d.append(
+        rk,
+        mid,
+        bv
+      );
+
+
+      board.appendChild(
+        d
+      );
+
+    }
+  );
+
+
+  if(
+    top > 0 &&
+    tied
+  ){
+
+    const t =
+      document.createElement(
+        "div"
+      );
+
+    t.className =
+      "tie";
+
+    t.textContent =
+      "🔥 It's a tie!";
+
+    board.appendChild(
+      t
+    );
+
+  }
+
 }
 
-const dz=$("drop");
-dz.onclick=()=>$("file").click();
-$("file").onchange=e=>{
-  importCSV(e.target.files[0]);
-  e.target.value="";
-};
-dz.ondragover=e=>{e.preventDefault();dz.classList.add("over")};
-dz.ondragleave=()=>dz.classList.remove("over");
-dz.ondrop=e=>{
-  e.preventDefault();
-  dz.classList.remove("over");
-  importCSV(e.dataTransfer.files[0]);
-};
 
-/* BULK ADD */
-$("bulkb").onclick=async()=>{
-  if(!db)return;
+/* =========================================================
+   TABS
+========================================================= */
 
-  const lines=$("bulk").value.split("\n").map(x=>x.trim()).filter(Boolean);
-  const out=[];
+function renderTabs(){
 
-  lines.forEach((line,i)=>{
-    const parts=line.split(/[,\t]/).map(x=>x.trim()).filter(Boolean);
-    const email=parts.find(x=>x.includes("@"))||"";
-    const phone=parts.find(x=>!x.includes("@")&&(x.match(/\d/g)||[]).length>=7)||"";
-    const nameParts=parts.filter(x=>x!==email&&x!==phone).join(" ").trim();
+  $("tabs").innerHTML = "";
 
-    if(!nameParts&&!email&&!phone)return;
 
-    const sp=nameParts.split(/\s+/);
-    const first=sp.shift()||"";
-    out.push(mkLead(first,sp.join(" "),email,phone,"Pool",Date.now()+i,$("bpf").value));
-  });
+  TABS.forEach(
+    owner => {
 
-  if(!out.length){
-    note("Nothing to add.",true);
+      const b =
+        document.createElement(
+          "button"
+        );
+
+
+      b.className =
+        "tab" +
+        (
+          owner === tab
+            ? " on"
+            : ""
+        );
+
+
+      b.textContent =
+        owner + " ";
+
+
+      const small =
+        document.createElement(
+          "small"
+        );
+
+
+      small.textContent =
+        "(" +
+        ownerLeads(owner).length +
+        ")";
+
+
+      b.appendChild(
+        small
+      );
+
+
+      b.onclick =
+        ()=>{
+
+          tab =
+            owner;
+
+          filter =
+            "All";
+
+
+          try{
+
+            localStorage.setItem(
+              "tab",
+              owner
+            );
+
+          }catch(e){}
+
+
+          render();
+
+        };
+
+
+      $("tabs")
+        .appendChild(
+          b
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats(){
+
+  const set =
+    ownerLeads(
+      tab
+    );
+
+
+  const n =
+    set.length;
+
+
+  const countStatus =
+    status =>
+      set.filter(
+        l =>
+          l.status === status
+      ).length;
+
+
+  const pct =
+    (a,b) =>
+      b
+        ? Math.round(
+            100*a/b
+          ) +
+          "%"
+        : "–";
+
+
+  const items = [
+
+    [
+      n,
+      tab === "Pool"
+        ? "Total leads"
+        : "Leads"
+    ],
+
+    [
+      countStatus(
+        "Contacted"
+      ) +
+      " · " +
+      pct(
+        countStatus(
+          "Contacted"
+        ),
+        n
+      ),
+      "Contacted"
+    ],
+
+    [
+      countStatus(
+        "Interview"
+      ) +
+      " · " +
+      pct(
+        countStatus(
+          "Interview"
+        ),
+        n
+      ),
+      "Second interview"
+    ],
+
+    [
+      countStatus(
+        "Hired"
+      ) +
+      " · " +
+      pct(
+        countStatus(
+          "Hired"
+        ),
+        n
+      ),
+      "New BPs"
+    ]
+
+  ];
+
+
+  $("stats").innerHTML = "";
+
+
+  items.forEach(
+    ([value,label])=>{
+
+      const d =
+        document.createElement(
+          "div"
+        );
+
+      d.className =
+        "stat";
+
+
+      const b =
+        document.createElement(
+          "b"
+        );
+
+      b.textContent =
+        value;
+
+
+      const s =
+        document.createElement(
+          "span"
+        );
+
+      s.textContent =
+        label;
+
+
+      d.append(
+        b,
+        s
+      );
+
+
+      $("stats")
+        .appendChild(
+          d
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+function renderFilters(){
+
+  const set =
+    ownerLeads(
+      tab
+    );
+
+
+  const filters = [
+
+    [
+      "All",
+      "All",
+      set.length
+    ],
+
+    [
+      "Contacted",
+      "Contacted",
+      set.filter(
+        l =>
+          l.status ===
+          "Contacted"
+      ).length
+    ],
+
+    [
+      "2nd interview",
+      "Interview",
+      set.filter(
+        l =>
+          l.status ===
+          "Interview"
+      ).length
+    ],
+
+    [
+      "No show",
+      "No Show",
+      set.filter(
+        l =>
+          l.status ===
+          "No Show"
+      ).length
+    ],
+
+    [
+      "New BP",
+      "Hired",
+      set.filter(
+        isBP
+      ).length
+    ]
+
+  ];
+
+
+  $("filters").innerHTML = "";
+
+
+  filters.forEach(
+    ([label,key,count])=>{
+
+      const b =
+        document.createElement(
+          "button"
+        );
+
+
+      b.className =
+        "chip" +
+        (
+          key === filter
+            ? " on"
+            : ""
+        );
+
+
+      b.textContent =
+        label +
+        " " +
+        count;
+
+
+      b.onclick =
+        ()=>{
+
+          filter =
+            key;
+
+          render();
+
+        };
+
+
+      $("filters")
+        .appendChild(
+          b
+        );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RENDER LEADS
+========================================================= */
+
+function renderLeads(){
+
+  $("poolbox").style.display =
+    tab === "Pool"
+      ? "block"
+      : "none";
+
+
+  const list =
+    $("list");
+
+  list.innerHTML = "";
+
+
+  if(!db){
+
+    list.innerHTML =
+      '<div class="msg">Connect the shared database to load and save leads.</div>';
+
     return;
+
   }
 
-  try{
-    const {error}=await sb.from("leads").insert(out);
-    if(error)throw error;
 
-    $("bulk").value="";
-    await load();
-    note("Added "+out.length+" leads ✓");
-  }catch(e){fail(e)}
-};
+  let shown =
+    ownerLeads(
+      tab
+    );
 
-/* SPLIT */
-$("splitb").onclick=async()=>{
-  if(!db)return;
 
-  const pool=leads.filter(l=>l.owner==="Pool").sort((a,b)=>(a.created||0)-(b.created||0));
+  if(filter !== "All"){
 
-  if(!pool.length){
-    $("splitmsg").textContent="Pool is empty";
-    return;
+    shown =
+      shown.filter(
+        l =>
+          l.status ===
+          filter
+      );
+
   }
 
-  let logan=leads.filter(l=>l.owner==="Logan").length;
-  let leo=leads.filter(l=>l.owner==="Leo").length;
-  let moved={Logan:0,Leo:0};
+
+  shown =
+    shown
+      .slice()
+      .sort(
+        (a,b)=>
+          (b.created||0) -
+          (a.created||0)
+      );
+
+
+  if(!shown.length){
+
+    list.innerHTML =
+      '<div class="empty">No leads here yet.</div>';
+
+    return;
+
+  }
+
+
+  shown.forEach(
+    lead =>
+      renderLead(
+        lead,
+        list
+      )
+  );
+
+}
+
+
+/* =========================================================
+   RENDER SINGLE LEAD
+========================================================= */
+
+function renderLead(
+  lead,
+  list
+){
+
+  const d =
+    document.createElement(
+      "div"
+    );
+
+  d.className =
+    "lead";
+
+
+  const top =
+    document.createElement(
+      "div"
+    );
+
+  top.className =
+    "top";
+
+
+  const left =
+    document.createElement(
+      "div"
+    );
+
+
+  const nm =
+    document.createElement(
+      "div"
+    );
+
+  nm.className =
+    "nm";
+
+
+  nm.textContent =
+    lead.name ||
+    [
+      lead.first,
+      lead.last
+    ]
+    .filter(Boolean)
+    .join(" ") ||
+    "Unnamed";
+
+
+  const ct =
+    document.createElement(
+      "div"
+    );
+
+  ct.className =
+    "ct";
+
+
+  ct.textContent =
+    lead.contact ||
+    [
+      lead.email,
+      lead.phone
+    ]
+    .filter(Boolean)
+    .join(" · ");
+
+
+  left.append(
+    nm,
+    ct
+  );
+
+
+  const sel =
+    document.createElement(
+      "select"
+    );
+
+
+  sel.className =
+    "status-select";
+
+
+  STATUSES.forEach(
+    status => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        status;
+
+      option.textContent =
+        status;
+
+
+      if(
+        status ===
+        lead.status
+      ){
+
+        option.selected =
+          true;
+
+      }
+
+
+      sel.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  sel.onchange =
+    () =>
+      updateLead(
+        lead.id,
+        {
+          status:
+            sel.value
+        }
+      );
+
+
+  top.append(
+    left,
+    sel
+  );
+
+
+  const tags =
+    document.createElement(
+      "div"
+    );
+
+  tags.className =
+    "tgs";
+
+
+  addQuickButton(
+    tags,
+    "Contacted",
+    lead.status ===
+      "Contacted",
+    () =>
+      updateLead(
+        lead.id,
+        {
+          status:
+            "Contacted"
+        }
+      )
+  );
+
+
+  addQuickButton(
+    tags,
+    "2nd interview",
+    lead.status ===
+      "Interview",
+    () =>
+      updateLead(
+        lead.id,
+        {
+          status:
+            "Interview"
+        }
+      )
+  );
+
+
+  addQuickButton(
+    tags,
+    "No show",
+    lead.status ===
+      "No Show",
+    () =>
+      updateLead(
+        lead.id,
+        {
+          status:
+            "No Show"
+        }
+      ),
+    true
+  );
+
+
+  addQuickButton(
+    tags,
+    "New BP",
+    isBP(lead),
+    () =>
+      updateLead(
+        lead.id,
+        {
+          status:
+            isBP(lead)
+              ? "New"
+              : "Hired"
+        }
+      )
+  );
+
+
+  const platform =
+    document.createElement(
+      "select"
+    );
+
+
+  platform.style.cssText =
+    `
+    padding:4px 7px;
+    font-size:11px;
+    border-radius:999px
+    `;
+
+
+  [
+    "",
+    "LinkedIn",
+    "ZipRecruiter",
+    "Indeed",
+    "Other"
+  ]
+  .forEach(
+    value => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        value;
+
+      option.textContent =
+        value ||
+        "Platform…";
+
+
+      if(
+        value ===
+        (lead.platform || "")
+      ){
+
+        option.selected =
+          true;
+
+      }
+
+
+      platform.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  platform.onchange =
+    () =>
+      updateLead(
+        lead.id,
+        {
+          platform:
+            platform.value
+        }
+      );
+
+
+  tags.appendChild(
+    platform
+  );
+
+
+  const notes =
+    document.createElement(
+      "textarea"
+    );
+
+
+  notes.placeholder =
+    "Notes…";
+
+
+  notes.value =
+    lead.notes || "";
+
+
+  notes.onchange =
+    () =>
+      updateLead(
+        lead.id,
+        {
+          notes:
+            notes.value
+        }
+      );
+
+
+  const acts =
+    document.createElement(
+      "div"
+    );
+
+
+  acts.className =
+    "acts";
+
+
+  /* -------------------------------------------------------
+     ASSIGNMENT
+  ------------------------------------------------------- */
+
+  if(
+    lead.owner ===
+    "Pool"
+  ){
+
+    acts.append(
+
+      ownerButton(
+        "Give to Logan",
+        "Logan"
+      ),
+
+      ownerButton(
+        "Give to Leo",
+        "Leo"
+      )
+
+    );
+
+  }else{
+
+    const other =
+      lead.owner ===
+        "Logan"
+        ? "Leo"
+        : "Logan";
+
+
+    acts.append(
+
+      ownerButton(
+        "Move to " +
+        other,
+        other
+      ),
+
+      ownerButton(
+        "Back to pool",
+        "Pool"
+      )
+
+    );
+
+  }
+
+
+  function ownerButton(
+    label,
+    owner
+  ){
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.textContent =
+      label;
+
+
+    button.onclick =
+      () =>
+        moveLead(
+          lead.id,
+          owner
+        );
+
+
+    return button;
+
+  }
+
+
+  /* -------------------------------------------------------
+     DELETE
+  ------------------------------------------------------- */
+
+  const del =
+    document.createElement(
+      "button"
+    );
+
+
+  del.textContent =
+    "Delete";
+
+
+  del.onclick =
+    async()=>{
+
+      if(
+        !del.dataset.arm
+      ){
+
+        del.dataset.arm =
+          "1";
+
+
+        del.textContent =
+          "Tap again to delete";
+
+
+        del.style.color =
+          "#dc2626";
+
+
+        setTimeout(
+          ()=>{
+
+            del.dataset.arm =
+              "";
+
+            del.textContent =
+              "Delete";
+
+            del.style.color =
+              "";
+
+          },
+          4000
+        );
+
+
+        return;
+
+      }
+
+
+      try{
+
+        const {
+          error
+        } =
+          await sb
+            .from("leads")
+            .delete()
+            .eq(
+              "id",
+              lead.id
+            );
+
+
+        if(error)
+          throw error;
+
+
+        leads =
+          leads.filter(
+            x =>
+              String(x.id) !==
+              String(lead.id)
+          );
+
+
+        render();
+
+
+        note(
+          "Deleted " +
+          (
+            lead.name ||
+            "lead"
+          )
+        );
+
+
+      }catch(e){
+
+        fail(e);
+
+      }
+
+    };
+
+
+  acts.appendChild(
+    del
+  );
+
+
+  d.append(
+    top,
+    tags,
+    notes,
+    acts
+  );
+
+
+  list.appendChild(
+    d
+  );
+
+}
+
+
+/* =========================================================
+   QUICK BUTTON
+========================================================= */
+
+function addQuickButton(
+  parent,
+  label,
+  on,
+  action,
+  bad=false
+){
+
+  const b =
+    document.createElement(
+      "button"
+    );
+
+
+  b.className =
+    "tg" +
+    (
+      bad
+        ? " bad"
+        : ""
+    ) +
+    (
+      on
+        ? " on"
+        : ""
+    );
+
+
+  b.textContent =
+    label;
+
+
+  b.onclick =
+    action;
+
+
+  parent.appendChild(
+    b
+  );
+
+}
+
+
+/* =========================================================
+   MOVE LEAD
+========================================================= */
+
+async function moveLead(
+  id,
+  newOwner
+){
+
+  if(!sb){
+
+    note(
+      "Database is not connected.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  const index =
+    leads.findIndex(
+      l =>
+        String(l.id) ===
+        String(id)
+    );
+
+
+  if(index === -1)
+    return;
+
+
+  const lead =
+    leads[index];
+
+
+  const oldOwner =
+    lead.owner;
+
+
+  if(
+    oldOwner ===
+    newOwner
+  ){
+
+    return;
+
+  }
+
+
+  /*
+    SAVE OLD STATE
+  */
+
+  const oldLead =
+    {
+      ...lead
+    };
+
+
+  /*
+    INSTANT LOCAL MOVE
+  */
+
+  leads[index] =
+    {
+      ...lead,
+      owner:
+        newOwner
+    };
+
+
+  /*
+    IMMEDIATELY UPDATE UI
+  */
+
+  render();
+
+
+  showMove(
+    "Moved " +
+    (
+      lead.name ||
+      "lead"
+    ) +
+    " → " +
+    newOwner
+  );
+
 
   try{
-    for(const lead of pool){
-      const owner=logan<=leo?"Logan":"Leo";
-      const {error}=await sb.from("leads").update({owner}).eq("id",lead.id);
-      if(error)throw error;
 
-      if(owner==="Logan"){logan++;moved.Logan++}
-      else{leo++;moved.Leo++}
+    const {
+      error
+    } =
+      await sb
+        .from("leads")
+        .update({
+          owner:
+            newOwner
+        })
+        .eq(
+          "id",
+          id
+        );
+
+
+    if(error)
+      throw error;
+
+
+    note(
+      "Moved to " +
+      newOwner +
+      " ✓"
+    );
+
+
+  }catch(e){
+
+    /*
+      ROLLBACK
+    */
+
+    leads[index] =
+      oldLead;
+
+
+    render();
+
+
+    fail(e);
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE STATUS / NOTES / PLATFORM
+========================================================= */
+
+async function updateLead(
+  id,
+  patch
+){
+
+  if(!sb){
+
+    note(
+      "Database is not connected.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  const index =
+    leads.findIndex(
+      l =>
+        String(l.id) ===
+        String(id)
+    );
+
+
+  if(index === -1)
+    return;
+
+
+  const oldLead =
+    {
+      ...leads[index]
+    };
+
+
+  const becomingBP =
+    patch.status ===
+      "Hired" &&
+    !isBP(
+      oldLead
+    );
+
+
+  /*
+    UPDATE LOCAL DATA FIRST
+  */
+
+  leads[index] =
+    {
+      ...leads[index],
+      ...patch
+    };
+
+
+  render();
+
+
+  try{
+
+    const {
+      error
+    } =
+      await sb
+        .from("leads")
+        .update(
+          patch
+        )
+        .eq(
+          "id",
+          id
+        );
+
+
+    if(error)
+      throw error;
+
+
+    if(
+      becomingBP
+    ){
+
+      celebrateBP();
+
+      note(
+        "NEW BP! Leaderboard updated ✓"
+      );
+
+    }else{
+
+      note(
+        "Updated ✓"
+      );
+
     }
 
-    await load();
-    $("splitmsg").textContent="Logan +"+moved.Logan+", Leo +"+moved.Leo;
-    note("Pool split ✓");
-  }catch(e){fail(e)}
+
+  }catch(e){
+
+    /*
+      ROLLBACK
+    */
+
+    leads[index] =
+      oldLead;
+
+
+    render();
+
+
+    fail(e);
+
+  }
+
+}
+
+
+/* =========================================================
+   BP CELEBRATION
+========================================================= */
+
+function celebrateBP(){
+
+  const flash =
+    document.createElement(
+      "div"
+    );
+
+
+  flash.className =
+    "bpflash";
+
+
+  document.body.appendChild(
+    flash
+  );
+
+
+  setTimeout(
+    () =>
+      flash.remove(),
+    750
+  );
+
+
+  const badge =
+    document.createElement(
+      "div"
+    );
+
+
+  badge.textContent =
+    "🎉 NEW BP!";
+
+
+  badge.style.cssText =
+    `
+    position:fixed;
+    left:50%;
+    top:42%;
+    transform:
+      translate(-50%,-50%)
+      scale(.7);
+    z-index:10000;
+    font-size:42px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:
+      0 4px 18px
+      rgba(0,0,0,.35);
+    opacity:0;
+    transition:
+      all .35s ease;
+    pointer-events:none
+    `;
+
+
+  document.body.appendChild(
+    badge
+  );
+
+
+  requestAnimationFrame(
+    ()=>{
+
+      badge.style.transform =
+        "translate(-50%,-50%) scale(1)";
+
+      badge.style.opacity =
+        "1";
+
+    }
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      badge.style.transform =
+        "translate(-50%,-50%) scale(1.15)";
+
+      badge.style.opacity =
+        "0";
+
+    },
+    600
+  );
+
+
+  setTimeout(
+    () =>
+      badge.remove(),
+    1000
+  );
+
+}
+
+
+/* =========================================================
+   CREATE LEAD
+========================================================= */
+
+function mkLead(
+  first,
+  last,
+  email,
+  phone,
+  owner,
+  created,
+  platform
+){
+
+  const name =
+    (
+      first +
+      " " +
+      last
+    ).trim();
+
+
+  return {
+
+    name,
+
+    first,
+
+    last,
+
+    email,
+
+    phone,
+
+    platform:
+      platform || "",
+
+    contact:
+      [
+        email,
+        phone
+      ]
+      .filter(Boolean)
+      .join(" · "),
+
+    notes:"",
+
+    status:"New",
+
+    owner,
+
+    created
+
+  };
+
+}
+
+
+/* =========================================================
+   ADD SINGLE LEAD
+========================================================= */
+
+$("addb").onclick =
+async()=>{
+
+  const first =
+    $("fn")
+      .value
+      .trim();
+
+
+  const last =
+    $("ln")
+      .value
+      .trim();
+
+
+  if(
+    !(first || last)
+  ){
+
+    note(
+      "Enter a first or last name first.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  if(!db){
+
+    note(
+      "Database is not connected.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    note(
+      "Saving…"
+    );
+
+
+    const lead =
+      mkLead(
+
+        first,
+
+        last,
+
+        $("em")
+          .value
+          .trim(),
+
+        $("ph")
+          .value
+          .trim(),
+
+        tab,
+
+        Date.now(),
+
+        $("pf")
+          .value
+
+      );
+
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("leads")
+        .insert(
+          lead
+        )
+        .select()
+        .single();
+
+
+    if(error)
+      throw error;
+
+
+    if(data){
+
+      leads.unshift(
+        data
+      );
+
+    }
+
+
+    [
+      "fn",
+      "ln",
+      "em",
+      "ph"
+    ]
+    .forEach(
+      id =>
+        $(id).value=""
+    );
+
+
+    $("pf").value =
+      "";
+
+
+    filter =
+      "All";
+
+
+    render();
+
+
+    note(
+      "Saved ✓ added to " +
+      tab
+    );
+
+
+    $("fn").focus();
+
+
+  }catch(e){
+
+    fail(e);
+
+  }
+
 };
 
-/* EXPORT */
-$("expb").onclick=()=>{
-  try{
-    const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
 
-    const rows=[[
-      "First name","Last name","Email","Phone","Platform","Status",
-      "Contacted","2nd interview","No show","New BP","Notes","Owner"
-    ]];
+/* =========================================================
+   CSV PARSER
+========================================================= */
 
-    leads.slice().sort((a,b)=>(a.created||0)-(b.created||0)).forEach(l=>{
-      let first=l.first,last=l.last;
-      if(first==null&&last==null){
-        const sp=(l.name||"").split(/\s+/);
-        first=sp.shift()||"";
-        last=sp.join(" ");
+function parseCSV(
+  text
+){
+
+  const rows = [];
+
+  let row = [];
+
+  let field = "";
+
+  let quoted = false;
+
+
+  for(
+    let i=0;
+    i<text.length;
+    i++
+  ){
+
+    const ch =
+      text[i];
+
+
+    if(quoted){
+
+      if(ch === '"'){
+
+        if(
+          text[i+1] === '"'
+        ){
+
+          field += '"';
+
+          i++;
+
+        }else{
+
+          quoted =
+            false;
+
+        }
+
+      }else{
+
+        field += ch;
+
       }
 
-      rows.push([
-        first,last,l.email,l.phone,l.platform,l.status,
-        l.status==="Contacted"?"Yes":"",
-        l.status==="Interview"?"Yes":"",
-        l.status==="No Show"?"Yes":"",
-        isBP(l)?"Yes":"",
-        l.notes,l.owner
-      ]);
-    });
+    }else if(
+      ch === '"'
+    ){
 
-    const csv=rows.map(r=>r.map(q).join(",")).join("\n");
-    const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="nexus-trident-leads.csv";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    note("Exported "+(rows.length-1)+" leads ✓");
-  }catch(e){note("Export failed",true)}
+      quoted =
+        true;
+
+    }else if(
+      ch === ","
+    ){
+
+      row.push(
+        field
+      );
+
+      field =
+        "";
+
+    }else if(
+      ch === "\n" ||
+      ch === "\r"
+    ){
+
+      if(
+        ch === "\r" &&
+        text[i+1] === "\n"
+      ){
+
+        i++;
+
+      }
+
+
+      row.push(
+        field
+      );
+
+
+      field =
+        "";
+
+
+      if(
+        row.some(
+          x => x.trim()
+        )
+      ){
+
+        rows.push(
+          row
+        );
+
+      }
+
+
+      row = [];
+
+    }else{
+
+      field += ch;
+
+    }
+
+  }
+
+
+  row.push(
+    field
+  );
+
+
+  if(
+    row.some(
+      x => x.trim()
+    )
+  ){
+
+    rows.push(
+      row
+    );
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =========================================================
+   CSV IMPORT
+========================================================= */
+
+function importCSV(
+  file
+){
+
+  if(
+    !db ||
+    !file
+  ){
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+  async()=>{
+
+    try{
+
+      const rows =
+        parseCSV(
+          String(
+            reader.result
+          )
+          .replace(
+            /^\uFEFF/,
+            ""
+          )
+        );
+
+
+      if(
+        rows.length < 2
+      ){
+
+        note(
+          "No rows found in that file",
+          true
+        );
+
+        return;
+
+      }
+
+
+      const headers =
+        rows[0].map(
+          x =>
+            x
+              .toLowerCase()
+              .trim()
+        );
+
+
+      const find =
+        regex =>
+          headers.findIndex(
+            x =>
+              regex.test(x)
+          );
+
+
+      const iF =
+        find(
+          /first/
+        );
+
+
+      const iL =
+        find(
+          /last|surname/
+        );
+
+
+      const iN =
+        find(
+          /^(full )?(candidate )?name$|^name|candidate/
+        );
+
+
+      const iE =
+        find(
+          /e-?mail/
+        );
+
+
+      const iP =
+        find(
+          /phone|mobile|cell/
+        );
+
+
+      if(
+        iF < 0 &&
+        iL < 0 &&
+        iN < 0 &&
+        iE < 0
+      ){
+
+        note(
+          "Couldn't find name or email columns",
+          true
+        );
+
+        return;
+
+      }
+
+
+      const existing =
+        new Set(
+          leads
+            .map(
+              l =>
+                (
+                  l.email ||
+                  ""
+                )
+                .toLowerCase()
+            )
+            .filter(
+              Boolean
+            )
+        );
+
+
+      const out = [];
+
+
+      rows
+        .slice(1)
+        .forEach(
+          (r,i)=>{
+
+            const get =
+              k =>
+                k >= 0
+                  ? (
+                      r[k] ||
+                      ""
+                    ).trim()
+                  : "";
+
+
+            let first =
+              get(iF);
+
+
+            let last =
+              get(iL);
+
+
+            if(
+              !first &&
+              !last &&
+              iN >= 0
+            ){
+
+              const parts =
+                get(iN)
+                  .split(
+                    /\s+/
+                  );
+
+
+              first =
+                parts.shift() ||
+                "";
+
+
+              last =
+                parts.join(
+                  " "
+                );
+
+            }
+
+
+            const email =
+              get(iE);
+
+
+            const phone =
+              get(iP);
+
+
+            if(
+              !first &&
+              !last &&
+              !email
+            ){
+
+              return;
+
+            }
+
+
+            if(
+              email &&
+              existing.has(
+                email.toLowerCase()
+              )
+            ){
+
+              return;
+
+            }
+
+
+            if(email){
+
+              existing.add(
+                email.toLowerCase()
+              );
+
+            }
+
+
+            out.push(
+              mkLead(
+                first,
+                last,
+                email,
+                phone,
+                "Pool",
+                Date.now()+i,
+                $("bpf").value
+              )
+            );
+
+          }
+        );
+
+
+      if(!out.length){
+
+        note(
+          "Nothing new to add (all duplicates?)"
+        );
+
+        return;
+
+      }
+
+
+      note(
+        "Importing " +
+        out.length +
+        " leads…"
+      );
+
+
+      const {
+        data,
+        error
+      } =
+        await sb
+          .from("leads")
+          .insert(
+            out
+          )
+          .select();
+
+
+      if(error)
+        throw error;
+
+
+      if(data){
+
+        leads =
+          [
+            ...data,
+            ...leads
+          ];
+
+      }
+
+
+      render();
+
+
+      note(
+        "Imported " +
+        out.length +
+        " leads ✓"
+      );
+
+
+    }catch(e){
+
+      fail(e);
+
+    }
+
+  };
+
+
+  reader.readAsText(
+    file
+  );
+
+}
+
+
+/* =========================================================
+   CSV DROP ZONE
+========================================================= */
+
+const dz =
+  $("drop");
+
+
+dz.onclick =
+  () =>
+    $("file").click();
+
+
+$("file").onchange =
+  e => {
+
+    importCSV(
+      e.target.files[0]
+    );
+
+    e.target.value =
+      "";
+
+  };
+
+
+dz.ondragover =
+  e => {
+
+    e.preventDefault();
+
+    dz.classList.add(
+      "over"
+    );
+
+  };
+
+
+dz.ondragleave =
+  () =>
+    dz.classList.remove(
+      "over"
+    );
+
+
+dz.ondrop =
+  e => {
+
+    e.preventDefault();
+
+    dz.classList.remove(
+      "over"
+    );
+
+    importCSV(
+      e.dataTransfer.files[0]
+    );
+
+  };
+
+
+/* =========================================================
+   BULK ADD
+========================================================= */
+
+$("bulkb").onclick =
+async()=>{
+
+  if(!db)
+    return;
+
+
+  const lines =
+    $("bulk")
+      .value
+      .split("\n")
+      .map(
+        x =>
+          x.trim()
+      )
+      .filter(
+        Boolean
+      );
+
+
+  const out = [];
+
+
+  lines.forEach(
+    (line,i)=>{
+
+      const parts =
+        line
+          .split(
+            /[,\t]/
+          )
+          .map(
+            x =>
+              x.trim()
+          )
+          .filter(
+            Boolean
+          );
+
+
+      const email =
+        parts.find(
+          x =>
+            x.includes("@")
+        ) || "";
+
+
+      const phone =
+        parts.find(
+          x =>
+            !x.includes("@") &&
+            (
+              x.match(
+                /\d/g
+              ) || []
+            ).length >= 7
+        ) || "";
+
+
+      const nameParts =
+        parts
+          .filter(
+            x =>
+              x !== email &&
+              x !== phone
+          )
+          .join(" ")
+          .trim();
+
+
+      if(
+        !nameParts &&
+        !email &&
+        !phone
+      ){
+
+        return;
+
+      }
+
+
+      const sp =
+        nameParts.split(
+          /\s+/
+        );
+
+
+      const first =
+        sp.shift() ||
+        "";
+
+
+      out.push(
+        mkLead(
+          first,
+          sp.join(" "),
+          email,
+          phone,
+          "Pool",
+          Date.now()+i,
+          $("bpf").value
+        )
+      );
+
+    }
+  );
+
+
+  if(!out.length){
+
+    note(
+      "Nothing to add.",
+      true
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("leads")
+        .insert(
+          out
+        )
+        .select();
+
+
+    if(error)
+      throw error;
+
+
+    if(data){
+
+      leads =
+        [
+          ...data,
+          ...leads
+        ];
+
+    }
+
+
+    $("bulk").value =
+      "";
+
+
+    render();
+
+
+    note(
+      "Added " +
+      out.length +
+      " leads ✓"
+    );
+
+
+  }catch(e){
+
+    fail(e);
+
+  }
+
 };
 
-/* ENTER TO ADD */
-["fn","ln","em","ph"].forEach(id=>{
-  $(id).addEventListener("keydown",e=>{
-    if(e.key==="Enter")$("addb").click();
-  });
-});
 
-/* SUPABASE */
-async function load(){
-  if(!sb||loading)return;
+/* =========================================================
+   SPLIT POOL
+========================================================= */
 
-  loading=true;
-  try{
-    const {data,error}=await sb
-      .from("leads")
-      .select("*")
-      .order("created",{ascending:false});
+$("splitb").onclick =
+async()=>{
 
-    if(error)throw error;
+  if(!db)
+    return;
 
-    leads=data||[];
-    render();
-  }catch(e){
-    console.error(e);
-    fail(e);
-  }finally{
-    loading=false;
+
+  const pool =
+    leads
+      .filter(
+        l =>
+          l.owner ===
+          "Pool"
+      )
+      .sort(
+        (a,b)=>
+          (
+            a.created || 0
+          ) -
+          (
+            b.created || 0
+          )
+      );
+
+
+  if(!pool.length){
+
+    $("splitmsg").textContent =
+      "Pool is empty";
+
+    return;
+
   }
+
+
+  let logan =
+    leads.filter(
+      l =>
+        l.owner ===
+        "Logan"
+    ).length;
+
+
+  let leo =
+    leads.filter(
+      l =>
+        l.owner ===
+        "Leo"
+    ).length;
+
+
+  let moved = {
+    Logan:0,
+    Leo:0
+  };
+
+
+  try{
+
+    for(
+      const lead of pool
+    ){
+
+      const owner =
+        logan <= leo
+          ? "Logan"
+          : "Leo";
+
+
+      const index =
+        leads.findIndex(
+          x =>
+            String(x.id) ===
+            String(lead.id)
+        );
+
+
+      if(
+        index !== -1
+      ){
+
+        leads[index] =
+          {
+            ...leads[index],
+            owner
+          };
+
+      }
+
+
+      if(
+        owner ===
+        "Logan"
+      ){
+
+        logan++;
+
+        moved.Logan++;
+
+      }else{
+
+        leo++;
+
+        moved.Leo++;
+
+      }
+
+
+      const {
+        error
+      } =
+        await sb
+          .from("leads")
+          .update({
+            owner
+          })
+          .eq(
+            "id",
+            lead.id
+          );
+
+
+      if(error)
+        throw error;
+
+    }
+
+
+    render();
+
+
+    $("splitmsg").textContent =
+      "Logan +" +
+      moved.Logan +
+      ", Leo +" +
+      moved.Leo;
+
+
+    note(
+      "Pool split ✓"
+    );
+
+
+  }catch(e){
+
+    await load();
+
+    fail(e);
+
+  }
+
+};
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+$("expb").onclick =
+()=>{
+
+  try{
+
+    const q =
+      value =>
+        '"' +
+        String(
+          value == null
+            ? ""
+            : value
+        )
+        .replace(
+          /"/g,
+          '""'
+        ) +
+        '"';
+
+
+    const rows = [
+
+      [
+        "First name",
+        "Last name",
+        "Email",
+        "Phone",
+        "Platform",
+        "Status",
+        "Contacted",
+        "2nd interview",
+        "No show",
+        "New BP",
+        "Notes",
+        "Owner"
+      ]
+
+    ];
+
+
+    leads
+      .slice()
+      .sort(
+        (a,b)=>
+          (
+            a.created || 0
+          ) -
+          (
+            b.created || 0
+          )
+      )
+      .forEach(
+        lead => {
+
+          let first =
+            lead.first;
+
+
+          let last =
+            lead.last;
+
+
+          if(
+            first == null &&
+            last == null
+          ){
+
+            const sp =
+              (
+                lead.name ||
+                ""
+              )
+              .split(
+                /\s+/
+              );
+
+
+            first =
+              sp.shift() ||
+              "";
+
+
+            last =
+              sp.join(" ");
+
+          }
+
+
+          rows.push([
+
+            first,
+
+            last,
+
+            lead.email,
+
+            lead.phone,
+
+            lead.platform,
+
+            lead.status,
+
+            lead.status ===
+              "Contacted"
+              ? "Yes"
+              : "",
+
+            lead.status ===
+              "Interview"
+              ? "Yes"
+              : "",
+
+            lead.status ===
+              "No Show"
+              ? "Yes"
+              : "",
+
+            isBP(lead)
+              ? "Yes"
+              : "",
+
+            lead.notes,
+
+            lead.owner
+
+          ]);
+
+        }
+      );
+
+
+    const csv =
+      rows
+        .map(
+          row =>
+            row
+              .map(q)
+              .join(",")
+        )
+        .join("\n");
+
+
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type:
+            "text/csv;charset=utf-8"
+        }
+      );
+
+
+    const a =
+      document.createElement(
+        "a"
+      );
+
+
+    a.href =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    a.download =
+      "nexus-trident-leads.csv";
+
+
+    document.body.appendChild(
+      a
+    );
+
+
+    a.click();
+
+
+    a.remove();
+
+
+    note(
+      "Exported " +
+      (
+        rows.length - 1
+      ) +
+      " leads ✓"
+    );
+
+
+  }catch(e){
+
+    note(
+      "Export failed",
+      true
+    );
+
+  }
+
+};
+
+
+/* =========================================================
+   ENTER TO ADD
+========================================================= */
+
+[
+  "fn",
+  "ln",
+  "em",
+  "ph"
+]
+.forEach(
+  id => {
+
+    $(id)
+      .addEventListener(
+        "keydown",
+        e => {
+
+          if(
+            e.key ===
+            "Enter"
+          ){
+
+            $("addb")
+              .click();
+
+          }
+
+        }
+      );
+
+  }
+);
+
+
+/* =========================================================
+   LOAD SUPABASE DATA
+========================================================= */
+
+async function load(){
+
+  if(
+    !sb ||
+    loading
+  ){
+
+    return;
+
+  }
+
+
+  loading =
+    true;
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("leads")
+        .select("*")
+        .order(
+          "created",
+          {
+            ascending:false
+          }
+        );
+
+
+    if(error)
+      throw error;
+
+
+    leads =
+      data || [];
+
+
+    render();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    fail(e);
+
+  }finally{
+
+    loading =
+      false;
+
+  }
+
 }
+
+
+/* =========================================================
+   INITIAL RENDER
+========================================================= */
 
 render();
 
+
+/* =========================================================
+   CONNECT SUPABASE
+========================================================= */
+
 (async()=>{
+
   try{
-    if(!SUPABASE_URL.startsWith("http")||SUPABASE_PUBLISHABLE_KEY.startsWith("PASTE_")){
-      note("Add your Supabase URL and publishable key.",true);
+
+    if(
+      !SUPABASE_URL.startsWith(
+        "http"
+      ) ||
+      SUPABASE_PUBLISHABLE_KEY.startsWith(
+        "PASTE_"
+      )
+    ){
+
+      note(
+        "Add your Supabase URL and publishable key.",
+        true
+      );
+
       return;
+
     }
 
-    sb=supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY,
-      {
-        auth:{
-          persistSession:true,
-          autoRefreshToken:true
-        }
-      }
-    );
 
-    let {data:{session}}=await sb.auth.getSession();
+    sb =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+          auth:{
+            persistSession:true,
+            autoRefreshToken:true
+          }
+        }
+      );
+
+
+    let {
+      data:{
+        session
+      }
+    } =
+      await sb.auth.getSession();
+
 
     if(!session){
-      const result=await sb.auth.signInAnonymously();
-      if(result.error)throw result.error;
+
+      const result =
+        await sb.auth
+          .signInAnonymously();
+
+
+      if(
+        result.error
+      ){
+
+        throw result.error;
+
+      }
+
     }
 
-    db=true;
+
+    db =
+      true;
+
+
     await load();
 
-    /* Live updates from Supabase */
-    sb.channel("leads-live")
-      .on(
-        "postgres_changes",
-        {event:"*",schema:"public",table:"leads"},
-        ()=>load()
-      )
-      .subscribe();
 
-    /* Backup automatic sync.
-       This means the partner's changes appear even if Realtime is not enabled. */
-    setInterval(()=>load(),5000);
+    /* -----------------------------------------------------
+       REALTIME
+    ----------------------------------------------------- */
+
+    sb.channel(
+      "leads-live"
+    )
+    .on(
+      "postgres_changes",
+      {
+        event:"*",
+        schema:"public",
+        table:"leads"
+      },
+      ()=>load()
+    )
+    .subscribe();
+
+
+    /* -----------------------------------------------------
+       BACKUP SYNC
+    ----------------------------------------------------- */
+
+    setInterval(
+      () => load(),
+      5000
+    );
+
 
   }catch(e){
+
     console.error(e);
-    db=false;
+
+    db =
+      false;
+
+
     render();
+
+
     fail(e);
+
   }
+
 })();
+
 </script>
+
 </body>
 </html>
