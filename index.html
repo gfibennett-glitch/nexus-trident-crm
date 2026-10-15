@@ -1154,7 +1154,16 @@ async function updateLead(id,patch){
       ({error} = await sb.from("leads").update(retry).eq("id", id));
     }
 
-    if(error) throw error;
+ if(error) {
+  console.error("Supabase save error:", error);
+  alert(
+    "Save failed: " + error.code +
+    "\nMessage: " + error.message +
+    "\nDetails: " + (error.details || "None") +
+    "\nHint: " + (error.hint || "None")
+  );
+  throw error;
+}
 
     if(warn){
       note("Saved, but add the hired_at column in Supabase so monthly stats work.", true);
