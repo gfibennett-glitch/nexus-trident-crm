@@ -481,10 +481,24 @@ function monthLabel(key){
   return MONTHS[Number(parts[1])-1] + " " + parts[0];
 }
 
-/* When a lead became a New BP. Older leads without hired_at fall back to created. */
+
+/* When a lead became a New BP. Supports Supabase timestamps and numeric dates. */
 function bpTime(lead){
-  return Number(lead?.hired_at) || Number(lead?.created) || 0;
+  const hired = lead?.hired_at
+    ? new Date(lead.hired_at).getTime()
+    : 0;
+
+  const created = lead?.created
+    ? new Date(lead.created).getTime()
+    : 0;
+
+  return Number.isFinite(hired) && hired > 0
+    ? hired
+    : Number.isFinite(created) && created > 0
+      ? created
+      : 0;
 }
+
 
 /* A New BP made in the current month (this is what the leaderboard and goal count). */
 function isMonthBP(lead){
