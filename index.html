@@ -193,6 +193,32 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(215,170,67,.25);b
 .drop.over{background:#162238;border-color:#d7aa43;color:#f4d78c}
 .acts button:hover{color:#f4d78c}
 .moveflash{background:#d7aa43;color:#0b1220}
+  
+/* New Business Partner video popup */
+#bpvid {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.88);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#bpvid.show {
+  display: flex;
+}
+
+#bpvideo {
+  display: block;
+  width: auto;
+  max-width: 95vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
 </style>
 </head>
 
