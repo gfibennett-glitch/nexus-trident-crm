@@ -119,6 +119,26 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(40,87,134,.18);bo
 .moveflash{background:#17365d;box-shadow:0 5px 18px rgba(16,36,62,.2)}
 @media(max-width:480px){.wrap{padding:14px 11px 24px}h1{font-size:21px}.board{padding:14px}.br{grid-template-columns:30px minmax(0,1fr) 44px;gap:8px;padding:10px}.bn{font-size:15px}.bv{font-size:27px}.add input{flex:1 1 140px}}
 
+/* ===== MONTHLY LEADERBOARD + PAST MONTHS ===== */
+.monthlabel{position:relative;z-index:1;text-align:center;font-size:11px;color:#d4deea;margin:-8px 0 12px;letter-spacing:.04em}
+.histb{position:relative;z-index:1;display:block;margin:10px auto 0;background:rgba(255,255,255,.1);border:1px solid rgba(238,202,117,.5);color:#f4d78c;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.hist{position:relative;z-index:1;margin-top:10px}
+.hm{border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:7px;overflow:hidden}
+.hmh{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;cursor:pointer}
+.hmh b{color:#fff;font-size:14px}
+.hmh span{color:#d4deea;font-size:12px;text-align:right}
+.hmb{padding:0 12px 11px;color:#d4deea;font-size:12px;line-height:1.7}
+.hmb strong{color:#f4d78c}
+.hempty{text-align:center;color:#d4deea;font-size:12px;padding:10px}
+
+/* ===== MIAMI PENTHOUSE GOAL SCENE ===== */
+.scene{position:relative;z-index:1;margin-top:12px;border-radius:14px;overflow:hidden;border:1px solid rgba(238,202,117,.45);background:#0a1222}
+.pic{position:relative;height:230px;overflow:hidden;background:#0a1222}
+.pic::before{content:"";position:absolute;inset:-24px;background:var(--img) center/cover no-repeat;filter:blur(18px) brightness(.55)}
+.pic::after{content:"";position:absolute;inset:0;background:var(--img) center/contain no-repeat;filter:saturate(var(--sat,.5)) brightness(var(--br,.8));transition:filter .8s}
+.scap{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:rgba(8,16,32,.88);font-size:11px;font-weight:700;color:#f4d78c;letter-spacing:.06em}
+.scap span:last-child{color:#d4deea;font-weight:600;white-space:nowrap}
+
 /* ===== MIDNIGHT BACKGROUND THEME ===== */
 :root,
 :root:not([data-theme="light"]){
@@ -163,22 +183,34 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(215,170,67,.25);b
 
 <div class="board">
   <h2>🏆 New BP Leaderboard</h2>
+  <div class="monthlabel" id="monthlabel"></div>
   <div id="board"></div>
   <div id="momentum" style="text-align:center;font-size:11px;font-weight:700;opacity:.85;margin-top:7px"></div>
+
+  <div class="scene" id="scene">
+    <div class="pic" role="img" aria-label="Miami oceanfront penthouse tower"></div>
+    <div class="scap">
+      <span>🌴 15K+ A MONTH TO UNLOCK THE MATRIX ESCAPE</span>
+      <span id="scaptxt">20 BPs to go</span>
+    </div>
+  </div>
+
+  <button class="histb" id="histb">📊 Past months</button>
+  <div class="hist" id="hist" style="display:none"></div>
 </div>
 
 <div class="goalcard">
   <div class="goalhead">
     <div>
-      <div class="goaltitle">TEAM BP GOAL</div>
-      <div class="goalnumber"><span id="goalcount">0</span> / 10 New BPs</div>
+      <div class="goaltitle" id="goaltitle">TEAM BP GOAL</div>
+      <div class="goalnumber"><span id="goalcount">0</span> / 20 New BPs</div>
     </div>
     <div class="goalbadge" id="goalbadge">LET'S GO</div>
   </div>
   <div class="goaltrack"><i id="goalfill"></i></div>
   <div class="goalbottom">
     <span id="goaltext">0% complete</span>
-    <span id="goalremaining">10 to goal</span>
+    <span id="goalremaining">20 to goal</span>
   </div>
 </div>
 
@@ -231,7 +263,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(215,170,67,.25);b
 <div id="list"><div class="msg">Loading…</div></div>
 
 <div style="text-align:center;margin:18px 0">
-  <button class="chip" id="expb">Export all leads (CSV for Google Sheets)</button>
+  <button class="chip" id="expb">Export leads (CSV for Google Sheets)</button>
 </div>
 
 </div>
@@ -253,6 +285,16 @@ const TABS = ["Logan","Pool","Leo"];
 const OWNERS = ["Logan","Leo"];
 const STATUSES = ["New","Contacted","Interview","Offer","Hired","Passed","No Show"];
 
+const GOAL = 20;
+
+/* The penthouse photo. Save penthouse.jpg in the same place as this file. */
+const PENTHOUSE_IMG = "penthouse.jpg";
+
+const MONTHS = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December"
+];
+
 let tab = "Pool";
 let filter = "All";
 let leads = [];
@@ -260,9 +302,14 @@ let db = false;
 let sb = null;
 let loading = false;
 
+let histOpen = false;
+let openMonth = null;
+
 const $ = id => document.getElementById(id);
 
 try{ tab = localStorage.getItem("tab") || "Pool"; }catch(e){}
+
+$("scene").style.setProperty("--img", 'url("' + PENTHOUSE_IMG + '")');
 
 /* ========================================================= MESSAGES */
 
@@ -291,9 +338,29 @@ function fail(e){
   note("Couldn't save" + ((code || msg) ? ": " + (code || msg) : ""), true);
 }
 
-/* ========================================================= NEW BP */
+/* ========================================================= NEW BP + MONTHS */
 
 function isBP(lead){ return lead?.status === "Hired"; }
+
+function monthKey(ts){
+  const d = new Date(ts);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0");
+}
+
+function monthLabel(key){
+  const parts = key.split("-");
+  return MONTHS[Number(parts[1])-1] + " " + parts[0];
+}
+
+/* When a lead became a New BP. Older leads without hired_at fall back to created. */
+function bpTime(lead){
+  return Number(lead?.hired_at) || Number(lead?.created) || 0;
+}
+
+/* A New BP made in the current month (this is what the leaderboard and goal count). */
+function isMonthBP(lead){
+  return isBP(lead) && monthKey(bpTime(lead)) === monthKey(Date.now());
+}
 
 /* ========================================================= OWNER FILTERING */
 
@@ -307,20 +374,30 @@ function ownerLeads(owner){
 /* ========================================================= GOAL */
 
 function renderGoal(){
-  const total = leads.filter(isBP).length;
-  const goal = 10;
-  const pct = Math.min(100, Math.round(total / goal * 100));
+  const total = leads.filter(isMonthBP).length;
+  const pct = Math.min(100, Math.round(total / GOAL * 100));
+
+  $("goaltitle").textContent =
+    "TEAM BP GOAL · " + MONTHS[new Date().getMonth()].toUpperCase();
 
   $("goalcount").textContent = total;
   $("goalfill").style.width = pct + "%";
   $("goaltext").textContent = pct + "% complete";
   $("goalremaining").textContent =
-    total >= goal ? "GOAL REACHED" : Math.max(0,goal-total) + " to goal";
+    total >= GOAL ? "GOAL REACHED" : Math.max(0,GOAL-total) + " to goal";
   $("goalbadge").textContent =
-    total >= goal ? "GOAL REACHED"
+    total >= GOAL ? "GOAL REACHED"
     : total === 0 ? "LET'S GO"
-    : total >= 7 ? "ON FIRE"
+    : total >= GOAL * 0.7 ? "ON FIRE"
     : "IN PROGRESS";
+
+  /* The penthouse photo gets brighter and more colorful as the team nears the goal. */
+  const scene = $("scene");
+  scene.style.setProperty("--sat", (0.35 + 0.65 * pct / 100).toFixed(2));
+  scene.style.setProperty("--br", (0.7 + 0.3 * pct / 100).toFixed(2));
+
+  $("scaptxt").textContent =
+    total >= GOAL ? "ESCAPE UNLOCKED 🔓" : Math.max(0,GOAL-total) + " BPs to go";
 }
 
 /* ========================================================= FULL RENDER */
@@ -328,18 +405,27 @@ function renderGoal(){
 function render(){
   renderGoal();
   renderBoard();
+  renderHistory();
   renderTabs();
   renderStats();
   renderFilters();
   renderLeads();
+
+  $("expb").textContent =
+    tab === "Pool"
+      ? "Export pool leads (CSV for Google Sheets)"
+      : "Export " + tab + "'s leads (CSV for Google Sheets)";
 }
 
-/* ========================================================= LEADERBOARD */
+/* ========================================================= LEADERBOARD (THIS MONTH) */
 
 function renderBoard(){
+  $("monthlabel").textContent =
+    monthLabel(monthKey(Date.now())) + " · resets every month";
+
   const rows = OWNERS.map(owner => ({
     owner,
-    bp: leads.filter(l => l.owner === owner && isBP(l)).length
+    bp: leads.filter(l => l.owner === owner && isMonthBP(l)).length
   }));
 
   const top = Math.max(...rows.map(x=>x.bp), 0);
@@ -353,9 +439,9 @@ function renderBoard(){
 
   if(totalBP === 0){
     momentum.textContent = "Your first New BP starts the race.";
-  }else if(totalBP < 5){
+  }else if(totalBP < GOAL / 2){
     momentum.textContent = "Good start. Keep the pipeline moving.";
-  }else if(totalBP < 10){
+  }else if(totalBP < GOAL){
     momentum.textContent = "🔥 Momentum is building.";
   }else{
     momentum.textContent = "🏆 Team goal crushed. Keep going.";
@@ -426,6 +512,114 @@ function renderBoard(){
     board.appendChild(t);
   }
 }
+
+/* ========================================================= PAST MONTHS */
+
+function renderHistory(){
+  const btn = $("histb");
+  const box = $("hist");
+
+  btn.textContent = histOpen ? "Hide past months" : "📊 Past months";
+  box.style.display = histOpen ? "block" : "none";
+
+  if(!histOpen){ return; }
+
+  box.innerHTML = "";
+
+  const cur = monthKey(Date.now());
+  const groups = {};
+
+  leads.filter(isBP).forEach(l => {
+    const k = monthKey(bpTime(l));
+    if(k === cur){ return; }
+    (groups[k] = groups[k] || []).push(l);
+  });
+
+  const keys = Object.keys(groups).sort().reverse();
+
+  if(!keys.length){
+    const e = document.createElement("div");
+    e.className = "hempty";
+    e.textContent = "No past months yet. Stats show up here after a month ends.";
+    box.appendChild(e);
+    return;
+  }
+
+  keys.forEach(key => {
+    const g = groups[key];
+    const lg = g.filter(l => l.owner === "Logan").length;
+    const le = g.filter(l => l.owner === "Leo").length;
+    const total = g.length;
+    const pct = Math.round(100 * total / GOAL);
+
+    const winner =
+      lg > le ? "Logan won"
+      : le > lg ? "Leo won"
+      : "Tie";
+
+    const card = document.createElement("div");
+    card.className = "hm";
+
+    const head = document.createElement("div");
+    head.className = "hmh";
+
+    const name = document.createElement("b");
+    name.textContent = monthLabel(key);
+
+    const sum = document.createElement("span");
+    sum.textContent = total + " / " + GOAL + " · " + winner;
+
+    head.append(name, sum);
+
+    head.onclick = () => {
+      openMonth = openMonth === key ? null : key;
+      renderHistory();
+    };
+
+    card.appendChild(head);
+
+    if(openMonth === key){
+      const platforms = {};
+
+      g.forEach(l => {
+        const p = l.platform || "Unknown";
+        platforms[p] = (platforms[p] || 0) + 1;
+      });
+
+      const platText = Object.entries(platforms)
+        .sort((a,b) => b[1] - a[1])
+        .map(([p,n]) => p + " " + n)
+        .join(" · ");
+
+      const body = document.createElement("div");
+      body.className = "hmb";
+
+      const lines = [
+        ["Logan", lg + " New BP"],
+        ["Leo", le + " New BP"],
+        ["Team total", total + " of " + GOAL + " (" + pct + "%)" + (total >= GOAL ? " · goal reached ✓" : "")],
+        ["Sources", platText || "–"]
+      ];
+
+      lines.forEach(([label,value]) => {
+        const line = document.createElement("div");
+        const s = document.createElement("strong");
+        s.textContent = label + ": ";
+        line.append(s, document.createTextNode(value));
+        body.appendChild(line);
+      });
+
+      card.appendChild(body);
+    }
+
+    box.appendChild(card);
+  });
+}
+
+$("histb").onclick = () => {
+  histOpen = !histOpen;
+  renderHistory();
+};
 
 /* ========================================================= TABS */
 
@@ -734,7 +928,18 @@ async function updateLead(id,patch){
 
   const oldLead = { ...leads[index] };
 
+  patch = { ...patch };
+
   const becomingBP = patch.status === "Hired" && !isBP(oldLead);
+
+  /* Record the date a lead becomes a New BP (used for the monthly reset). */
+  if(patch.status !== undefined){
+    if(becomingBP){
+      patch.hired_at = Date.now();
+    }else if(patch.status !== "Hired" && isBP(oldLead)){
+      patch.hired_at = null;
+    }
+  }
 
   /* INSTANT LOCAL UPDATE */
   leads[index] = { ...leads[index], ...patch };
@@ -742,10 +947,23 @@ async function updateLead(id,patch){
   render();
 
   try{
-    const {error} = await sb.from("leads").update(patch).eq("id", id);
+    let warn = false;
+
+    let {error} = await sb.from("leads").update(patch).eq("id", id);
+
+    /* If the hired_at column hasn't been added in Supabase yet, save without it. */
+    if(error && "hired_at" in patch && /hired_at/i.test(error.message || "")){
+      const retry = { ...patch };
+      delete retry.hired_at;
+      warn = true;
+      ({error} = await sb.from("leads").update(retry).eq("id", id));
+    }
+
     if(error) throw error;
 
-    if(becomingBP){
+    if(warn){
+      note("Saved, but add the hired_at column in Supabase so monthly stats work.", true);
+    }else if(becomingBP){
       celebrateBP();
       note("NEW BP! Leaderboard updated ✓");
     }else{
@@ -1135,7 +1353,7 @@ $("splitb").onclick = async()=>{
   }
 };
 
-/* ========================================================= EXPORT */
+/* ========================================================= EXPORT (CURRENT TAB ONLY) */
 
 $("expb").onclick = ()=>{
   try{
@@ -1147,7 +1365,8 @@ $("expb").onclick = ()=>{
       "Contacted","2nd interview","No show","New BP","Notes","Owner"
     ]];
 
-    leads
+    /* Only the leads on the side you're viewing (Logan, Leo, or Pool) */
+    ownerLeads(tab)
       .slice()
       .sort((a,b)=> (a.created||0) - (b.created||0))
       .forEach(lead=>{
@@ -1176,19 +1395,24 @@ $("expb").onclick = ()=>{
         ]);
       });
 
+    if(rows.length === 1){
+      note("No leads on " + tab + "'s side to export.", true);
+      return;
+    }
+
     const csv = rows.map(row => row.map(q).join(",")).join("\n");
 
     const blob = new Blob([csv], { type:"text/csv;charset=utf-8" });
 
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "nexus-trident-leads.csv";
+    a.download = "nexus-trident-" + tab.toLowerCase() + "-leads.csv";
 
     document.body.appendChild(a);
     a.click();
     a.remove();
 
-    note("Exported " + (rows.length-1) + " leads ✓");
+    note("Exported " + (rows.length-1) + " " + tab + " leads ✓");
   }catch(e){
     note("Export failed", true);
   }
