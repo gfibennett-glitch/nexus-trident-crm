@@ -1,16 +1,170 @@
-/* ===== MIDNIGHT BACKGROUND THEME (paste before </style>) ===== */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nexus Trident Agency</title>
 
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#14181f;--mute:#6b7280;--bd:#e3e6ec;--ac:#2563eb;--acx:#fff}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1218;--card:#1a1f29;--tx:#eef0f4;--mute:#9aa3b2;--bd:#2a3140;--ac:#5b8def;--acx:#0b0f17}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0 12px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tab{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-size:15px;font-weight:600;cursor:pointer}
+.tab.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.tab small{opacity:.8;font-weight:400}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:9px;min-width:0}
+.add{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px}
+.add input{flex:1 1 130px}
+button.p{background:var(--ac);color:var(--acx);border:0;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+.filters{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
+.chip{white-space:nowrap;padding:5px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);cursor:pointer;font-size:13px}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.lead{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:8px}
+.top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.nm{font-weight:600;font-size:16px}
+.ct{color:var(--mute);font-size:13px;word-break:break-all}
+.lead textarea{width:100%;margin-top:8px;min-height:40px;resize:vertical}
+.acts{display:flex;gap:10px;margin-top:6px;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.acts button{background:none;border:0;color:var(--mute);cursor:pointer;padding:2px 0;text-decoration:underline;font-size:12px}
+.goalcard{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:0 0 12px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.goalhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.goaltitle{font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--mute)}
+.goalnumber{font-size:20px;font-weight:800;margin-top:2px}
+.goalbadge{font-size:10px;font-weight:800;letter-spacing:.08em;border:1px solid var(--bd);border-radius:999px;padding:6px 9px}
+.goaltrack{height:10px;background:var(--bg);border-radius:99px;overflow:hidden;margin-top:11px}
+.goaltrack i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.goalbottom{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--mute)}
+.bpflash{position:fixed;inset:0;pointer-events:none;z-index:9999;background:radial-gradient(circle at center,rgba(250,204,21,.22),transparent 45%);animation:flash .7s ease-out forwards}
+@keyframes flash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:8px;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;color:var(--mute)}
+.tgs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tg{padding:4px 10px;border:1px solid var(--bd);border-radius:999px;background:var(--card);color:var(--mute);font-size:12px;cursor:pointer}
+.tg.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.tg.bad.on{background:#dc2626;border-color:#dc2626;color:#fff}
+@media(max-width:480px){.stats{grid-template-columns:repeat(2,1fr)}}
+.drop{border:2px dashed var(--bd);border-radius:10px;padding:14px;text-align:center;color:var(--mute);margin-top:10px;cursor:pointer;font-size:13px}
+.drop.over{border-color:var(--ac);color:var(--ac)}
+.board{border-radius:16px;padding:14px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,#1e3a8a,#7c3aed 60%,#db2777);box-shadow:0 6px 20px rgba(76,29,149,.25)}
+.board h2{font-size:12px;margin:0 0 10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;opacity:.9;text-align:center}
+.br{position:relative;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:12px;background:rgba(255,255,255,.12);margin-bottom:8px}
+.br.lead1{background:linear-gradient(135deg,rgba(253,224,71,.38),rgba(251,191,36,.22));box-shadow:0 0 0 2px rgba(253,224,71,.85),0 0 18px rgba(253,224,71,.35)}
+.rk{font-size:26px;text-align:center;line-height:1}
+.bn{font-weight:700;font-size:17px}
+.bn small{display:block;font-weight:500;font-size:12px;opacity:.85;margin-top:1px}
+.bar{height:7px;border-radius:99px;background:rgba(255,255,255,.2);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:#fde047;transition:width .6s ease}
+.bv{font-size:34px;font-weight:800;line-height:1;text-align:right}
+.bv small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;opacity:.8;text-transform:uppercase;margin-top:2px}
+.tie{text-align:center;font-size:13px;font-weight:700;margin-top:2px}
+.empty,.msg{text-align:center;color:var(--mute);padding:28px 8px}
+.moveflash{position:fixed;left:50%;bottom:25px;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:11px 18px;border-radius:999px;font-size:13px;font-weight:700;z-index:10001;opacity:0;transition:.25s ease;pointer-events:none}
+.moveflash.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== NEXUS TRIDENT PROFESSIONAL DESIGN ===== */
+:root{--bg:#eef2f7;--card:#ffffff;--tx:#17243a;--mute:#68768a;--bd:#dce4ee;--ac:#17365d;--acx:#ffffff}
+body{background:linear-gradient(145deg,#f5f7fb 0%,#e8eef6 100%);color:var(--tx)}
+.wrap{max-width:800px;padding:20px 16px 30px}
+h1{color:#142b49;font-size:24px;font-weight:800;letter-spacing:-.6px;padding:5px 0 12px;border-bottom:2px solid #d9e2ee}
+.tab{transition:background .2s,border-color .2s,transform .2s}
+.tab.on{background:linear-gradient(135deg,#17365d,#285786);border-color:#17365d;box-shadow:0 3px 9px rgba(23,54,93,.18)}
+button.p{background:linear-gradient(135deg,#17365d,#285786);box-shadow:0 2px 5px rgba(23,54,93,.12);transition:transform .15s,box-shadow .15s}
+button.p:hover{box-shadow:0 4px 10px rgba(23,54,93,.22);transform:translateY(-1px)}
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(40,87,134,.18);border-color:#285786}
+.add,.goalcard,.stat,.lead{background:#ffffff;border:1px solid #dce4ee;box-shadow:0 3px 12px rgba(22,42,69,.045)}
+.add{border-radius:14px;padding:14px}
+.lead{border-radius:13px;padding:14px;transition:box-shadow .2s,border-color .2s}
+.lead:hover{border-color:#c4d2e3;box-shadow:0 5px 16px rgba(22,42,69,.075)}
+.stat{border-radius:12px;padding:12px 8px}
+.stat b{color:#17365d;font-size:20px}
+.stat span{color:#68768a}
+.chip{transition:all .18s ease}
+.chip.on{background:#17365d;border-color:#17365d;color:#ffffff}
+.tg.on{background:#17365d;border-color:#17365d;color:#ffffff}
+.tg.bad.on{background:#b42332;border-color:#b42332}
+.goalcard{border-radius:15px;padding:16px}
+.goaltitle{color:#68768a}
+.goalnumber{color:#17365d;font-size:23px}
+.goalbadge{color:#17365d;background:#edf3fa;border-color:#d5e1ef}
+.goaltrack{background:#e8edf4}
+.goaltrack i{background:linear-gradient(90deg,#17365d,#3879b9,#d7aa43)}
+.board{position:relative;overflow:hidden;padding:19px;border:1px solid #29496f;border-radius:17px;background:linear-gradient(140deg,#10243e 0%,#17365d 58%,#244b76 100%);box-shadow:0 9px 24px rgba(16,36,62,.18)}
+.board::before{content:"";position:absolute;top:-65px;right:-50px;width:180px;height:180px;border:1px solid rgba(225,190,103,.18);border-radius:50%;pointer-events:none}
+.board h2{position:relative;z-index:1;color:#f4d78c;font-size:12px;letter-spacing:.16em;opacity:1;margin-bottom:15px}
+.br{position:relative;z-index:1;grid-template-columns:38px minmax(0,1fr) 54px;gap:12px;padding:13px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:rgba(255,255,255,.075);margin-bottom:9px}
+.br.lead1{background:linear-gradient(115deg,rgba(215,170,67,.23),rgba(255,255,255,.09));border:1px solid rgba(238,202,117,.9);box-shadow:0 0 0 1px rgba(215,170,67,.15)}
+.rk{font-size:25px}
+.bn{color:#ffffff;font-size:16px;overflow-wrap:anywhere}
+.bn small{color:#d4deea;font-size:11px}
+.br.lead1 .bn small{color:#f4d78c}
+.bar{height:6px;background:rgba(255,255,255,.16)}
+.bar i{background:linear-gradient(90deg,#c79b39,#f3d58a)}
+.bv{color:#ffffff;font-size:32px;font-variant-numeric:tabular-nums}
+.br.lead1 .bv{color:#f4d78c}
+.bv small{color:#d4deea;font-size:9px}
+.tie{color:#f4d78c}
+#momentum{position:relative;z-index:1;color:#d4deea;line-height:1.5}
+.acts button:hover{color:#17365d}
+.drop{background:#f8fafd;border-color:#bdccde;border-radius:12px}
+.drop.over{background:#edf4fb;border-color:#285786;color:#17365d}
+.empty,.msg{color:#68768a}
+.moveflash{background:#17365d;box-shadow:0 5px 18px rgba(16,36,62,.2)}
+@media(max-width:480px){.wrap{padding:14px 11px 24px}h1{font-size:21px}.board{padding:14px}.br{grid-template-columns:30px minmax(0,1fr) 44px;gap:8px;padding:10px}.bn{font-size:15px}.bv{font-size:27px}.add input{flex:1 1 140px}}
+
+/* ===== MONTHLY LEADERBOARD + PAST MONTHS ===== */
+.monthlabel{position:relative;z-index:1;text-align:center;font-size:11px;color:#d4deea;margin:-8px 0 12px;letter-spacing:.04em}
+.histb{position:relative;z-index:1;display:block;margin:10px auto 0;background:rgba(255,255,255,.1);border:1px solid rgba(238,202,117,.5);color:#f4d78c;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer}
+.hist{position:relative;z-index:1;margin-top:10px}
+.hm{border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.06);margin-bottom:7px;overflow:hidden}
+.hmh{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;cursor:pointer}
+.hmh b{color:#fff;font-size:14px}
+.hmh span{color:#d4deea;font-size:12px;text-align:right}
+.hmb{padding:0 12px 11px;color:#d4deea;font-size:12px;line-height:1.7}
+.hmb strong{color:#f4d78c}
+.hempty{text-align:center;color:#d4deea;font-size:12px;padding:10px}
+
+/* ===== MIAMI PENTHOUSE GOAL SCENE ===== */
+.scene{position:relative;z-index:1;margin-top:12px;border-radius:14px;overflow:hidden;border:1px solid rgba(238,202,117,.45);background:#0a1222}
+.pic{position:relative;height:230px;overflow:hidden;background:#0a1222}
+.pic::before{content:"";position:absolute;inset:-24px;background:var(--img) center/cover no-repeat;filter:blur(18px) brightness(.55)}
+.pic::after{content:"";position:absolute;inset:0;background:var(--img) center/contain no-repeat;filter:saturate(var(--sat,.5)) brightness(var(--br,.8));transition:filter .8s}
+.scap{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;background:rgba(8,16,32,.88);font-size:11px;font-weight:700;color:#f4d78c;letter-spacing:.06em}
+.scap span:last-child{color:#d4deea;font-weight:600;white-space:nowrap}
+
+/* ===== GOAL BAR PHOTO ===== */
+.goalbarwrap{position:relative;margin:18px 0 16px}
+.goalbarwrap .goaltrack{margin-top:0}
+.goalavatar{position:absolute;top:-15px;left:0;width:40px;height:40px;border-radius:50%;border:2px solid #f4d78c;background:#0b1220 center/cover no-repeat;box-shadow:0 3px 10px rgba(0,0,0,.45);transition:left .7s cubic-bezier(.2,.8,.2,1)}
+.goalavatar.hi{box-shadow:0 0 0 3px rgba(244,215,140,.35),0 0 16px rgba(244,215,140,.7)}
+
+/* ===== SEARCH BAR ===== */
+.searchwrap{position:relative;margin-bottom:10px}
+.searchwrap input{width:100%;padding:10px 34px 10px 12px;border-radius:10px}
+.sclear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--mute);font-size:16px;cursor:pointer;display:none;padding:4px}
+.sinfo{font-size:12px;color:var(--mute);margin:-4px 0 8px;min-height:0}
+
+/* ===== NEW BP VIDEO POPUP ===== */
+.bpvid{position:fixed;inset:0;z-index:10002;display:none;align-items:center;justify-content:center;background:rgba(5,10,20,.6)}
+.bpvid.show{display:flex;animation:bpvidfade .2s ease-out}
+@keyframes bpvidfade{from{opacity:0}to{opacity:1}}
+@keyframes bpvidpop{from{transform:scale(.88)}to{transform:scale(1)}}
+.bpvidcard{width:min(86vw,380px);border-radius:18px;overflow:hidden;background:#000;border:2px solid #f4d78c;box-shadow:0 0 0 4px rgba(244,215,140,.25),0 20px 60px rgba(0,0,0,.6);animation:bpvidpop .3s cubic-bezier(.2,.8,.2,1)}
+.bpvidcard video{display:block;width:100%;height:auto;background:#000}
+.bpvidcap{padding:8px 12px;text-align:center;background:rgba(8,16,32,.95);color:#f4d78c;font-size:13px;font-weight:800;letter-spacing:.12em}
+
+/* ===== MIDNIGHT BACKGROUND THEME ===== */
 :root,
 :root:not([data-theme="light"]){
-  --bg:#0b1220;
-  --card:#131c2e;
-  --tx:#e8eef8;
-  --mute:#8c9bb3;
-  --bd:#23324d;
-  --ac:#d7aa43;
-  --acx:#0b1220;
+  --bg:#0b1220;--card:#131c2e;--tx:#e8eef8;--mute:#8c9bb3;--bd:#23324d;--ac:#d7aa43;--acx:#0b1220;
 }
-
 body{
   background:
     radial-gradient(900px 500px at 85% -10%, rgba(40,87,134,.35), transparent 60%),
@@ -19,52 +173,1610 @@ body{
   background-attachment:fixed;
   color:var(--tx);
 }
-
 h1{color:#f4d78c;border-bottom-color:#23324d}
-
-.add,.goalcard,.stat,.lead{
-  background:#131c2e;
-  border-color:#23324d;
-  box-shadow:0 3px 14px rgba(0,0,0,.35);
-}
+.add,.goalcard,.stat,.lead{background:#131c2e;border-color:#23324d;box-shadow:0 3px 14px rgba(0,0,0,.35)}
 .lead:hover{border-color:#3a5274;box-shadow:0 5px 18px rgba(0,0,0,.45)}
-
 .stat b,.goalnumber{color:#f4d78c}
 .stat span,.goaltitle,.ct,.goalbottom,.empty,.msg{color:#8c9bb3}
-
 .goalbadge{color:#f4d78c;background:#1a263d;border-color:#2c3f60}
 .goaltrack{background:#1a263d}
-
 .tab{background:#131c2e;border-color:#23324d;color:#e8eef8}
-.tab.on{
-  background:linear-gradient(135deg,#d7aa43,#f0cd7a);
-  border-color:#d7aa43;
-  color:#0b1220;
-  box-shadow:0 3px 12px rgba(215,170,67,.25);
-}
-
-button.p{
-  background:linear-gradient(135deg,#d7aa43,#f0cd7a);
-  color:#0b1220;
-}
-
-input,select,textarea{
-  background:#0f1726;
-  color:#e8eef8;
-  border-color:#23324d;
-}
+.tab.on{background:linear-gradient(135deg,#d7aa43,#f0cd7a);border-color:#d7aa43;color:#0b1220;box-shadow:0 3px 12px rgba(215,170,67,.25)}
+button.p{background:linear-gradient(135deg,#d7aa43,#f0cd7a);color:#0b1220}
+input,select,textarea{background:#0f1726;color:#e8eef8;border-color:#23324d}
 input::placeholder,textarea::placeholder{color:#6b7b95}
-input:focus,select:focus,textarea:focus{
-  outline:2px solid rgba(215,170,67,.25);
-  border-color:#d7aa43;
-}
-
+input:focus,select:focus,textarea:focus{outline:2px solid rgba(215,170,67,.25);border-color:#d7aa43}
 .chip,.tg{background:#131c2e;border-color:#23324d;color:#8c9bb3}
 .chip.on,.tg.on{background:#d7aa43;border-color:#d7aa43;color:#0b1220}
 .tg.bad.on{background:#b42332;border-color:#b42332;color:#fff}
-
 .drop{background:#0f1726;border-color:#2c3f60}
 .drop.over{background:#162238;border-color:#d7aa43;color:#f4d78c}
-
 .acts button:hover{color:#f4d78c}
 .moveflash{background:#d7aa43;color:#0b1220}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<h1>Nexus Trident Agency</h1>
+
+<div class="board">
+  <h2>🏆 New BP Leaderboard</h2>
+  <div class="monthlabel" id="monthlabel"></div>
+  <div id="board"></div>
+  <div id="momentum" style="text-align:center;font-size:11px;font-weight:700;opacity:.85;margin-top:7px"></div>
+
+  <div class="scene" id="scene">
+    <div class="pic" role="img" aria-label="Miami oceanfront penthouse tower"></div>
+    <div class="scap">
+      <span>🌴 15K+ A MONTH TO UNLOCK THE MATRIX ESCAPE</span>
+      <span id="scaptxt">20 BPs to go</span>
+    </div>
+  </div>
+
+  <button class="histb" id="histb">📊 Past months</button>
+  <div class="hist" id="hist" style="display:none"></div>
+</div>
+
+<div class="goalcard">
+  <div class="goalhead">
+    <div>
+      <div class="goaltitle" id="goaltitle">TEAM BP GOAL</div>
+      <div class="goalnumber"><span id="goalcount">0</span> / 20 New BPs</div>
+    </div>
+    <div class="goalbadge" id="goalbadge">LET'S GO</div>
+  </div>
+  <div class="goalbarwrap">
+    <div class="goaltrack"><i id="goalfill"></i></div>
+    <div class="goalavatar" id="goalavatar"></div>
+  </div>
+  <div class="goalbottom">
+    <span id="goaltext">0% complete</span>
+    <span id="goalremaining">20 to goal</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="add">
+  <div class="row">
+    <input id="fn" placeholder="First name">
+    <input id="ln" placeholder="Last name">
+    <input id="em" type="email" placeholder="Email">
+    <input id="ph" type="tel" placeholder="Phone">
+    <select id="pf">
+      <option value="">Platform…</option>
+      <option>LinkedIn</option>
+      <option>ZipRecruiter</option>
+      <option>Indeed</option>
+      <option>Other</option>
+    </select>
+    <button class="p" id="addb">Add lead</button>
+  </div>
+</div>
+
+<div class="add" id="poolbox" style="display:none">
+  <div style="font-weight:600;margin-bottom:6px">Drop leads in the pool</div>
+  <textarea id="bulk" rows="4" style="width:100%" placeholder="Paste one lead per line: First Last, email, phone"></textarea>
+  <div class="drop" id="drop">
+    Or drop an applicant CSV here (Indeed, ZipRecruiter, LinkedIn) or tap to choose a file.
+    <input type="file" id="file" accept=".csv,text/csv" hidden>
+  </div>
+  <div class="row" style="margin-top:8px;align-items:center">
+    <select id="bpf">
+      <option value="">Platform for all…</option>
+      <option>LinkedIn</option>
+      <option>ZipRecruiter</option>
+      <option>Indeed</option>
+      <option>Other</option>
+    </select>
+    <button class="p" id="bulkb">Add to pool</button>
+    <button class="p" id="splitb">Split evenly: Logan / Leo</button>
+    <span class="ct" id="splitmsg"></span>
+  </div>
+</div>
+
+<div id="note" class="ct" style="min-height:18px;margin:-4px 0 8px"></div>
+
+<div class="stats" id="stats"></div>
+
+<div class="searchwrap">
+  <input id="search" type="search" placeholder="🔍 Search leads by name, email or phone…" autocomplete="off">
+  <button class="sclear" id="sclear" aria-label="Clear search">✕</button>
+</div>
+<div class="sinfo" id="sinfo"></div>
+
+<div class="filters" id="filters"></div>
+
+<div id="list"><div class="msg">Loading…</div></div>
+
+<div style="text-align:center;margin:18px 0">
+  <button class="chip" id="expb">Export leads (CSV for Google Sheets)</button>
+</div>
+
+</div>
+
+<div id="moveflash" class="moveflash"></div>
+
+<div class="bpvid" id="bpvid">
+  <div class="bpvidcard">
+    <video id="bpvideo" src="bp-dance.mp4" playsinline preload="auto"></video>
+    <div class="bpvidcap">🎉 NEW BP!</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* ========================================================= SUPABASE */
+
+const SUPABASE_URL = "https://dnrtxgghajgaitoacdya.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_3dm11FqJHrw7qBrglXlOcw_QyBX737O";
+
+/* ========================================================= APP SETTINGS */
+
+const TABS = ["Logan","Pool","Leo"];
+const OWNERS = ["Logan","Leo"];
+const STATUSES = ["New","Contacted","Interview","Offer","Hired","Passed","No Show"];
+
+const GOAL = 20;
+
+/* The Miami penthouse photo (built in) */
+const PENTHOUSE_IMG =
+    "data:image/jpeg;base64," +
+    "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";
+
+/* Goal-bar photos: 15+ BPs = hi, 10-14 = mid, 0-9 = low */
+const AVATARS = {
+  hi:
+    "data:image/jpeg;base64," +
+    "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" +
+    "yMZqVtIYySO4pmrmC3s//9k=",
+  mid:
+    "data:image/jpeg;base64," +
+    "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",
+  low:
+    "data:image/jpeg;base64," +
+    "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" +
+    "iSdOz//Z"
+};
+
+const MONTHS = [
+  "January","February","March","April","May","June",
+  "July","August","September","October","November","December"
+];
+
+let tab = "Pool";
+let filter = "All";
+let leads = [];
+let db = false;
+let sb = null;
+let loading = false;
+
+let histOpen = false;
+let openMonth = null;
+
+let q = "";
+
+const $ = id => document.getElementById(id);
+
+try{ tab = localStorage.getItem("tab") || "Pool"; }catch(e){}
+
+$("scene").style.setProperty("--img", 'url("' + PENTHOUSE_IMG + '")');
+
+/* ========================================================= MESSAGES */
+
+function note(message,bad=false){
+  const n = $("note");
+  n.textContent = message;
+  n.style.color = bad ? "#dc2626" : "var(--mute)";
+  clearTimeout(note.t);
+  if(!bad){
+    note.t = setTimeout(()=>{ n.textContent = ""; },3500);
+  }
+}
+
+function showMove(message){
+  const box = $("moveflash");
+  box.textContent = message;
+  box.classList.add("show");
+  clearTimeout(showMove.t);
+  showMove.t = setTimeout(()=>{ box.classList.remove("show"); },1800);
+}
+
+function fail(e){
+  console.error("Supabase error:",e);
+  const code = e?.code || "";
+  const msg = e?.message || "";
+  note("Couldn't save" + ((code || msg) ? ": " + (code || msg) : ""), true);
+}
+
+/* ========================================================= NEW BP + MONTHS */
+
+function isBP(lead){ return lead?.status === "Hired"; }
+
+function monthKey(ts){
+  const d = new Date(ts);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0");
+}
+
+function monthLabel(key){
+  const parts = key.split("-");
+  return MONTHS[Number(parts[1])-1] + " " + parts[0];
+}
+
+
+/* When a lead became a New BP. Supports Supabase timestamps and numeric dates. */
+function bpTime(lead){
+  const hired = lead?.hired_at
+    ? new Date(lead.hired_at).getTime()
+    : 0;
+
+  const created = lead?.created
+    ? new Date(lead.created).getTime()
+    : 0;
+
+  return Number.isFinite(hired) && hired > 0
+    ? hired
+    : Number.isFinite(created) && created > 0
+      ? created
+      : 0;
+}
+
+
+/* A New BP made in the current month (this is what the leaderboard and goal count). */
+function isMonthBP(lead){
+  return isBP(lead) && monthKey(bpTime(lead)) === monthKey(Date.now());
+}
+
+/* ========================================================= OWNER FILTERING */
+
+function ownerLeads(owner){
+  if(owner === "Pool"){
+    return leads.filter(l => l.owner === "Pool");
+  }
+  return leads.filter(l => l.owner === owner);
+}
+
+/* ========================================================= GOAL */
+
+function renderGoal(){
+  const total = leads.filter(isMonthBP).length;
+  const pct = Math.min(100, Math.round(total / GOAL * 100));
+
+  $("goaltitle").textContent =
+    "TEAM BP GOAL · " + MONTHS[new Date().getMonth()].toUpperCase();
+
+  $("goalcount").textContent = total;
+  $("goalfill").style.width = pct + "%";
+  $("goaltext").textContent = pct + "% complete";
+  $("goalremaining").textContent =
+    total >= GOAL ? "GOAL REACHED" : Math.max(0,GOAL-total) + " to goal";
+  $("goalbadge").textContent =
+    total >= GOAL ? "GOAL REACHED"
+    : total === 0 ? "LET'S GO"
+    : total >= GOAL * 0.7 ? "ON FIRE"
+    : "IN PROGRESS";
+
+  /* Photo riding the goal bar: 15+ = hi, 10-14 = mid, 0-9 = low */
+  const tier = total >= 15 ? "hi" : total >= 10 ? "mid" : "low";
+  const av = $("goalavatar");
+  av.className = "goalavatar " + tier;
+  av.style.backgroundImage = 'url("' + AVATARS[tier] + '")';
+  av.style.left = "min(max(0px, calc(" + pct + "% - 20px)), calc(100% - 40px))";
+
+  /* The penthouse photo gets brighter and more colorful as the team nears the goal. */
+  const scene = $("scene");
+  scene.style.setProperty("--sat", (0.35 + 0.65 * pct / 100).toFixed(2));
+  scene.style.setProperty("--br", (0.7 + 0.3 * pct / 100).toFixed(2));
+
+  $("scaptxt").textContent =
+    total >= GOAL ? "ESCAPE UNLOCKED 🔓" : Math.max(0,GOAL-total) + " BPs to go";
+}
+
+/* ========================================================= FULL RENDER */
+
+function render(){
+  renderGoal();
+  renderBoard();
+  renderHistory();
+  renderTabs();
+  renderStats();
+  renderFilters();
+  renderLeads();
+
+  $("expb").textContent =
+    tab === "Pool"
+      ? "Export pool leads (CSV for Google Sheets)"
+      : "Export " + tab + "'s leads (CSV for Google Sheets)";
+}
+
+/* ========================================================= LEADERBOARD (THIS MONTH) */
+
+function renderBoard(){
+  $("monthlabel").textContent =
+    monthLabel(monthKey(Date.now())) + " · resets every month";
+
+  const rows = OWNERS.map(owner => ({
+    owner,
+    bp: leads.filter(l => l.owner === owner && isMonthBP(l)).length
+  }));
+
+  const top = Math.max(...rows.map(x=>x.bp), 0);
+  const tied = rows.length > 1 && rows[0].bp === rows[1].bp;
+
+  const board = $("board");
+  board.innerHTML = "";
+
+  const totalBP = rows.reduce((sum,x)=>sum+x.bp, 0);
+  const momentum = $("momentum");
+
+  if(totalBP === 0){
+    momentum.textContent = "Your first New BP starts the race.";
+  }else if(totalBP < GOAL / 2){
+    momentum.textContent = "Good start. Keep the pipeline moving.";
+  }else if(totalBP < GOAL){
+    momentum.textContent = "🔥 Momentum is building.";
+  }else{
+    momentum.textContent = "🏆 Team goal crushed. Keep going.";
+  }
+
+  rows.forEach((x)=>{
+    const leader = top > 0 && x.bp === top;
+
+    const d = document.createElement("div");
+    d.className = "br" + (leader ? " lead1" : "");
+
+    const rk = document.createElement("div");
+    rk.className = "rk";
+
+    if(top === 0){
+      rk.textContent = "🎯";
+    }else if(leader){
+      rk.textContent = tied ? "🥇" : "👑";
+    }else{
+      rk.textContent = "🥈";
+    }
+
+    const mid = document.createElement("div");
+    mid.className = "bn";
+    mid.textContent = x.owner;
+
+    const sm = document.createElement("small");
+
+    if(top === 0){
+      sm.textContent = "Waiting for the first BP";
+    }else if(leader){
+      if(tied){
+        sm.textContent = "Tied for the lead";
+      }else{
+        const other = rows.find(r => r.owner !== x.owner);
+        sm.textContent = "In the lead by " + (x.bp - (other?.bp || 0));
+      }
+    }else{
+      sm.textContent = (top-x.bp) + " to catch up";
+    }
+
+    mid.appendChild(sm);
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+
+    const fill = document.createElement("i");
+    fill.style.width = top ? Math.round(100*x.bp/top)+"%" : "0%";
+    bar.appendChild(fill);
+    mid.appendChild(bar);
+
+    const bv = document.createElement("div");
+    bv.className = "bv";
+    bv.textContent = x.bp;
+
+    const small = document.createElement("small");
+    small.textContent = "New BP";
+    bv.appendChild(small);
+
+    d.append(rk, mid, bv);
+    board.appendChild(d);
+  });
+
+  if(top > 0 && tied){
+    const t = document.createElement("div");
+    t.className = "tie";
+    t.textContent = "🔥 It's a tie!";
+    board.appendChild(t);
+  }
+}
+
+/* ========================================================= PAST MONTHS */
+
+function renderHistory(){
+  const btn = $("histb");
+  const box = $("hist");
+
+  btn.textContent = histOpen ? "Hide past months" : "📊 Past months";
+  box.style.display = histOpen ? "block" : "none";
+
+  if(!histOpen){ return; }
+
+  box.innerHTML = "";
+
+  const cur = monthKey(Date.now());
+  const groups = {};
+
+  leads.filter(isBP).forEach(l => {
+    const k = monthKey(bpTime(l));
+    if(k === cur){ return; }
+    (groups[k] = groups[k] || []).push(l);
+  });
+
+  const keys = Object.keys(groups).sort().reverse();
+
+  if(!keys.length){
+    const e = document.createElement("div");
+    e.className = "hempty";
+    e.textContent = "No past months yet. Stats show up here after a month ends.";
+    box.appendChild(e);
+    return;
+  }
+
+  keys.forEach(key => {
+    const g = groups[key];
+    const lg = g.filter(l => l.owner === "Logan").length;
+    const le = g.filter(l => l.owner === "Leo").length;
+    const total = g.length;
+    const pct = Math.round(100 * total / GOAL);
+
+    const winner =
+      lg > le ? "Logan won"
+      : le > lg ? "Leo won"
+      : "Tie";
+
+    const card = document.createElement("div");
+    card.className = "hm";
+
+    const head = document.createElement("div");
+    head.className = "hmh";
+
+    const name = document.createElement("b");
+    name.textContent = monthLabel(key);
+
+    const sum = document.createElement("span");
+    sum.textContent = total + " / " + GOAL + " · " + winner;
+
+    head.append(name, sum);
+
+    head.onclick = () => {
+      openMonth = openMonth === key ? null : key;
+      renderHistory();
+    };
+
+    card.appendChild(head);
+
+    if(openMonth === key){
+      const platforms = {};
+
+      g.forEach(l => {
+        const p = l.platform || "Unknown";
+        platforms[p] = (platforms[p] || 0) + 1;
+      });
+
+      const platText = Object.entries(platforms)
+        .sort((a,b) => b[1] - a[1])
+        .map(([p,n]) => p + " " + n)
+        .join(" · ");
+
+      const body = document.createElement("div");
+      body.className = "hmb";
+
+      const lines = [
+        ["Logan", lg + " New BP"],
+        ["Leo", le + " New BP"],
+        ["Team total", total + " of " + GOAL + " (" + pct + "%)" + (total >= GOAL ? " · goal reached ✓" : "")],
+        ["Sources", platText || "–"]
+      ];
+
+      lines.forEach(([label,value]) => {
+        const line = document.createElement("div");
+        const s = document.createElement("strong");
+        s.textContent = label + ": ";
+        line.append(s, document.createTextNode(value));
+        body.appendChild(line);
+      });
+
+      card.appendChild(body);
+    }
+
+    box.appendChild(card);
+  });
+}
+
+$("histb").onclick = () => {
+  histOpen = !histOpen;
+  renderHistory();
+};
+
+/* ========================================================= TABS */
+
+function renderTabs(){
+  $("tabs").innerHTML = "";
+
+  TABS.forEach(owner => {
+    const b = document.createElement("button");
+    b.className = "tab" + (owner === tab ? " on" : "");
+    b.textContent = owner + " ";
+
+    const small = document.createElement("small");
+    small.textContent = "(" + ownerLeads(owner).length + ")";
+    b.appendChild(small);
+
+    b.onclick = ()=>{
+      tab = owner;
+      filter = "All";
+      try{ localStorage.setItem("tab", owner); }catch(e){}
+      render();
+    };
+
+    $("tabs").appendChild(b);
+  });
+}
+
+/* ========================================================= STATS */
+
+function renderStats(){
+  const set = ownerLeads(tab);
+  const n = set.length;
+  const countStatus = status => set.filter(l => l.status === status).length;
+  const pct = (a,b) => b ? Math.round(100*a/b)+"%" : "–";
+
+  const items = [
+    [n, tab === "Pool" ? "Total leads (team)" : "Leads"],
+    [countStatus("Contacted") + " · " + pct(countStatus("Contacted"), n), "Contacted"],
+    [countStatus("Interview") + " · " + pct(countStatus("Interview"), n), "Second interview"],
+    [countStatus("Hired") + " · " + pct(countStatus("Hired"), n), "New BPs"]
+  ];
+
+  $("stats").innerHTML = "";
+
+  items.forEach(([value,label])=>{
+    const d = document.createElement("div");
+    d.className = "stat";
+
+    const b = document.createElement("b");
+    b.textContent = value;
+
+    const s = document.createElement("span");
+    s.textContent = label;
+
+    d.append(b, s);
+    $("stats").appendChild(d);
+  });
+}
+
+/* ========================================================= FILTERS */
+
+function renderFilters(){
+  const set = ownerLeads(tab);
+
+  const filters = [
+    ["All","All",set.length],
+    ["Contacted","Contacted",set.filter(l => l.status === "Contacted").length],
+    ["2nd interview","Interview",set.filter(l => l.status === "Interview").length],
+    ["No show","No Show",set.filter(l => l.status === "No Show").length],
+    ["New BP","Hired",set.filter(isBP).length]
+  ];
+
+  $("filters").innerHTML = "";
+
+  filters.forEach(([label,key,count])=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (key === filter ? " on" : "");
+    b.textContent = label + " " + count;
+    b.onclick = ()=>{ filter = key; render(); };
+    $("filters").appendChild(b);
+  });
+}
+
+/* ========================================================= SEARCH */
+
+function matchLead(l){
+  const hay = [l.name, l.first, l.last, l.email, l.phone, l.contact]
+    .filter(Boolean).join(" ").toLowerCase();
+
+  if(hay.includes(q)) return true;
+
+  const digits = q.replace(/\D/g,"");
+  return digits.length >= 3 && hay.replace(/\D/g,"").includes(digits);
+}
+
+$("search").oninput = e => {
+  q = e.target.value.trim().toLowerCase();
+  $("sclear").style.display = q ? "block" : "none";
+  render();
+};
+
+$("sclear").onclick = () => {
+  $("search").value = "";
+  q = "";
+  $("sclear").style.display = "none";
+  render();
+  $("search").focus();
+};
+
+/* ========================================================= RENDER LEADS */
+
+function renderLeads(){
+  $("poolbox").style.display = tab === "Pool" ? "block" : "none";
+
+  const list = $("list");
+  list.innerHTML = "";
+
+  if(!db){
+    list.innerHTML = '<div class="msg">Connect the shared database to load and save leads.</div>';
+    return;
+  }
+
+  let shown = ownerLeads(tab);
+
+  if(filter !== "All"){
+    shown = shown.filter(l => l.status === filter);
+  }
+
+  if(q){
+    shown = shown.filter(matchLead);
+  }
+
+  shown = shown.slice().sort((a,b)=> (b.created||0) - (a.created||0));
+
+  $("sinfo").textContent = q
+    ? shown.length + " found in " + tab
+    : "";
+
+  if(!shown.length){
+    if(q){
+      const others = TABS
+        .filter(t => t !== tab)
+        .map(t => [t, ownerLeads(t).filter(matchLead).length])
+        .filter(x => x[1] > 0)
+        .map(x => x[1] + " in " + x[0])
+        .join(", ");
+
+      list.innerHTML = '<div class="empty">No match in ' + tab + (others ? ". Found " + others + "." : ".") + '</div>';
+    }else{
+      list.innerHTML = '<div class="empty">No leads here yet.</div>';
+    }
+    return;
+  }
+
+  shown.forEach(lead => renderLead(lead, list));
+}
+
+/* ========================================================= RENDER ONE LEAD */
+
+function renderLead(lead,list){
+  const d = document.createElement("div");
+  d.className = "lead";
+
+  const top = document.createElement("div");
+  top.className = "top";
+
+  const left = document.createElement("div");
+
+  const nm = document.createElement("div");
+  nm.className = "nm";
+  nm.textContent =
+    lead.name ||
+    [lead.first, lead.last].filter(Boolean).join(" ") ||
+    "Unnamed";
+
+  const ct = document.createElement("div");
+  ct.className = "ct";
+  ct.textContent =
+    lead.contact ||
+    [lead.email, lead.phone].filter(Boolean).join(" · ");
+
+  left.append(nm, ct);
+
+  const sel = document.createElement("select");
+
+  STATUSES.forEach(status => {
+    const option = document.createElement("option");
+    option.value = status;
+    option.textContent = status;
+    if(status === lead.status){ option.selected = true; }
+    sel.appendChild(option);
+  });
+
+  sel.onchange = () => updateLead(lead.id, { status: sel.value });
+
+  top.append(left, sel);
+
+  const tags = document.createElement("div");
+  tags.className = "tgs";
+
+  addQuickButton(tags, "Contacted", lead.status === "Contacted",
+    () => updateLead(lead.id, { status:"Contacted" }));
+
+  addQuickButton(tags, "2nd interview", lead.status === "Interview",
+    () => updateLead(lead.id, { status:"Interview" }));
+
+  addQuickButton(tags, "No show", lead.status === "No Show",
+    () => updateLead(lead.id, { status:"No Show" }), true);
+
+  addQuickButton(tags, "New BP", isBP(lead),
+    () => updateLead(lead.id, { status: isBP(lead) ? "New" : "Hired" }));
+
+  const platform = document.createElement("select");
+  platform.style.cssText = "padding:3px 6px;font-size:12px;border-radius:999px";
+
+  ["","LinkedIn","ZipRecruiter","Indeed","Other"].forEach(value => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value || "Platform…";
+    if(value === (lead.platform || "")){ option.selected = true; }
+    platform.appendChild(option);
+  });
+
+  platform.onchange = () => updateLead(lead.id, { platform:platform.value });
+
+  tags.appendChild(platform);
+
+  const notes = document.createElement("textarea");
+  notes.placeholder = "Notes…";
+  notes.value = lead.notes || "";
+  notes.onchange = () => updateLead(lead.id, { notes:notes.value });
+
+  const acts = document.createElement("div");
+  acts.className = "acts";
+
+  /* Assignment uses moveLead(): changes owner locally, redraws, then saves. */
+
+  if(lead.owner === "Pool"){
+    acts.append(
+      ownerButton("Give to Logan","Logan"),
+      ownerButton("Give to Leo","Leo")
+    );
+  }else{
+    const other = lead.owner === "Logan" ? "Leo" : "Logan";
+    acts.append(
+      ownerButton("Move to " + other, other),
+      ownerButton("Back to pool","Pool")
+    );
+  }
+
+  function ownerButton(label,owner){
+    const button = document.createElement("button");
+    button.textContent = label;
+    button.onclick = () => moveLead(lead.id, owner);
+    return button;
+  }
+
+  const del = document.createElement("button");
+  del.textContent = "Delete";
+
+  del.onclick = async()=>{
+    if(!del.dataset.arm){
+      del.dataset.arm = "1";
+      del.textContent = "Tap again to delete";
+      del.style.color = "#dc2626";
+
+      setTimeout(()=>{
+        del.dataset.arm = "";
+        del.textContent = "Delete";
+        del.style.color = "";
+      },4000);
+
+      return;
+    }
+
+    try{
+      const {error} = await sb.from("leads").delete().eq("id", lead.id);
+      if(error) throw error;
+
+      leads = leads.filter(x => String(x.id) !== String(lead.id));
+      render();
+      note("Deleted " + (lead.name || "lead"));
+    }catch(e){
+      fail(e);
+    }
+  };
+
+  acts.appendChild(del);
+
+  d.append(top, tags, notes, acts);
+  list.appendChild(d);
+}
+
+/* ========================================================= QUICK BUTTON */
+
+function addQuickButton(parent,label,on,action,bad=false){
+  const b = document.createElement("button");
+  b.className = "tg" + (bad ? " bad" : "") + (on ? " on" : "");
+  b.textContent = label;
+  b.onclick = action;
+  parent.appendChild(b);
+}
+
+/* ========================================================= MOVE LEAD */
+
+async function moveLead(id,newOwner){
+  if(!sb){
+    note("Database is not connected.", true);
+    return;
+  }
+
+  const index = leads.findIndex(l => String(l.id) === String(id));
+  if(index === -1){ return; }
+
+  const lead = leads[index];
+  const oldOwner = lead.owner;
+
+  if(oldOwner === newOwner){ return; }
+
+  const oldOwnerValue = lead.owner;
+
+  /* INSTANT LOCAL MOVE */
+  leads[index] = { ...lead, owner:newOwner };
+
+  render();
+
+  showMove("Moved " + (lead.name || "lead") + " → " + newOwner);
+
+  try{
+    const {error} = await sb.from("leads").update({ owner:newOwner }).eq("id", id);
+    if(error) throw error;
+
+    note("Moved to " + newOwner + " ✓");
+  }catch(e){
+    /* Supabase failed: put the lead back. */
+    leads[index] = { ...lead, owner:oldOwnerValue };
+    render();
+    fail(e);
+  }
+}
+
+/* ========================================================= STATUS / PLATFORM / NOTES UPDATE */
+
+async function updateLead(id,patch){
+  if(!sb){
+    note("Database is not connected.", true);
+    return;
+  }
+
+  const index = leads.findIndex(l => String(l.id) === String(id));
+  if(index === -1){ return; }
+
+  const oldLead = { ...leads[index] };
+
+  patch = { ...patch };
+
+  const becomingBP = patch.status === "Hired" && !isBP(oldLead);
+
+  /* Play the dancing video right away (inside the tap, so sound is allowed). */
+  if(becomingBP){
+    celebrateBPVideo();
+  }
+
+  /* Record the date a lead becomes a New BP (used for the monthly reset). */
+  if(patch.status !== undefined){
+    if(becomingBP){
+     patch.hired_at = new Date().toISOString();
+    }else if(patch.status !== "Hired" && isBP(oldLead)){
+      patch.hired_at = null;
+    }
+  }
+
+  /* INSTANT LOCAL UPDATE */
+  leads[index] = { ...leads[index], ...patch };
+
+  render();
+
+  try{
+    let warn = false;
+
+    let {error} = await sb.from("leads").update(patch).eq("id", id);
+
+    /* If the hired_at column hasn't been added in Supabase yet, save without it. */
+    if(error && "hired_at" in patch && /hired_at/i.test(error.message || "")){
+      const retry = { ...patch };
+      delete retry.hired_at;
+      warn = true;
+      ({error} = await sb.from("leads").update(retry).eq("id", id));
+    }
+
+ if(error) {
+  console.error("Supabase save error:", error);
+  alert(
+    "Save failed: " + error.code +
+    "\nMessage: " + error.message +
+    "\nDetails: " + (error.details || "None") +
+    "\nHint: " + (error.hint || "None")
+  );
+  throw error;
+}
+
+    if(warn){
+      note("Saved, but add the hired_at column in Supabase so monthly stats work.", true);
+    }else if(becomingBP){
+      note("NEW BP! Leaderboard updated ✓");
+    }else{
+      note("Updated ✓");
+    }
+  }catch(e){
+    /* ROLLBACK IF DATABASE UPDATE FAILED */
+    if(becomingBP){ hideBPVideo(); }
+    leads[index] = oldLead;
+    render();
+    fail(e);
+  }
+}
+
+/* ========================================================= NEW BP CELEBRATION */
+
+function celebrateBP(withBadge = true){
+  const flash = document.createElement("div");
+  flash.className = "bpflash";
+  document.body.appendChild(flash);
+
+  setTimeout(() => flash.remove(), 750);
+
+  if(!withBadge){ return; }
+
+  const badge = document.createElement("div");
+  badge.textContent = "🎉 NEW BP!";
+
+  badge.style.cssText = `
+    position:fixed;
+    left:50%;
+    top:42%;
+    transform:translate(-50%,-50%) scale(.7);
+    z-index:10000;
+    font-size:42px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:0 4px 18px rgba(0,0,0,.35);
+    opacity:0;
+    transition:all .35s ease;
+    pointer-events:none
+  `;
+
+  document.body.appendChild(badge);
+
+  requestAnimationFrame(()=>{
+    badge.style.transform = "translate(-50%,-50%) scale(1)";
+    badge.style.opacity = "1";
+  });
+
+  setTimeout(()=>{
+    badge.style.transform = "translate(-50%,-50%) scale(1.15)";
+    badge.style.opacity = "0";
+  },600);
+
+  setTimeout(()=>badge.remove(), 1000);
+}
+
+/* ========================================================= NEW BP VIDEO POPUP */
+
+const bpVid = $("bpvid");
+const bpVideo = $("bpvideo");
+
+function hideBPVideo(){
+  clearTimeout(celebrateBPVideo.t);
+  bpVid.classList.remove("show");
+  try{ bpVideo.pause(); }catch(e){}
+}
+
+function celebrateBPVideo(){
+  celebrateBP(false);
+
+  /* If the video file can't play, fall back to the old badge so you still get a celebration. */
+  const fallback = () => {
+    hideBPVideo();
+    celebrateBP(true);
+  };
+
+  bpVid.classList.add("show");
+
+  try{ bpVideo.currentTime = 0; }catch(e){}
+  bpVideo.muted = false;
+
+  const p = bpVideo.play();
+
+  if(p && p.catch){
+    p.catch(() => {
+      /* Sound was blocked: play it silent so the popup still shows. */
+      bpVideo.muted = true;
+      const p2 = bpVideo.play();
+      if(p2 && p2.catch){ p2.catch(fallback); }
+    });
+  }
+
+  /* Safety: never leave the popup stuck on screen. */
+  clearTimeout(celebrateBPVideo.t);
+  celebrateBPVideo.t = setTimeout(hideBPVideo, 12000);
+}
+
+/* Disappears the moment the video is over (or if you tap it). */
+bpVideo.addEventListener("ended", hideBPVideo);
+bpVid.onclick = hideBPVideo;
+
+/* ========================================================= CREATE LEAD */
+
+function mkLead(first,last,email,phone,owner,created,platform){
+  const name = (first + " " + last).trim();
+
+  return {
+    name,
+    first,
+    last,
+    email,
+    phone,
+    platform: platform || "",
+    contact: [email, phone].filter(Boolean).join(" · "),
+    notes:"",
+    status:"New",
+    owner,
+    created
+  };
+}
+
+/* ========================================================= ADD SINGLE LEAD */
+
+$("addb").onclick = async()=>{
+  const first = $("fn").value.trim();
+  const last = $("ln").value.trim();
+
+  if(!(first || last)){
+    note("Enter a first or last name first.", true);
+    return;
+  }
+
+  if(!db){
+    note("Database is not connected.", true);
+    return;
+  }
+
+  try{
+    note("Saving…");
+
+    const lead = mkLead(
+      first,
+      last,
+      $("em").value.trim(),
+      $("ph").value.trim(),
+      tab,
+      Date.now(),
+      $("pf").value
+    );
+
+    const {data,error} = await sb.from("leads").insert(lead).select().single();
+    if(error) throw error;
+
+    /* ADD THE REAL DATABASE ROW TO LOCAL DATA IMMEDIATELY. */
+    if(data){ leads.unshift(data); }
+
+    ["fn","ln","em","ph"].forEach(id => $(id).value = "");
+
+    $("pf").value = "";
+    filter = "All";
+    render();
+
+    note("Saved ✓ added to " + tab);
+
+    $("fn").focus();
+  }catch(e){
+    fail(e);
+  }
+};
+
+/* ========================================================= CSV PARSER */
+
+function parseCSV(text){
+  const rows = [];
+  let row = [];
+  let field = "";
+  let quoted = false;
+
+  for(let i=0; i<text.length; i++){
+    const ch = text[i];
+
+    if(quoted){
+      if(ch === '"'){
+        if(text[i+1] === '"'){
+          field += '"';
+          i++;
+        }else{
+          quoted = false;
+        }
+      }else{
+        field += ch;
+      }
+    }else if(ch === '"'){
+      quoted = true;
+    }else if(ch === ","){
+      row.push(field);
+      field = "";
+    }else if(ch === "\n" || ch === "\r"){
+      if(ch === "\r" && text[i+1] === "\n"){ i++; }
+
+      row.push(field);
+      field = "";
+
+      if(row.some(x => x.trim())){ rows.push(row); }
+
+      row = [];
+    }else{
+      field += ch;
+    }
+  }
+
+  row.push(field);
+
+  if(row.some(x => x.trim())){ rows.push(row); }
+
+  return rows;
+}
+
+/* ========================================================= IMPORT CSV */
+
+function importCSV(file){
+  if(!db || !file){ return; }
+
+  const reader = new FileReader();
+
+  reader.onload = async()=>{
+    try{
+      const rows = parseCSV(String(reader.result).replace(/^\uFEFF/,""));
+
+      if(rows.length < 2){
+        note("No rows found in that file", true);
+        return;
+      }
+
+      const headers = rows[0].map(x => x.toLowerCase().trim());
+      const find = regex => headers.findIndex(x => regex.test(x));
+
+      const iF = find(/first/);
+      const iL = find(/last|surname/);
+      const iN = find(/^(full )?(candidate )?name$|^name|candidate/);
+      const iE = find(/e-?mail/);
+      const iP = find(/phone|mobile|cell/);
+
+      if(iF < 0 && iL < 0 && iN < 0 && iE < 0){
+        note("Couldn't find name or email columns", true);
+        return;
+      }
+
+      const existing = new Set(
+        leads.map(l => (l.email || "").toLowerCase()).filter(Boolean)
+      );
+
+      const out = [];
+
+      rows.slice(1).forEach((r,i)=>{
+        const get = k => k >= 0 ? (r[k] || "").trim() : "";
+
+        let first = get(iF);
+        let last = get(iL);
+
+        if(!first && !last && iN >= 0){
+          const parts = get(iN).split(/\s+/);
+          first = parts.shift() || "";
+          last = parts.join(" ");
+        }
+
+        const email = get(iE);
+        const phone = get(iP);
+
+        if(!first && !last && !email){ return; }
+
+        if(email && existing.has(email.toLowerCase())){ return; }
+
+        if(email){ existing.add(email.toLowerCase()); }
+
+        out.push(
+          mkLead(first, last, email, phone, "Pool", Date.now()+i, $("bpf").value)
+        );
+      });
+
+      if(!out.length){
+        note("Nothing new to add (all duplicates?)");
+        return;
+      }
+
+      note("Importing " + out.length + " leads…");
+
+      const {data,error} = await sb.from("leads").insert(out).select();
+      if(error) throw error;
+
+      if(data){ leads = [...data, ...leads]; }
+
+      render();
+
+      note("Imported " + out.length + " leads ✓");
+    }catch(e){
+      fail(e);
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+/* ========================================================= CSV DROP ZONE */
+
+const dz = $("drop");
+
+dz.onclick = () => $("file").click();
+
+$("file").onchange = e => {
+  importCSV(e.target.files[0]);
+  e.target.value = "";
+};
+
+dz.ondragover = e => {
+  e.preventDefault();
+  dz.classList.add("over");
+};
+
+dz.ondragleave = () => dz.classList.remove("over");
+
+dz.ondrop = e => {
+  e.preventDefault();
+  dz.classList.remove("over");
+  importCSV(e.dataTransfer.files[0]);
+};
+
+/* ========================================================= BULK ADD */
+
+$("bulkb").onclick = async()=>{
+  if(!db) return;
+
+  const lines = $("bulk").value.split("\n").map(x=>x.trim()).filter(Boolean);
+
+  const out = [];
+
+  lines.forEach((line,i)=>{
+    const parts = line.split(/[,\t]/).map(x=>x.trim()).filter(Boolean);
+
+    const email = parts.find(x => x.includes("@")) || "";
+
+    const phone = parts.find(
+      x => !x.includes("@") && (x.match(/\d/g)||[]).length >= 7
+    ) || "";
+
+    const nameParts = parts
+      .filter(x => x !== email && x !== phone)
+      .join(" ")
+      .trim();
+
+    if(!nameParts && !email && !phone){ return; }
+
+    const sp = nameParts.split(/\s+/);
+    const first = sp.shift() || "";
+
+    out.push(
+      mkLead(first, sp.join(" "), email, phone, "Pool", Date.now()+i, $("bpf").value)
+    );
+  });
+
+  if(!out.length){
+    note("Nothing to add.", true);
+    return;
+  }
+
+  try{
+    const {data,error} = await sb.from("leads").insert(out).select();
+    if(error) throw error;
+
+    if(data){ leads = [...data, ...leads]; }
+
+    $("bulk").value = "";
+    render();
+
+    note("Added " + out.length + " leads ✓");
+  }catch(e){
+    fail(e);
+  }
+};
+
+/* ========================================================= SPLIT POOL */
+
+$("splitb").onclick = async()=>{
+  if(!db) return;
+
+  const pool = leads
+    .filter(l => l.owner === "Pool")
+    .sort((a,b)=> (a.created||0) - (b.created||0));
+
+  if(!pool.length){
+    $("splitmsg").textContent = "Pool is empty";
+    return;
+  }
+
+  let logan = leads.filter(l => l.owner === "Logan").length;
+  let leo = leads.filter(l => l.owner === "Leo").length;
+
+  let moved = { Logan:0, Leo:0 };
+
+  try{
+    for(const lead of pool){
+      const owner = logan <= leo ? "Logan" : "Leo";
+
+      /* UPDATE LOCAL DATA FIRST */
+      const index = leads.findIndex(x => String(x.id) === String(lead.id));
+
+      if(index !== -1){
+        leads[index] = { ...leads[index], owner };
+      }
+
+      if(owner === "Logan"){
+        logan++;
+        moved.Logan++;
+      }else{
+        leo++;
+        moved.Leo++;
+      }
+
+      /* SAVE TO DATABASE */
+      const {error} = await sb.from("leads").update({ owner }).eq("id", lead.id);
+      if(error) throw error;
+    }
+
+    render();
+
+    $("splitmsg").textContent = "Logan +" + moved.Logan + ", Leo +" + moved.Leo;
+
+    note("Pool split ✓");
+  }catch(e){
+    /* If something fails, reload from the database so the data is accurate. */
+    await load();
+    fail(e);
+  }
+};
+
+/* ========================================================= EXPORT (CURRENT TAB ONLY) */
+
+$("expb").onclick = ()=>{
+  try{
+    const q = value =>
+      '"' + String(value == null ? "" : value).replace(/"/g,'""') + '"';
+
+    const rows = [[
+      "First name","Last name","Email","Phone","Platform","Status",
+      "Contacted","2nd interview","No show","New BP","Notes","Owner"
+    ]];
+
+    /* Only the leads on the side you're viewing (Logan, Leo, or Pool) */
+    ownerLeads(tab)
+      .slice()
+      .sort((a,b)=> (a.created||0) - (b.created||0))
+      .forEach(lead=>{
+        let first = lead.first;
+        let last = lead.last;
+
+        if(first == null && last == null){
+          const sp = (lead.name || "").split(/\s+/);
+          first = sp.shift() || "";
+          last = sp.join(" ");
+        }
+
+        rows.push([
+          first,
+          last,
+          lead.email,
+          lead.phone,
+          lead.platform,
+          lead.status,
+          lead.status === "Contacted" ? "Yes" : "",
+          lead.status === "Interview" ? "Yes" : "",
+          lead.status === "No Show" ? "Yes" : "",
+          isBP(lead) ? "Yes" : "",
+          lead.notes,
+          lead.owner
+        ]);
+      });
+
+    if(rows.length === 1){
+      note("No leads on " + tab + "'s side to export.", true);
+      return;
+    }
+
+    const csv = rows.map(row => row.map(q).join(",")).join("\n");
+
+    const blob = new Blob([csv], { type:"text/csv;charset=utf-8" });
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "nexus-trident-" + tab.toLowerCase() + "-leads.csv";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    note("Exported " + (rows.length-1) + " " + tab + " leads ✓");
+  }catch(e){
+    note("Export failed", true);
+  }
+};
+
+/* ========================================================= ENTER TO ADD */
+
+["fn","ln","em","ph"].forEach(id=>{
+  $(id).addEventListener("keydown", e=>{
+    if(e.key === "Enter"){ $("addb").click(); }
+  });
+});
+
+/* ========================================================= LOAD FROM SUPABASE */
+
+async function load(){
+  if(!sb || loading){ return; }
+
+  loading = true;
+
+  try{
+    const {data,error} = await sb
+      .from("leads")
+      .select("*")
+      .order("created", { ascending:false });
+
+    if(error) throw error;
+
+    leads = data || [];
+
+    render();
+  }catch(e){
+    console.error(e);
+    fail(e);
+  }finally{
+    loading = false;
+  }
+}
+
+/* ========================================================= INITIAL RENDER */
+
+render();
+
+/* ========================================================= START SUPABASE */
+
+(async()=>{
+  try{
+    if(
+      !SUPABASE_URL.startsWith("http") ||
+      SUPABASE_PUBLISHABLE_KEY.startsWith("PASTE_")
+    ){
+      note("Add your Supabase URL and publishable key.", true);
+      return;
+    }
+
+    sb = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      { auth:{ persistSession:true, autoRefreshToken:true } }
+    );
+
+    let { data:{ session } } = await sb.auth.getSession();
+
+    if(!session){
+      const result = await sb.auth.signInAnonymously();
+      if(result.error){ throw result.error; }
+    }
+
+    db = true;
+
+    await load();
+
+    /* LIVE SUPABASE UPDATES */
+    sb.channel("leads-live")
+      .on(
+        "postgres_changes",
+        { event:"*", schema:"public", table:"leads" },
+        ()=>load()
+      )
+      .subscribe();
+
+    /* BACKUP SYNC EVERY 5 SECONDS */
+    setInterval(()=>load(), 5000);
+  }catch(e){
+    console.error(e);
+    db = false;
+    render();
+    fail(e);
+  }
+})();
+
+</script>
+
+</body>
+</html>
