@@ -1130,7 +1130,7 @@ async function updateLead(id,patch){
   /* Record the date a lead becomes a New BP (used for the monthly reset). */
   if(patch.status !== undefined){
     if(becomingBP){
-      patch.hired_at = Date.now();
+     patch.hired_at = new Date().toISOString();
     }else if(patch.status !== "Hired" && isBP(oldLead)){
       patch.hired_at = null;
     }
