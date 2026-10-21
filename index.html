@@ -269,6 +269,21 @@ input:focus,select:focus,textarea:focus{outline:2px solid rgba(215,170,67,.25);b
 .command-table td{color:#fff}
 @media(max-width:850px){.command-cards{grid-template-columns:repeat(3,minmax(0,1fr))}.command-panels{grid-template-columns:1fr}}
 @media(max-width:520px){.command-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.command-card{padding:13px}.command-card strong{font-size:25px}.command-row{grid-template-columns:88px 1fr 35px}}
+
+/* Three-page navigation; uses existing CRM data and Supabase configuration. */
+.nt-three-tabs{display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap;
+  padding:14px 18px;margin:0 auto 16px;max-width:1160px;
+  background:#102b4d;border:1px solid #c5a46a;border-radius:14px;
+  box-shadow:0 8px 22px rgba(12,31,56,.15)}
+.nt-three-tabs button{border:1px solid rgba(255,255,255,.22);background:#1b3b61;
+  color:#fff;padding:12px 20px;border-radius:9px;font-size:14px;font-weight:750;
+  cursor:pointer;transition:background .15s ease,transform .15s ease}
+.nt-three-tabs button:hover{background:#315780;transform:translateY(-1px)}
+.nt-three-tabs button[aria-current="page"]{background:#c5a46a;color:#132943;border-color:#e6cf9c}
+#crmPage .topnav-actions{display:none}
+@media(max-width:520px){.nt-three-tabs{padding:10px;gap:5px}
+.nt-three-tabs button{padding:10px 11px;font-size:12px;flex:1}}
+
 </style>
 </head>
 
@@ -2239,6 +2254,50 @@ function closeCommandCenter(){
 /* Keep Scripts as a separate page, outside the CRM container. */
 document.body.appendChild($("scriptsPage"));
 document.body.appendChild($("commandPage"));
+
+/* CRM / Command Center / Scripts are separate views with shared existing data. */
+(function setupThreePageTabs(){
+  const pages = [
+    {id:"crmPage",label:"CRM"},
+    {id:"commandPage",label:"Command Center"},
+    {id:"scriptsPage",label:"Scripts"}
+  ];
+  function showPage(id){
+    if(id==="commandPage" && typeof renderCommandCenter==="function") renderCommandCenter();
+    if(id==="scriptsPage"){
+      const ownerSelect=document.getElementById("scriptOwner");
+      if(ownerSelect) ownerSelect.value=(typeof tab!=="undefined" && tab==="Leo")?"Leo":"Logan";
+      if(typeof renderScripts==="function") renderScripts();
+    }
+    pages.forEach(p=>{
+      const page=document.getElementById(p.id);
+      if(page) page.style.display=(p.id===id)?"block":"none";
+    });
+    document.querySelectorAll(".nt-three-tabs button").forEach(b=>{
+      if(b.dataset.target===id) b.setAttribute("aria-current","page");
+      else b.removeAttribute("aria-current");
+    });
+    window.scrollTo(0,0);
+  }
+  pages.forEach(p=>{
+    const page=document.getElementById(p.id);
+    if(!page) return;
+    const nav=document.createElement("nav");
+    nav.className="nt-three-tabs";
+    nav.setAttribute("aria-label","CRM page navigation");
+    pages.forEach(dest=>{
+      const button=document.createElement("button");
+      button.type="button";
+      button.textContent=dest.label;
+      button.dataset.target=dest.id;
+      if(dest.id==="crmPage") button.setAttribute("aria-current","page");
+      button.addEventListener("click",()=>showPage(dest.id));
+      nav.appendChild(button);
+    });
+    page.insertBefore(nav,page.firstChild);
+  });
+})();
+
 
 $("automateContactBtn").addEventListener("click", automateContact);
 $("scriptsOpenBtn").addEventListener("click", openScriptsPage);
